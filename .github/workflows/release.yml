@@ -1,0 +1,87 @@
+name: release
+
+# A merge to main that changes the version in .claude-plugin/plugin.json is a release: this tags it
+# <name>--v<version> and publishes the GitHub Release with that CHANGELOG section. Users then get it by themselves:
+# plugin installs with auto-update on (next session), clones with the scheduled pull, claude.ai through the zip.
+# Run it by hand (Actions > release > Run workflow) with dry_run to see what it would do.
+on:
+  push:
+    branches: [main]
+    paths: ['.claude-plugin/plugin.json']
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only show what would be released; create nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+env:
+  # true: also attach <name>.zip (the skill folder at the zip root) for claude.ai and desktop app uploads.
+  RELEASE_ZIP: 'false'
+  DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Read name and version
+        id: v
+        run: |
+          name=$(node -p "require('./.claude-plugin/plugin.json').name")
+          version=$(node -p "require('./.claude-plugin/plugin.json').version")
+          tag="$name--v$version"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+            echo "new=false" >> "$GITHUB_OUTPUT"
+            echo "$tag is already released, nothing to do."
+          else
+            echo "new=true" >> "$GITHUB_OUTPUT"
+            echo "New release: $tag"
+          fi
+      - name: Validate the plugin and the marketplace
+        if: steps.v.outputs.new == 'true'
+        run: npx -y @anthropic-ai/claude-code@2.1.323 plugin validate . --strict
+      - name: Release notes from CHANGELOG.md
+        if: steps.v.outputs.new == 'true'
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+        run: |
+          awk -v v="$VERSION" 'index($0, "## [" v "]") == 1 {f=1; next} f && /^## \[/ {exit} f {print}' \
+            CHANGELOG.md > notes.md
+          if ! grep -q '[^[:space:]]' notes.md; then
+            echo "::error::CHANGELOG.md has no \"## [$VERSION]\" section."
+            exit 1
+          fi
+          cat notes.md
+      - name: Build the upload zip
+        if: steps.v.outputs.new == 'true' && env.RELEASE_ZIP == 'true'
+        env:
+          NAME: ${{ steps.v.outputs.name }}
+        run: |
+          git archive --format=zip --prefix="$NAME/" -o "$NAME.zip" "HEAD:skills/$NAME"
+          unzip -l "$NAME.zip"
+      - name: Publish the release
+        if: steps.v.outputs.new == 'true' && env.DRY_RUN != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NAME: ${{ steps.v.outputs.name }}
+          VERSION: ${{ steps.v.outputs.version }}
+          TAG: ${{ steps.v.outputs.tag }}
+        run: |
+          set -- --target "$GITHUB_SHA" --title "$NAME $VERSION" --notes-file notes.md
+          if [ "$RELEASE_ZIP" = true ]; then set -- "$@" "$NAME.zip"; fi
+          gh release create "$TAG" "$@"
+      - name: Dry run summary
+        if: env.DRY_RUN == 'true'
+        run: echo "Dry run, nothing created. Tag ${{ steps.v.outputs.tag }}, new release ${{ steps.v.outputs.new }}."

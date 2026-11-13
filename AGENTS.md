@@ -16,10 +16,16 @@ Read `skills/zoho-command-center/SKILL.md` and follow it. It needs the Claude de
 - Every rule says what to do; add the date it was learned when the reason helps.
 - Before a change is done:
   - `claude plugin validate . --strict` passes;
-  - every changed line is in CHANGELOG.md under Unreleased;
+  - every changed line is in CHANGELOG.md: a change to the skill or the manifests (`skills/`, `.claude-plugin/`)
+    under its new version (see Release), a docs-only change under Unreleased;
   - a private-name scan of the repo and its history finds nothing (keep the word list outside the repo).
-- Release: move Unreleased to a new version (Semantic Versioning: fix = patch, new rule = minor, changed workflow =
-  major), set the same version in `.claude-plugin/plugin.json` (only there), commit, then
-  `claude plugin tag --push` (tag `zoho-command-center--v<version>`) and a GitHub Release with that CHANGELOG section.
+- Release: a merge to main that changes the skill is a release, so main is always a released version.
+  1. In the pull request: raise the version in `.claude-plugin/plugin.json` (only there; Semantic Versioning: fix =
+     patch, new rule = minor, changed workflow = major) and add its `## [x.y.z] - YYYY-MM-DD` section to CHANGELOG.md
+     (move any Unreleased lines into it). The `check` workflow fails a pull request that changes the skill without both.
+  2. Run the private-name scan, then merge.
+  3. The `release` workflow tags `zoho-command-center--v<version>` and publishes the GitHub Release with that
+     CHANGELOG section. Users with auto-update get it in their next chat; clones with a scheduled pull within days.
+  If the workflow fails: `claude plugin tag --push` and a GitHub Release with that CHANGELOG section, by hand.
   Users only get an update when the version changes.
 - Licence: MIT.

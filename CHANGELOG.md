@@ -5,6 +5,9 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+- Release automation: the `check` workflow validates every pull request and makes a skill change come with a new
+  version; the `release` workflow tags and publishes each new version. README: how to turn on automatic updates.
+
 ## [1.0.0] - 2026-11-13
 
 First shared version. The workflow was used daily on more than 20 client projects before this release; this version
