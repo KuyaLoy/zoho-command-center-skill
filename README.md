@@ -31,7 +31,19 @@ In a Claude Code chat:
 /plugin install zoho-command-center@zoho-command-center
 ```
 
-Without the plugin system: copy `skills/zoho-command-center/` into `~/.claude/skills/`.
+Then turn on automatic updates (once): `/plugin` > Marketplaces > zoho-command-center > Enable auto-update. Or add
+this to `~/.claude/settings.json`:
+
+```json
+"extraKnownMarketplaces": {
+  "zoho-command-center": {
+    "source": { "source": "github", "repo": "KuyaLoy/zoho-command-center-skill" },
+    "autoUpdate": true
+  }
+}
+```
+
+Without the plugin system: copy `skills/zoho-command-center/` into `~/.claude/skills/` (no automatic updates).
 
 ## Set it up (once)
 
@@ -68,14 +80,23 @@ Work without a Zoho task works the same way: paste the request and say it is not
 
 ## Update
 
+With auto-update on (see Install), Claude Code updates the skill by itself: a few minutes after the first message of
+a chat it checks this repository and installs a new version when the version number changed. It says "Plugin
+updated"; run `/reload-plugins` or open a new chat to use it. Auto-update is off by default for marketplaces that
+are not Anthropic's. To update by hand:
+
 ```
 /plugin marketplace update zoho-command-center
 /plugin update zoho-command-center@zoho-command-center
 ```
 
-Then open a new chat. Or turn on auto-update for this marketplace in `/plugin` > Marketplaces (off by default for
-third-party marketplaces). A manual copy updates by copying the new `skills/zoho-command-center/` over the old one.
-What changed is in [CHANGELOG.md](CHANGELOG.md).
+Then open a new chat. A git clone updates with `git pull --ff-only`. A manual copy updates by copying the new
+`skills/zoho-command-center/` over the old one. Every release is a
+[GitHub Release](https://github.com/KuyaLoy/zoho-command-center-skill/releases) (Watch > Custom > Releases emails
+you each one); what changed is in [CHANGELOG.md](CHANGELOG.md).
+
+Turn automatic updates off: `/plugin` > Marketplaces > zoho-command-center > Disable auto-update, or
+`"autoUpdate": false` in the settings snippet above.
 
 ## Uninstall
 
