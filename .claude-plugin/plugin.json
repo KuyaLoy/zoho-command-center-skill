@@ -1,0 +1,10 @@
+{
+  "name": "zoho-command-center",
+  "version": "1.0.0",
+  "description": "PM/TL workflow for Zoho Projects tasks in the Claude desktop app: one Command Center chat coordinates, one task chat per task plans and implements, with approval gates, effort switching and context resets.",
+  "author": { "name": "KuyaLoy", "url": "https://github.com/KuyaLoy" },
+  "homepage": "https://github.com/KuyaLoy/zoho-command-center-skill",
+  "repository": "https://github.com/KuyaLoy/zoho-command-center-skill",
+  "license": "MIT",
+  "keywords": ["zoho", "zoho-projects", "project-management", "workflow", "command-center", "multi-session"]
+}

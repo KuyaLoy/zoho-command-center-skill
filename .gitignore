@@ -1,0 +1,11 @@
+# Private, per machine or per project: never committed
+/handoff.md
+/ai-handoff-summary.md
+/tasks/
+.claude/settings.local.json
+
+# Generated
+_backups/
+*.zip
+.DS_Store
+Thumbs.db

@@ -1,0 +1,13 @@
+{
+  "name": "zoho-command-center",
+  "owner": { "name": "KuyaLoy", "url": "https://github.com/KuyaLoy" },
+  "description": "The zoho-command-center plugin: run Zoho Projects tasks from one Command Center chat with one task chat per task.",
+  "plugins": [
+    {
+      "name": "zoho-command-center",
+      "source": "./",
+      "description": "PM/TL workflow for Zoho Projects tasks in the Claude desktop app.",
+      "category": "productivity"
+    }
+  ]
+}
