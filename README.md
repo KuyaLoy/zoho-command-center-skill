@@ -1,12 +1,15 @@
 # zoho-command-center
 
-A Claude Code skill (packaged as a plugin) for running Zoho Projects tasks the way a PM or tech lead would, with the
-Claude desktop app:
+A Claude Code skill (packaged as a plugin) for running Zoho Projects tasks, and any other task, the way a PM or tech
+lead would, with the Claude desktop app:
 
-- **One Command Center chat per project** starts a task chat for each task, keeps a task board in `handoff.md`,
+- **One Command Center chat per project** routes each task (a Zoho link, a client message, BugHerd, Slack, your own
+  idea) to a new task chat or to an existing one that already has the context, keeps a task board in `handoff.md`,
   reviews finished work, and owns the Zoho comments and status changes.
-- **One task chat per task** plans first (at max effort), waits for your go, then implements (at high effort), logs
-  in `tasks/<TASK-ID>/`, and reports PLAN READY and DONE to Command Center.
+- **Effort that fits the task:** small and normal tasks are planned and done at high effort with short plans; large or
+  risky ones (go-lives, migrations, database work) are planned at max and their review at done runs at max.
+- **Task chats** plan first, wait for your go, then implement, log in `tasks/<TASK-ID>/`, and report PLAN READY and
+  DONE to Command Center. Reports lead with the result; one go covers the whole plan.
 - **Gates you control:** nothing live changes before your go, no Zoho comment is posted before you OK the exact text
   and tags, and the Zoho status only moves after the work is done and verified.
 - **Context watch:** task chats checkpoint to disk and are reset at 70% context, long before auto-compact, so a chat
@@ -71,12 +74,12 @@ Then open a new chat.
 ## Use
 
 1. Open an empty folder in the Code tab. The main chat sets itself up as "Command Center - <folder>".
-2. Paste a Zoho task link. Command Center reads the task and starts its task chat (named by the task ID).
+2. Paste a task: a Zoho task link, or any request. Command Center sizes it (S, M or L), picks the chat (a new one, or
+   an idle one on the same site), and tells you in one line where it went and why. Say "new chat" to override.
 3. Talk to the task chat directly: read its plan, answer its questions, say **go** there.
-4. When it reports DONE, Command Center reviews the work and shows you the Zoho comment draft with the tags. Say OK,
-   and it posts the comment, moves the status, and asks whether to close the tabs.
-
-Work without a Zoho task works the same way: paste the request and say it is not a Zoho task.
+4. When it reports DONE, Command Center reviews the work. Zoho tasks: it shows you the Zoho comment draft with the
+   tags; say OK, and it posts the comment, moves the status, and asks whether to close the tabs. Other tasks: it gives
+   you a reply or report draft to send.
 
 ## Update
 

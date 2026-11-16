@@ -8,7 +8,8 @@ Read `skills/zoho-command-center/SKILL.md` and follow it. It needs the Claude de
 
 ## Changing the skill
 
-- Keep `SKILL.md` under 300 lines and its line width under 120 characters. Plain English, no dashes as punctuation.
+- Keep `SKILL.md` under 330 lines and its line width under 120 characters (table rows may be longer). Plain
+  English, no dashes as punctuation.
 - No real names of people, clients, companies, portals, sites or internal task IDs. Examples use "Alex Example",
   "ABC1-T8" and example.com. Personal details belong in each user's settings block (README), never in the skill.
 - Keep the section names and the Command Center step numbers 1 to 7 stable: chats in the middle of a task may
