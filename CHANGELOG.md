@@ -5,8 +5,36 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-16
+
+Effort that fits the task, any task source, routing to new or existing chats, and faster talk without losing quality.
+
+### Added
+
+- "Task size and effort": Command Center sizes every task S, M or L. S and M run at high with short plans; L plans at
+  max and works at high. High is the floor: medium only for named read-only or fixed-step work. A read-only QA or
+  helper chat may use a cheaper model.
+- Routing (step 2): a question is answered without a chat; more work on a task goes to its chat; a new S or M task on
+  the same site or repo goes to an idle chat under 60% context; anything else gets a new chat. The lead gets one line
+  saying where it went and why, and can override.
+- A task chat can take a later task in its own folder, with its own plan and go.
+- "How we talk": result first, about 8 lines at most, one decision per question, one go per plan, messages only at
+  milestones or blockers; quality checks stay.
+- Review of an L task at done runs at max in a visible review chat ("REVIEW REPORT:"), or in Command Center raised to
+  max if the lead prefers.
+- Board columns: Source / status, Site or repo, Size (added to old boards on resume).
 - Release automation: the `check` workflow validates every pull request and makes a skill change come with a new
   version; the `release` workflow tags and publishes each new version. README: how to turn on automatic updates.
+
+### Changed
+
+- Command Center runs at high (was max). Max planning, the PLAN READY switch to high and the RE-PLAN round trip now
+  apply to L tasks only; S and M re-plan at once.
+- Any task source: step 2 reads Zoho or saves any other request verbatim; step 6 is the close-out, with the Zoho steps
+  for Zoho tasks and a reply or report draft for every other source.
+- Briefs no longer copy the shared rules: they tell the task chat to load the skill (Worker rules).
+- S work that only reads or checks needs no go.
+- AGENTS.md: SKILL.md cap raised from 300 to 330 lines.
 
 ## [1.0.0] - 2026-11-13
 
