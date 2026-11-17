@@ -6,9 +6,8 @@ license: MIT
 
 # Zoho Command Center
 
-The lead runs work by task: Zoho tasks (in the Zoho Projects portal named in the settings) and any other task (a
-client message, BugHerd, Slack, the lead's own idea). In a Command Center project there are two roles. First decide
-which role you are.
+The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
+BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
 
 ## Settings
 Read the lead's settings from the "Zoho Command Center settings" block in the user's CLAUDE.md. It is normally already
@@ -43,10 +42,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 
 ## Which role am I?
 - **Worker (task chat):** your opening brief says you are the task chat for one task: a Zoho task number (e.g.
-  "ABC1-T8"), or a short task name for any other task (e.g. "SHIPPING-ERROR"). If Command Center later sends you a new
-  task, you work on the task in your latest brief (Worker rules).
-  Follow "Worker rules" below. Never act as Command Center, never start other task chats, never post in Zoho.
-  A QA, helper or review chat (Command Center step 2) follows the Worker rules too.
+  "ABC1-T8"), or a short task name for any other task (e.g. "SHIPPING-ERROR"); after a new task from Command Center,
+  the one in your latest brief. Follow "Worker rules" below. Never act as Command Center, never start other task chats,
+  never post in Zoho. A QA, helper or review chat (Command Center step 2) follows them too.
 - **Command Center:** anything else in a Command Center project. Follow "Command Center rules".
 
 ## Shared rules (both roles)
@@ -58,6 +56,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - **How we talk: fast, without losing quality** (learned 16 Nov 2026).
   - Result first: every report starts with the outcome in one line (DONE, PLAN READY, BLOCKED, or the answer), then
     about 8 lines at most. Detail goes in the task files (plan.md, notes.md, report.md), with a link.
+  - The last line of every turn's message to the lead, from Command Center or a task chat, is exactly one of: "Waiting
+    on you: <one action, where>" or "Nothing needed from you." (learned 17 Nov 2026: a go looked lost).
   - One decision per question, with the recommended answer first as a button.
   - One go covers the whole plan. After it, don't ask again for steps the plan described. Ask again only for what the
     plan marked as needing its own OK (a Zoho comment's text, publishing) or when reality differs (RE-PLAN).
@@ -103,10 +103,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   the lead's Chrome. Chrome with the Claude extension attached gets scored as a bot, so the form fails at the spam check
   with a generic error, even for the lead's own clicks (learned 9 Nov 2026). Never try to get around a CAPTCHA.
 - Browser tabs: never close a tab you opened (Zoho task, WorkDrive, WP admin, cPanel, pages you checked) while its task
-  is still open. This overrides the Chrome tools' default of closing your own tabs at the end of a turn.
-  **When the task is done, ask to close them** (learned 12 Nov 2026): at close-out (step 6) Command Center asks the
-  lead once; on yes it closes its own tabs and tells the task chat to close every tab it opened (Chrome and
-  Playwright). Task chats close tabs only when told. Tabs the tools can no longer reach: list them for the lead.
+  is open, whatever the Chrome tools' default. **When the task is done, ask to close them** (learned 12 Nov 2026): at
+  close-out (step 6) Command Center asks the lead once; on yes it closes its own tabs and has the task chat close every
+  tab it opened (Chrome, Playwright). Task chats close tabs only when told. Tabs out of reach: name them to the lead.
 - Handoff files at the project root (`handoff.md`, `ai-handoff-summary.md`) follow the user's handoff rules. Without
   such rules: `handoff.md` is the full log (Goal, Current State, Task chats, Changes Made, Failed Attempts, Next Steps;
   dated entries) and `ai-handoff-summary.md` is a short brief of at most 60 lines for the next chat. No secrets in
@@ -247,14 +246,15 @@ A project can have many Command Center chats over time; they hand off to each ot
    worker overwrote them, merge its facts in and restore the Mode line and the board.
 
 ## Context watch: never let a task chat hit auto-compact (learned 11 Nov 2026)
-Why: a task chat that ran to 100% auto-compacted mid-work, lost track, hallucinated and broke a website; auto-compact
-is a lossy summary made at the worst moment. So we reset early, at a safe point, from a checkpoint written on disk.
-`get_usage` with a session id shows a chat's context % (auto-compact starts at about 97%). Sending "/compact" to
-another chat does NOT compact it (it arrives as plain text). What works: checkpoint to disk, `clear_session` (only on
-an idle chat Command Center started; "Resume previous session" brings the old one back), then a resume message.
+Why: a task chat that ran to 100% auto-compacted mid-work (a lossy summary at the worst moment), lost track and broke a
+website. So we reset early, at a safe point, from a checkpoint on disk. `get_usage` with a session id shows a chat's
+context % (auto-compact starts at about 97%). "/compact" sent to another chat arrives as plain text and does nothing.
+What works: checkpoint to disk, `clear_session` (only on an idle chat Command Center started; "Resume previous session"
+brings the old one back), then a resume message.
 
 Thresholds (context % of the task chat; lowered 17 Nov 2026: big contexts re-read every turn were the main cost):
-- **Under 40%:** nothing to do.
+- **Under 40%:** nothing to do: keep working. A chat checkpoints only at the threshold in force (the brief's or plan's,
+  else these) or when Command Center asks, never earlier "to have room for the next step" (learned 17 Nov 2026).
 - **40%:** finish the current step, then checkpoint and reset (see below) at the next safe point.
 - **50%:** hard limit. Stop at the first safe point, even mid-plan, and reset. Never continue past 55%.
 - **Fast growth** (10% or more in one turn, e.g. while the chat runs a team of subagents): act from 30%, because the
@@ -285,8 +285,9 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   rules). Read tasks/<TASK-ID>/plan.md, notes.md and checkpoint.md. The lead's go stands (quote it). Before you change
   anything, re-check the real current state (files, site, DB) against checkpoint.md and report any difference. Then
   continue from the next step." Keep its effort as it was (high for execution).
-- `clear_session` is refused while the chat is mid-turn, pinned, or open on the lead's screen: wait until it is idle,
-  and ask the lead to switch to another chat first.
+- `clear_session` is refused mid-turn (wait until idle) and while the lead has the chat open or pinned ("self" too):
+  say so at once in one line, "Switch away from <chat link> so I can reset it", and send a chat under 50% "Continue, no
+  reset." instead of leaving it waiting. Never leave a checkpointed chat idle without telling the lead.
 - Log each reset in handoff.md (date, task, % at reset), and tell the lead in one line with the chat link.
 - **Command Center itself at 35%:** update the root handoff files (board, approvals, promises), tell the lead in one
   line, then `clear_session` "self" (it runs when this turn ends). The next turn starts from ai-handoff-summary.md.
@@ -309,8 +310,6 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   the lead's instructions and approvals quoted). Command Center reads it. Don't edit the root handoff files.
 - Never post in Zoho or change task status. Command Center does that.
 - The lead talks to you directly: ask your questions and get the go here; keep questions to real blockers.
-- When the work is done and verified, say so plainly in the final report (start it with "DONE:") so Command Center
-  knows to review it and close it out.
 - **Talk to Command Center directly at each milestone** (learned 11 Nov 2026), without the lead having to ask. Use
   `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id:
   - Plan ready: no message. Your report to the lead opens with "PLAN READY: <task>, plan at
@@ -325,5 +324,6 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
     status should be posted (e.g. part of the definition of done still waits on the client).
   - Answer Command Center's follow-up questions about the work directly (it may message you while it reviews and
     drafts the Zoho comment or the reply). You still never post in Zoho.
-- Final report: result first; what changed, how you verified it (counts, URLs checked), what is not verified, rollback
-  location, and anything the client or another team must do (for the Zoho comment or the reply).
+- Final report, once the work is done and verified: start it with "DONE:" so Command Center reviews it and closes it
+  out; then what changed, how you verified it (counts, URLs checked), what is not verified, rollback location, and
+  anything the client or another team must do (for the Zoho comment or the reply).

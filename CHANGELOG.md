@@ -5,6 +5,25 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-11-17
+
+Three flow fixes after a lead could not tell whether a go had worked.
+
+### Added
+
+- Every turn's message to the lead, from Command Center or a task chat, ends with exactly one line: "Waiting on you:
+  <one action, where>" or "Nothing needed from you."
+- A refused `clear_session` because the lead has the chat open or pinned (Command Center's own clear too): say so at
+  once in one line ("Switch away from <chat link> so I can reset it"); a chat under 50% gets "Continue, no reset."
+  instead of waiting; a checkpointed chat is never left idle without telling the lead.
+
+### Changed
+
+- Context watch: a chat checkpoints only at the threshold in force (the brief's or plan's, else 40%) or when Command
+  Center asks, never earlier "to have room for the next step".
+- Wording tightened to keep SKILL.md under its line cap (intro, worker role, browser tabs, Context watch intro, the
+  worker's final report now carries the "DONE:" rule). No rule removed.
+
 ## [1.2.0] - 2026-11-17
 
 Rules from a multi-chat design build retro: pacing, cheaper contexts, fewer messages, safer deletes, and a builds
