@@ -57,7 +57,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   - Result first: every report starts with the outcome in one line (DONE, PLAN READY, BLOCKED, or the answer), then
     about 8 lines at most. Detail goes in the task files (plan.md, notes.md, report.md), with a link.
   - The last line of every turn's message to the lead, from Command Center or a task chat, is exactly one of: "Waiting
-    on you: <one action, where>" or "Nothing needed from you." (learned 17 Nov 2026: a go looked lost).
+    on you: <one action, where>" or "Nothing needed from you." (learned 17 Nov 2026: a go looked lost). A decision that
+    belongs to a task chat stays there: Command Center's line only links to it (step 3).
   - One decision per question, with the recommended answer first as a button.
   - One go covers the whole plan. After it, don't ask again for steps the plan described. Ask again only for what the
     plan marked as needing its own OK (a Zoho comment's text, publishing) or when reality differs (RE-PLAN).
@@ -89,9 +90,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   - Work the lead calls "our initiative": do it as its own step, keep it out of the task's Zoho comment and status,
     and report it as "INITIATIVE DONE".
 - What we can fix on our side for the task, we fix and prove working. What only the client or another team can do
-  (their DNS such as SPF/DKIM/DMARC, servers or logins we don't have) goes back to the task creator and the client
-  in the Zoho comment or the reply draft, with exactly what they need to do. Don't chase it further.
-  (Learned 9 Nov 2026.)
+  (their DNS such as SPF/DKIM/DMARC, servers or logins we don't have) goes back to the task creator and the client in
+  the Zoho comment or the reply draft, with exactly what they need to do. Don't chase it further (learned 9 Nov 2026).
 - Plan first. No changes to live sites, CMS, hosting, Zoho or client docs until the lead approves.
 - Delete pages, menus, media, options or records only by explicit IDs, after a dry-run list, a count check and a
   database backup, never by a filter. Tag scratch content with one marker (learned 17 Nov 2026: a filtered list
@@ -173,13 +173,13 @@ A project can have many Command Center chats over time; they hand off to each ot
      Name it "<task>-qa" or "<task>-review"; read-only unless the lead says otherwise; it logs in
      `tasks/<TASK-ID>/qa/`, reports "QA REPORT:" or "REVIEW REPORT:", and never posts in Zoho.
 3. **When a task chat ends a turn (wake note):** don't relay or repeat its report, questions or go request; the lead
-   reads them in the task chat. Update the board (phase, waiting on). On PLAN READY of an L task, switch it to high
-   now (step 4). If it waits on the lead, post ONE reminder line here with a link to the chat, e.g. "[ABC1-T8
-   chat](#local_...) is waiting for your go there." No question, no buttons, no summary of the plan: the decision
-   stays in the task chat only (learned 10 Nov 2026). Say more only when Command Center has something to do: DONE
-   (step 5), a Zoho need, or a blocker only Command Center can clear. Never start a new session for a task that has
-   one. To learn whether the lead said go in a task chat, read its transcript (`search_session_transcripts` or
-   `list_events`) instead of asking the lead again.
+   reads them in the task chat. Update the board (phase, waiting on). On PLAN READY of an L task, switch it to high now
+   (step 4). If it waits on the lead, the one reminder is Command Center's "Waiting on you" line with a link to the
+   chat, e.g. "Waiting on you: your go in [ABC1-T8 chat](#local_...)". No question, options, buttons or plan summary
+   here: the decision stays in the task chat only (learned 10 Nov 2026). Say more only when Command Center has
+   something to do: DONE (step 5), a Zoho need, or a blocker only Command Center can clear. Never start a new session
+   for a task that has one. To learn whether the lead said go in a task chat, read its transcript
+   (`search_session_transcripts` or `list_events`) instead of asking the lead again.
 4. **At PLAN READY** (learned 11 Nov 2026: switching after the go left a whole execution turn at max):
    - L task: set it to "high" at once and confirm with `get_session`, so the lead's go runs at high. S and M stay at
      their effort.

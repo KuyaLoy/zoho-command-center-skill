@@ -5,6 +5,21 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-11-17
+
+Ties the "Waiting on you" line to the rule that a task chat's decisions stay in the task chat.
+
+### Changed
+
+- Command Center step 3: the one reminder for a task chat that waits on the lead is Command Center's "Waiting on you"
+  line with a link to that chat (e.g. "Waiting on you: your go in [ABC1-T8 chat](#local_...)"); still no question,
+  options, buttons or plan summary in Command Center.
+- The "Waiting on you" rule says a decision that belongs to a task chat stays there; Command Center's line only links
+  to it.
+- Unchanged and confirmed: only Command Center posts Zoho comments and changes Zoho status; task, QA and review chats
+  never post in Zoho.
+- One paragraph rewrapped to keep SKILL.md under its line cap. No rule removed.
+
 ## [1.2.1] - 2026-11-17
 
 Three flow fixes after a lead could not tell whether a go had worked.
