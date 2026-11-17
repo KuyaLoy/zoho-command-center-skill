@@ -11,9 +11,12 @@ New usage limits from the lead: faster work with fewer stops while the lead is o
 
 ### Changed
 
-- Context watch: checkpoint and reset at 50% (was 40%), hard limit 60% (was 50%), never past 65% (was 55%), fast
-  growth from 40% (was 30%); "Continue, no reset." for a chat under 60% (was 50%); step 2's brief line and step 4
-  follow. A reset's re-read (about 12% context) is paid once, while a big context costs on every step.
+- Context watch: under 50% keep working; from 50% finish the current page or unit of work, then checkpoint and
+  reset at that boundary (was a flat 40%); 75% is the hard cap, a checkpoint at the next safe point even mid-page, never
+  past 80% (were 50% and 55%); fast growth from 65% (was 30%); Command Center asks for a checkpoint at the next page end
+  from 50% and at once from 75%; "Continue, no reset." for a chat under 75% (was 50%); step 2's brief line and step 4
+  (past 50% at PLAN READY, reset before the go) follow. Why: a flat 50% cut work off mid-page; the cap still stops
+  before a big context gets costly on every step.
 - Usage pacing: every working chat stops at its next safe point at 95% of the 5-hour limit (was 75%, which left a
   quarter of the window unused).
 - README matches the new numbers.
@@ -21,8 +24,8 @@ New usage limits from the lead: faster work with fewer stops while the lead is o
 ### Added
 
 - Weekly limit: by default every working chat stops at its next safe point at 80% of the weekly limit and Command
-  Center tells the lead; a project the lead tells "don't stop" (noted in its handoff.md rules) runs on to 100%.
-  Replaces step 4's "tell the lead over 90% before the go".
+  Center tells the lead; a project the lead tells "don't stop" (quoted and dated in its handoff.md rules) runs on to
+  100%. Replaces step 4's "tell the lead over 90% before the go".
 - Commit or save after every step, so a stop at a limit leaves a clean state.
 
 ### Unchanged

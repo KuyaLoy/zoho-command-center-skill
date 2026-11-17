@@ -12,10 +12,10 @@ lead would, with the Claude desktop app:
   DONE to Command Center. Reports lead with the result; one go covers the whole plan.
 - **Gates you control:** nothing live changes before your go, no Zoho comment is posted before you OK the exact text
   and tags, and the Zoho status only moves after the work is done and verified.
-- **Context watch and pacing:** task chats checkpoint to disk and reset at 50% context, Command Center at 35%, long
-  before auto-compact, so no chat loses track mid-work and every turn stays cheap. At most 2 chats work at once, and
-  all of them pause at 95% of the 5-hour usage limit and, by default, at 80% of the weekly limit (a project you tell
-  "don't stop" runs on to 100%).
+- **Context watch and pacing:** from 50% context a task chat finishes the page it is on, then checkpoints to disk and
+  resets (75% is the hard cap); Command Center resets at 35%. That is long before auto-compact, so no chat loses track
+  mid-work and every turn stays cheap. At most 2 chats work at once, and all of them pause at 95% of the 5-hour usage
+  limit and, by default, at 80% of the weekly limit (a project you tell "don't stop" runs on to 100%).
 - **Builds with several chats:** `references/builds.md` sets up builders and QA chats for large builds (one fix list
   per QA pass, scripted checks, a Figma sweep before building).
 

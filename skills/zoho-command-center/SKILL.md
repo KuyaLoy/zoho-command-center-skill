@@ -37,8 +37,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - **Usage pacing** (learned 17 Nov 2026: four chats at once used 97% of the 5-hour limit; the stops were raised later,
   as 75% wasted a quarter of the window): at most 2 chats working at once; more wait as QUEUED. Check `get_usage`
   before starting or resuming any chat. Every working chat stops at its next safe point at 95% of the 5-hour limit and
-  at 80% of the weekly limit, where Command Center tells the lead; a project the lead tells "don't stop" (in its
-  handoff.md rules) runs on to 100%. Commit or save after every step, so a stop leaves a clean state.
+  at 80% of the weekly limit, where Command Center tells the lead; a project the lead tells "don't stop" (quoted and
+  dated in its handoff.md rules) runs on to 100%. Commit or save after every step, so a stop leaves a clean state.
 - **Builds with builder and QA chats** (several chats building one site or design in phases): Command Center reads
   `references/builds.md` (next to this file) before starting them, and their briefs tell them to read it too.
 
@@ -163,10 +163,10 @@ effort with `get_session` only; the picker and turn markers can lag.
      restarted at max: redo Phase 1 from your opening brief", and confirm with `get_session`.
    - **Brief** (prompt): the task verbatim plus links, its source, size and effort, the site or repo; head-start facts
      marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
-     "PLANNING ONLY, make no changes until the lead says go in this chat" (S read-only work: "do it and report");
-     "Send Command Center (parent) a short message at every stop, your lead-driven turns too"; "Follow the Context
-     watch rules: check your context % each step; at 50% checkpoint and reset". Don't copy the shared rules into the
-     brief: the task chat reads them in the skill.
+     "PLANNING ONLY, make no changes until the lead says go in this chat" (S read-only work: "do it and report"); "Send
+     Command Center (parent) a short message at every stop, your lead-driven turns too"; "Follow the Context watch
+     rules: check your context % each step; reset at a page end from 50%, at 75% at once". Don't copy the shared rules
+     into the brief: the task chat reads them in the skill.
      Several task chats on the same site or repo: give each its own local ports and temp folders, name the files they
      share, forbid whole-database restores, and tell them to announce live uploads to each other.
    - **QA, helper or review chats:** for a separate check the lead asks for, and for the review of every L task at
@@ -251,19 +251,19 @@ point, from a checkpoint on disk. `get_usage` on a chat shows its context % (aut
 "/compact" sent to another chat arrives as plain text and does nothing. What works: checkpoint to disk, `clear_session`
 (only on an idle chat Command Center started; "Resume previous session" brings it back), then a resume message.
 
-Thresholds (context % of the task chat; set 17 Nov 2026: a reset's re-read is paid once, a big context every step):
+Thresholds (context % of the task chat; set 17 Nov 2026: a flat 50% cut work off mid-page, so finish the page first):
 - **Under 50%:** nothing to do: keep working. A chat checkpoints only at the threshold in force (the brief's or plan's,
   else these) or when Command Center asks, never earlier "to have room for the next step" (learned 17 Nov 2026).
-- **50%:** finish the current step, then checkpoint and reset (see below) at the next safe point.
-- **60%:** hard limit. Stop at the first safe point, even mid-plan, and reset. Never continue past 65%.
-- **Fast growth** (10% or more in one turn, e.g. while the chat runs a team of subagents): act from 40%, because the
-  next turn can jump past 60% before a step-boundary check.
+- **50%:** finish the current page or unit of work (a page, a section, a plan step), then checkpoint and reset (see
+  below) at that boundary.
+- **75%:** hard cap. Checkpoint and reset at the next safe point, even mid-page. Never continue past 80%.
+- **Fast growth** (10% or more in one turn, e.g. with a team of subagents): from 65%, don't wait for the page end.
 A safe point = no half-done edit, upload, import, migration or deploy; files saved; the site in a working state; and
 no subagent or teammate the chat started is still working (a clear wipes the chat's memory of them).
 
 **Worker (task chat):**
 - Check your own context with `get_usage` ("self") before starting each step of the plan and after any big step.
-- At 50% (or when Command Center asks), at the next safe point write `tasks/<TASK-ID>/checkpoint.md`:
+- At your page end from 50% (at 75% at once, or when Command Center asks), write `tasks/<TASK-ID>/checkpoint.md`:
   task ID and scope; the lead's go and instructions (quoted); done so far (with how each was verified); current state
   of files/site/DB (paths, URLs, backups); the exact next step; open questions; anything not yet verified.
   Let your subagents/teammates finish or reach a safe point first; list any unfinished work they were doing.
@@ -275,8 +275,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - Check every IMPLEMENTING task chat with `get_usage` (its `local_...` id) at PLAN READY, on every wake note, every
   lead message, and before sending a task chat a follow-up or a new task. Put the % in the board's Phase column (e.g.
   "IMPLEMENTING 32%").
-- At 50% or more and the chat is still working: send it "Context at <n>%: at your next safe point write
-  tasks/<TASK-ID>/checkpoint.md, send CHECKPOINT, and end your turn." (At 60%+ add "now, at the first safe point".)
+- At 50% or more and the chat is still working: send it "Context at <n>%: at your next page end write
+  tasks/<TASK-ID>/checkpoint.md, send CHECKPOINT, and end your turn." (At 75%+ say "now, at the first safe point".)
   Don't `stop_session` a chat mid-step unless the lead asks; a hard stop mid-edit is what breaks sites.
 - When it reports CHECKPOINT and is idle: read checkpoint.md (it must name the next step and current state; if not,
   ask the chat to fix it first). Then `clear_session` that chat and send it the resume message:
@@ -285,7 +285,7 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   anything, re-check the real current state (files, site, DB) against checkpoint.md and report any difference. Then
   continue from the next step." Keep its effort as it was (high for execution).
 - `clear_session` is refused mid-turn (wait until idle) and while the lead has the chat open or pinned ("self" too):
-  say so at once in one line, "Switch away from <chat link> so I can reset it", and send a chat under 60% "Continue, no
+  say so at once in one line, "Switch away from <chat link> so I can reset it", and send a chat under 75% "Continue, no
   reset." instead of leaving it waiting. Never leave a checkpointed chat idle without telling the lead.
 - Log each reset in handoff.md (date, task, % at reset), and tell the lead in one line with the chat link.
 - **Command Center itself at 35%:** update the root handoff files (board, approvals, promises), tell the lead in one
