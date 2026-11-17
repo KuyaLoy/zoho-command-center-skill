@@ -5,6 +5,30 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-17
+
+New usage limits from the lead: faster work with fewer stops while the lead is out of the office.
+
+### Changed
+
+- Context watch: checkpoint and reset at 50% (was 40%), hard limit 60% (was 50%), never past 65% (was 55%), fast
+  growth from 40% (was 30%); "Continue, no reset." for a chat under 60% (was 50%); step 2's brief line and step 4
+  follow. A reset's re-read (about 12% context) is paid once, while a big context costs on every step.
+- Usage pacing: every working chat stops at its next safe point at 95% of the 5-hour limit (was 75%, which left a
+  quarter of the window unused).
+- README matches the new numbers.
+
+### Added
+
+- Weekly limit: by default every working chat stops at its next safe point at 80% of the weekly limit and Command
+  Center tells the lead; a project the lead tells "don't stop" (noted in its handoff.md rules) runs on to 100%.
+  Replaces step 4's "tell the lead over 90% before the go".
+- Commit or save after every step, so a stop at a limit leaves a clean state.
+
+### Unchanged
+
+- At most 2 chats working; routing reuses an idle chat only under 25%; Command Center resets itself at 35%.
+
 ## [1.3.1] - 2026-11-17
 
 Every stop reaches Command Center promptly, whoever started the turn.
