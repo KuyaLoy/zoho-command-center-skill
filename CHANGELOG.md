@@ -5,6 +5,35 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-17
+
+Rules from a multi-chat design build retro: pacing, cheaper contexts, fewer messages, safer deletes, and a builds
+reference.
+
+### Added
+
+- Usage pacing: at most 2 chats working at once (others wait as QUEUED); `get_usage` before starting or resuming any
+  chat; at 75% of the 5-hour limit every working chat stops at its next safe point.
+- Command Center resets itself at 35% context, after updating the root handoff files.
+- Go handling: a button reply or "gave go" in Command Center is never a go for a task or a phase; builders start only
+  after the build's lead chat confirms the go was typed there.
+- Safe deletes: only by explicit IDs, after a dry-run list, a count check and a database backup, never by a filter;
+  scratch content carries one marker.
+- `references/builds.md`: lead chat, builders and QA chats; one builder by default, no helper subagents without
+  Command Center's OK; one consolidated fix list per QA pass; QA by script and sampling; the QA flow; the Figma sweep
+  and a checklist row per section.
+
+### Changed
+
+- Context watch: checkpoint and reset at 40% (was 70%), hard limit 50% (was 80%), never past 55% (was 85%), fast
+  growth from 30% (was 60%).
+- Routing: reuse an existing chat only under 25% context (was 60%).
+- Messages to Command Center only for READY FOR QA, DONE, BLOCKED or CHECKPOINT. PLAN READY opens the report to the
+  lead and is no longer sent; Command Center reads it in its wake note. An L re-plan is sent as "BLOCKED: re-plan at
+  max needed".
+- Wording tightened to keep SKILL.md under 330 lines; no rule removed.
+- AGENTS.md: the name scan covers commit author and committer emails; merge by fast-forward; `references/`.
+
 ## [1.1.0] - 2026-11-16
 
 Effort that fits the task, any task source, routing to new or existing chats, and faster talk without losing quality.

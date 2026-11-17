@@ -1,6 +1,6 @@
 {
   "name": "zoho-command-center",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "PM/TL workflow for Zoho Projects tasks and any other task in the Claude desktop app: one Command Center chat routes each task to a new or existing chat, task chats plan and implement at an effort that fits the task, with approval gates and context resets.",
   "author": { "name": "KuyaLoy", "url": "https://github.com/KuyaLoy" },
   "homepage": "https://github.com/KuyaLoy/zoho-command-center-skill",

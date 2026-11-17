@@ -4,7 +4,9 @@ This repository is the **zoho-command-center** skill, packaged as a Claude Code 
 
 ## Using it
 
-Read `skills/zoho-command-center/SKILL.md` and follow it. It needs the Claude desktop app (Code tab).
+Read `skills/zoho-command-center/SKILL.md` and follow it. It needs the Claude desktop app (Code tab). Detail that
+only some tasks need lives next to it in `references/` (for example `references/builds.md`); SKILL.md says when to
+read it. The line cap is for SKILL.md only.
 
 ## Changing the skill
 
@@ -19,12 +21,14 @@ Read `skills/zoho-command-center/SKILL.md` and follow it. It needs the Claude de
   - `claude plugin validate . --strict` passes;
   - every changed line is in CHANGELOG.md: a change to the skill or the manifests (`skills/`, `.claude-plugin/`)
     under its new version (see Release), a docs-only change under Unreleased;
-  - a private-name scan of the repo and its history finds nothing (keep the word list outside the repo).
+  - a private-name scan of the repo and its history finds nothing, commit author and committer names and emails
+    included (keep the word list outside the repo; commits use the account's noreply address).
 - Release: a merge to main that changes the skill is a release, so main is always a released version.
   1. In the pull request: raise the version in `.claude-plugin/plugin.json` (only there; Semantic Versioning: fix =
      patch, new rule = minor, changed workflow = major) and add its `## [x.y.z] - YYYY-MM-DD` section to CHANGELOG.md
      (move any Unreleased lines into it). The `check` workflow fails a pull request that changes the skill without both.
-  2. Run the private-name scan, then merge.
+  2. Run the private-name scan, then merge by fast-forwarding main to the pull request's commits
+     (`git push origin <branch>:main`). A squash or merge button stamps a new commit with the GitHub account's email.
   3. The `release` workflow tags `zoho-command-center--v<version>` and publishes the GitHub Release with that
      CHANGELOG section. Users with auto-update get it in their next chat; clones with a scheduled pull within days.
   If the workflow fails: `claude plugin tag --push` and a GitHub Release with that CHANGELOG section, by hand.

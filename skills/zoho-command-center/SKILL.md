@@ -15,8 +15,7 @@ Read the lead's settings from the "Zoho Command Center settings" block in the us
 in your context; if not (for example a chat started before the block existed), read `~/.claude/CLAUDE.md`.
 - **Lead:** the person who runs Command Center and approves plans, gos and Zoho comments. A project's handoff.md may
   name a different lead under its project rules: then that person is the lead in that project.
-- **Zoho portal:** the portal URL.
-- **Reply language:** the language of every reply.
+- **Zoho portal:** the portal URL. **Reply language:** the language of every reply.
 - **Always CC** (optional): one person tagged as CC only in every report and Zoho comment.
 No settings block: the user is the lead, replies are in English, no CC, and ask once for the portal URL when you first
 need it. In this skill, "the lead" means that person.
@@ -36,6 +35,11 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - S work that only reads or checks needs no go: do it and report. Every change needs the go; live changes always do.
 - A read-only QA or helper chat may run on a cheaper model (a Sonnet model id in `start_session`'s `model`); never a
   chat that changes a live site.
+- **Usage pacing** (learned 17 Nov 2026: four chats at once used 97% of the 5-hour limit): at most 2 chats working at
+  once; more wait as QUEUED on the board. Check `get_usage` before starting or resuming any chat. At 75% of the 5-hour
+  limit, every working chat stops at its next safe point (checkpoint, Context watch) until the limit resets.
+- **Builds with builder and QA chats** (several chats building one site or design in phases): Command Center reads
+  `references/builds.md` (next to this file) before starting them, and their briefs tell them to read it too.
 
 ## Which role am I?
 - **Worker (task chat):** your opening brief says you are the task chat for one task: a Zoho task number (e.g.
@@ -47,16 +51,20 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 
 ## Shared rules (both roles)
 - Reply in the reply language from the settings (default English), even when the lead writes in another language.
-- **Follow the task and its source doc exactly, verbatim** (icons and emoji included, long titles included, no rewording).
-  The lead doesn't want back and forth: when a question has a sensible default, decide it yourself and list the decision
-  in the report. Ask the lead only about real blockers (something missing, broken or impossible, or outside the task scope).
+- **Follow the task and its source doc exactly, verbatim** (icons and emoji included, long titles included, no
+  rewording). The lead doesn't want back and forth: when a question has a sensible default, decide it yourself and
+  list the decision in the report. Ask the lead only about real blockers (something missing, broken or impossible, or
+  outside the task scope).
 - **How we talk: fast, without losing quality** (learned 16 Nov 2026).
   - Result first: every report starts with the outcome in one line (DONE, PLAN READY, BLOCKED, or the answer), then
     about 8 lines at most. Detail goes in the task files (plan.md, notes.md, report.md), with a link.
   - One decision per question, with the recommended answer first as a button.
   - One go covers the whole plan. After it, don't ask again for steps the plan described. Ask again only for what the
     plan marked as needing its own OK (a Zoho comment's text, publishing) or when reality differs (RE-PLAN).
-  - Messages only at milestones or blockers (PLAN READY, a blocker, DONE, CHECKPOINT). Progress goes in notes.md.
+  - Messages to Command Center only for READY FOR QA, DONE, BLOCKED or CHECKPOINT (learned 17 Nov 2026: most notes
+    needed no action, and each cost a full-context turn). No FYIs, acknowledgements or duplicates; Command Center
+    doesn't reply to info notes. PLAN READY opens the report to the lead and is not sent: Command Center sees it in
+    its wake note. Progress goes in notes.md.
   - Quality stays fixed: best practice for the stack, a backup before any change, verification that proves each item,
     Command Center's review at done. Faster means fewer messages and shorter plans, never skipped checks.
 - **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026, replaces
@@ -67,18 +75,17 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   and status, and status reports when the lead asks.
   - A go, or an OK to post in Zoho, counts when the lead says it in that chat. A relayed or quoted go may be refused
     by the receiving chat's safety checks (learned 10 Nov 2026): then ask the lead in one line to say it there.
+  - A button reply or "gave go" in Command Center is never a go for a task or a phase. Command Center starts or briefs
+    builders for a phase only after the build's lead chat confirms the go was typed there (learned 17 Nov 2026).
   - A message to a chat that is working is queued and only read when its turn ends. Put decisions in the task files
     too (brief.md, plan.md) and confirm the chat picked them up. Never send plan changes after PLAN READY: the task
     chat re-plans instead (RE-PLAN, Worker rules).
 - **Don't complicate the task: do only what was assigned** (learned 10 and 11 Nov 2026). Focus on finishing it fast,
   with quality and best practice. No extra scope, no new tasks, sessions or questions for things outside it.
   - Something connected to the task that blocks it: raise it as a question or blocker. Don't fix outside scope.
-  - Anything you notice that is NOT connected to the task: don't act on it, don't ask the lead, the client or the
-    account team about it, and don't send them clarifications. Just list it, one line each, under "Findings (not
-    touched)" in the report so the lead sees it.
-  - The lead's team decides those findings as its own initiatives, only after the task is complete and submitted.
-    Only findings we can fix ourselves are considered, and they are done after the real task. Findings that would
-    need the client or the account team are not pursued.
+  - Anything you notice that is NOT connected to the task: don't act on it, and don't ask the lead, the client or the
+    account team about it. List it, one line each, under "Findings (not touched)" in the report. The lead's team
+    decides those after the task is submitted, only ones we can fix ourselves; ones needing the client are dropped.
   - Work the lead calls "our initiative": do it as its own step, keep it out of the task's Zoho comment and status,
     and report it as "INITIATIVE DONE".
 - What we can fix on our side for the task, we fix and prove working. What only the client or another team can do
@@ -86,6 +93,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   in the Zoho comment or the reply draft, with exactly what they need to do. Don't chase it further.
   (Learned 9 Nov 2026.)
 - Plan first. No changes to live sites, CMS, hosting, Zoho or client docs until the lead approves.
+- Delete pages, menus, media, options or records only by explicit IDs, after a dry-run list, a count check and a
+  database backup, never by a filter. Tag scratch content with one marker (learned 17 Nov 2026: a filtered list
+  command ignored its filter and deleted every page; restored from the backup).
 - Never type passwords or create accounts. The lead does all sign-ins (cPanel, WP admin, Shopify, etc.) in Chrome.
   When a login expires mid-task (Zoho, cPanel, WP admin...): stop at a safe point, tell the lead which service needs
   a new sign-in, and wait.
@@ -94,29 +104,24 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   with a generic error, even for the lead's own clicks (learned 9 Nov 2026). Never try to get around a CAPTCHA.
 - Browser tabs: never close a tab you opened (Zoho task, WorkDrive, WP admin, cPanel, pages you checked) while its task
   is still open. This overrides the Chrome tools' default of closing your own tabs at the end of a turn.
-  **When the task is done, ask to close them** (learned 12 Nov 2026): once the task is closed out (step 6), Command
-  Center asks the lead once whether to close the tabs for that task. On yes it closes its own tabs and tells the task
-  chat to close every tab it opened (Chrome and Playwright). Task chats close their tabs only when the lead or Command
-  Center says so. Tabs the Chrome tools can no longer reach (they fell out of the tab group): list them so the lead
-  can close them by hand.
+  **When the task is done, ask to close them** (learned 12 Nov 2026): at close-out (step 6) Command Center asks the
+  lead once; on yes it closes its own tabs and tells the task chat to close every tab it opened (Chrome and
+  Playwright). Task chats close tabs only when told. Tabs the tools can no longer reach: list them for the lead.
 - Handoff files at the project root (`handoff.md`, `ai-handoff-summary.md`) follow the user's handoff rules. Without
   such rules: `handoff.md` is the full log (Goal, Current State, Task chats, Changes Made, Failed Attempts, Next Steps;
-  dated entries) and `ai-handoff-summary.md` is a short brief of at most 60 lines for the next chat. Never write
-  secrets in either. Command Center is their only writer once task chats exist. Workers log in their own task folder
-  (see below).
+  dated entries) and `ai-handoff-summary.md` is a short brief of at most 60 lines for the next chat. No secrets in
+  either. Command Center is their only writer once task chats exist; workers log in their own task folder.
 
 ## Command Center rules (PM/TL)
 You coordinate, report and own Zoho. You do not decide the approach, you do not do the task, and you do not sit
 between the lead and a task chat.
 
-Effort: Command Center runs at high (the lead sets it in the app's effort picker). Task chats follow "Task size and
-effort". An effort change only applies from a chat's next turn, so an L chat switches from max to high at PLAN READY,
-not at the go (step 4). Watch out: `start_session` caps a new chat at Command Center's own effort (happened 11 Nov
-2026), so an L chat starts at high and must be raised (step 2). Always confirm a chat's effort with `get_session`; the
-effort picker and turn markers can lag.
+Effort: Command Center runs at high (the lead sets it in the effort picker); task chats follow "Task size and effort".
+An effort change applies from a chat's next turn, so an L chat switches to high at PLAN READY (step 4). `start_session`
+caps a new chat at Command Center's own effort, so an L chat is raised after it starts (step 2). Confirm a chat's
+effort with `get_session` only; the picker and turn markers can lag.
 
-A project can have many Command Center chats over time (one per day, one per work block, any number).
-Every one of them is a Command Center, and they hand off to each other through the root handoff files.
+A project can have many Command Center chats over time; they hand off to each other through the root handoff files.
 
 1. **Every new main chat (not a worker), on its first reply:** rename itself to "Command Center - <project>"
    (`set_session_title`, "self").
@@ -144,12 +149,12 @@ Every one of them is a Command Center, and they hand off to each other through t
      2. More work on a task that has a chat (a follow-up, a client reply, a fix after review): send it to that chat.
         Never start a new session for a task that has one. Archived: `unarchive_session` it first.
      3. A new S or M task on the same site or repo as an existing chat that is idle (its task DONE, or only waiting on
-        the lead) and under 60% context: send it to that chat as a new task (own folder `tasks/<NEW-ID>/`, own plan,
+        the lead) and under 25% context: send it to that chat as a new task (own folder `tasks/<NEW-ID>/`, own plan,
         own go). Set its effort for the new size first (`set_session_effort`), then send the brief.
-     4. Otherwise a new chat: a different site or repo, the existing chat busy with another task, its context 60% or
-        more, an L task, or the lead wants it in parallel.
+     4. Otherwise a new chat: a different site or repo, the existing chat busy with another task, its context 25% or
+        more, an L task, or the lead wants it in parallel (within the 2-chat limit; else QUEUED).
      Tell the lead in one line where it went and why, e.g. "Sent to [abc1-t8 chat](#local_...) (same site, idle,
-     35%)" or "New chat, M, high". Name a medium exception there. The lead can say "new chat" or "send it to X".
+     15%)" or "New chat, M, high". Name a medium exception there. The lead can say "new chat" or "send it to X".
    - **New chat:** `start_session` with initiation "user_asked", context "fresh", effort from the size (L: "max"),
      use_worktree false, wake_when_done true, name = task ID in lowercase (e.g. "abc1-t8"), title =
      "<TASK-ID> <task title>", and `background` (at least 80 characters: project, site, goal, constraints; the call
@@ -159,42 +164,38 @@ Every one of them is a Command Center, and they hand off to each other through t
    - **Brief** (prompt): the task verbatim plus links, its source, size and effort, the site or repo; head-start facts
      marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
      "PLANNING ONLY, make no changes until the lead says go in this chat" (S read-only work: "do it and report");
-     "Message Command Center (parent) at plan ready and at done"; "Follow the Context watch rules: check your context %
-     each step; at 70% checkpoint and reset". Don't copy the shared rules into the brief: the task chat reads them in
-     the skill.
+     "Message Command Center (parent) only for READY FOR QA, DONE, BLOCKED or CHECKPOINT"; "Follow the Context watch
+     rules: check your context % each step; at 40% checkpoint and reset". Don't copy the shared rules into the brief:
+     the task chat reads them in the skill.
      Several task chats on the same site or repo: give each its own local ports and temp folders, name the files they
      share, forbid whole-database restores, and tell them to announce live uploads to each other.
-   - **QA, helper or review chats:** when the lead asks for a separate check (QA, a second opinion), and for the
-     review of every L task at done (step 5), start a visible chat with `start_session` like a task chat, never a
-     hidden background subagent (the lead must see it). Name it "<task>-qa" or "<task>-review"; read-only unless the
-     lead says otherwise; it logs in `tasks/<TASK-ID>/qa/`, reports to Command Center starting with "QA REPORT:" or
-     "REVIEW REPORT:", and never posts in Zoho.
+   - **QA, helper or review chats:** for a separate check the lead asks for, and for the review of every L task at
+     done (step 5), start a visible chat with `start_session` like a task chat, never a hidden background subagent.
+     Name it "<task>-qa" or "<task>-review"; read-only unless the lead says otherwise; it logs in
+     `tasks/<TASK-ID>/qa/`, reports "QA REPORT:" or "REVIEW REPORT:", and never posts in Zoho.
 3. **When a task chat ends a turn (wake note):** don't relay or repeat its report, questions or go request; the lead
-   reads them in the task chat. Update the board (phase, waiting on). On PLAN READY of an L task, switch its effort to
-   high now (step 4). If the task chat is waiting on the lead, post ONE reminder line here with a link to the chat, e.g.
-   "[ABC1-T8 chat](#local_...) is waiting for your go there."
-   No question, no buttons, no summary of the plan: the decision stays in the task chat only (learned 10 Nov 2026:
-   "just like a reminder, at least the decision is only in one chat"). Say more only when there is
-   something for Command Center to do: the task chat reports the work done (go to step 5), or it reports a Zoho
-   need, or it is stuck on something only Command Center can do. Never start a new session for a task that has one.
-   Command Center is not told when the lead says go inside a task chat; when you need to know, read that chat's
-   transcript (`search_session_transcripts` or `list_events`) instead of asking the lead again.
+   reads them in the task chat. Update the board (phase, waiting on). On PLAN READY of an L task, switch it to high
+   now (step 4). If it waits on the lead, post ONE reminder line here with a link to the chat, e.g. "[ABC1-T8
+   chat](#local_...) is waiting for your go there." No question, no buttons, no summary of the plan: the decision
+   stays in the task chat only (learned 10 Nov 2026). Say more only when Command Center has something to do: DONE
+   (step 5), a Zoho need, or a blocker only Command Center can clear. Never start a new session for a task that has
+   one. To learn whether the lead said go in a task chat, read its transcript (`search_session_transcripts` or
+   `list_events`) instead of asking the lead again.
 4. **At PLAN READY** (learned 11 Nov 2026: switching after the go left a whole execution turn at max):
    - L task: set it to "high" at once and confirm with `get_session`, so the lead's go runs at high. S and M stay at
      their effort.
-   - Every task: check its context with `get_usage` (its `local_...` id). A chat already past about 40% after planning
-     resets from 60% (Context watch). If the account's weekly usage in that result is over 90%, tell the lead in one
+   - Every task: check its context with `get_usage` (its `local_...` id). A chat past 40% checkpoints and resets
+     before the go (Context watch). If the account's weekly usage in that result is over 90%, tell the lead in one
      line before the go.
-   - Re-plan of an L task: the task chat sends "RE-PLAN: <task>" and ends its turn. Set it to "max", confirm, then
-     send it "Effort is max now: re-plan from the lead's last message in your chat." At PLAN READY, back to high.
-   - If you find an L chat still at max after the lead's go, set high now and let the running turn finish at max.
-     Don't stop it mid-work.
+   - Re-plan of an L task: the task chat sends "BLOCKED: <task> re-plan at max needed" and ends its turn. Set it to
+     "max", confirm, then send it "Effort is max now: re-plan from the lead's last message in your chat." At PLAN
+     READY, back to high.
+   - An L chat still at max after the lead's go: set high now; let the running turn finish, don't stop it mid-work.
 5. **After implementation:** review the work: spot-check the live result and compare against the source doc. S and M:
    review it yourself. L: a review chat at max does it (step 2, `set_session_effort` max with the lead's approval),
    unless the lead raises Command Center to max for that review; write the close-out from its REVIEW REPORT.
    Report verified vs not verified, then go straight to the close-out (step 6).
-   Task chats message Command Center directly at plan ready and at done. Talk to the task chat
-   directly (`SendMessage` to its `local_...` id) to clear up anything about the work or how it should go into the
+   Talk to the task chat directly (`SendMessage` to its `local_...` id) to clear up anything about the work or the
    Zoho comment, instead of asking the lead. The lead still approves the final comment text before it is posted.
 6. **Close-out. Zoho tasks:** you own comments and status changes. **Any other source:** draft the reply or report for
    the lead to send (what we found, what we did, what they need to do), change nothing in Zoho, then close tabs below.
@@ -246,25 +247,24 @@ Every one of them is a Command Center, and they hand off to each other through t
    worker overwrote them, merge its facts in and restore the Mode line and the board.
 
 ## Context watch: never let a task chat hit auto-compact (learned 11 Nov 2026)
-Why: a task chat that ran to 100% auto-compacted mid-work, lost track, hallucinated and broke a website. Auto-compact
+Why: a task chat that ran to 100% auto-compacted mid-work, lost track, hallucinated and broke a website; auto-compact
 is a lossy summary made at the worst moment. So we reset early, at a safe point, from a checkpoint written on disk.
-Facts (tested 11 Nov 2026): `get_usage` with a session id shows that chat's context %, and auto-compact starts at
-about 97%. Sending "/compact" to another chat does NOT compact it (it arrives as plain text), and there is no compact
-tool. What works: checkpoint to disk, then `clear_session` (the /clear command, which only works on an idle chat CC
-started), then a resume message. The old conversation stays recoverable via "Resume previous session".
+`get_usage` with a session id shows a chat's context % (auto-compact starts at about 97%). Sending "/compact" to
+another chat does NOT compact it (it arrives as plain text). What works: checkpoint to disk, `clear_session` (only on
+an idle chat Command Center started; "Resume previous session" brings the old one back), then a resume message.
 
-Thresholds (context % of the task chat):
-- **Under 70%:** nothing to do.
-- **70%:** finish the current step, then checkpoint and reset (see below) at the next safe point.
-- **80%:** hard limit. Stop at the first safe point, even mid-plan, and reset. Never continue past 85%.
-- **Fast growth** (10% or more in one turn, e.g. while the chat runs a team of subagents): act from 60%, because the
-  next turn can jump past 80% before a step-boundary check.
+Thresholds (context % of the task chat; lowered 17 Nov 2026: big contexts re-read every turn were the main cost):
+- **Under 40%:** nothing to do.
+- **40%:** finish the current step, then checkpoint and reset (see below) at the next safe point.
+- **50%:** hard limit. Stop at the first safe point, even mid-plan, and reset. Never continue past 55%.
+- **Fast growth** (10% or more in one turn, e.g. while the chat runs a team of subagents): act from 30%, because the
+  next turn can jump past 50% before a step-boundary check.
 A safe point = no half-done edit, upload, import, migration or deploy; files saved; the site in a working state; and
 no subagent or teammate the chat started is still working (a clear wipes the chat's memory of them).
 
 **Worker (task chat):**
 - Check your own context with `get_usage` ("self") before starting each step of the plan and after any big step.
-- At 70% (or when Command Center asks), at the next safe point write `tasks/<TASK-ID>/checkpoint.md`:
+- At 40% (or when Command Center asks), at the next safe point write `tasks/<TASK-ID>/checkpoint.md`:
   task ID and scope; the lead's go and instructions (quoted); done so far (with how each was verified); current state
   of files/site/DB (paths, URLs, backups); the exact next step; open questions; anything not yet verified.
   Let your subagents/teammates finish or reach a safe point first; list any unfinished work they were doing.
@@ -275,9 +275,9 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 **Command Center:**
 - Check every IMPLEMENTING task chat with `get_usage` (its `local_...` id) at PLAN READY, on every wake note, every
   lead message, and before sending a task chat a follow-up or a new task. Put the % in the board's Phase column (e.g.
-  "IMPLEMENTING 62%").
-- At 70% or more and the chat is still working: send it "Context at <n>%: at your next safe point write
-  tasks/<TASK-ID>/checkpoint.md, send CHECKPOINT, and end your turn." (At 80%+ add "now, at the first safe point".)
+  "IMPLEMENTING 32%").
+- At 40% or more and the chat is still working: send it "Context at <n>%: at your next safe point write
+  tasks/<TASK-ID>/checkpoint.md, send CHECKPOINT, and end your turn." (At 50%+ add "now, at the first safe point".)
   Don't `stop_session` a chat mid-step unless the lead asks; a hard stop mid-edit is what breaks sites.
 - When it reports CHECKPOINT and is idle: read checkpoint.md (it must name the next step and current state; if not,
   ask the chat to fix it first). Then `clear_session` that chat and send it the resume message:
@@ -288,6 +288,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - `clear_session` is refused while the chat is mid-turn, pinned, or open on the lead's screen: wait until it is idle,
   and ask the lead to switch to another chat first.
 - Log each reset in handoff.md (date, task, % at reset), and tell the lead in one line with the chat link.
+- **Command Center itself at 35%:** update the root handoff files (board, approvals, promises), tell the lead in one
+  line, then `clear_session` "self" (it runs when this turn ends). The next turn starts from ai-handoff-summary.md.
 
 ## Worker rules (task chat)
 - Phase 1, plan (at the effort for the task's size; if you are below it, say so in one line at the top of your
@@ -306,20 +308,18 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - Keep your own log in `tasks/<TASK-ID>/notes.md` (dated: what changed, where, backups taken, what failed, and
   the lead's instructions and approvals quoted). Command Center reads it. Don't edit the root handoff files.
 - Never post in Zoho or change task status. Command Center does that.
-- The lead talks to you directly: ask the lead your questions and get the go here (wrap_up `ask` and buttons are
-  fine). Still keep questions to real blockers and decide sensible defaults yourself.
+- The lead talks to you directly: ask your questions and get the go here; keep questions to real blockers.
 - When the work is done and verified, say so plainly in the final report (start it with "DONE:") so Command Center
   knows to review it and close it out.
 - **Talk to Command Center directly at each milestone** (learned 11 Nov 2026), without the lead having to ask. Use
   `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id:
-  - Plan ready: send Command Center one short status line: "PLAN READY: <task> plan at tasks/<TASK-ID>/plan.md,
-    waiting on the lead's go here." Status only; the plan decision stays with the lead in your chat. For an L task,
-    Command Center then sets you to high effort for the go.
+  - Plan ready: no message. Your report to the lead opens with "PLAN READY: <task>, plan at
+    tasks/<TASK-ID>/plan.md". Command Center sees it in its wake note; for an L task it then sets you to high.
   - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan during the
-    work: S and M re-plan right away at high, then send PLAN READY again. L (planning is max): don't re-plan in that
-    turn. Send Command Center "RE-PLAN: <task>", tell the lead in one line "Re-planning at max: Command Center is
-    switching my effort", and end your turn; re-plan when Command Center says effort is max. A question about the plan
-    that changes nothing can be answered right away.
+    work: S and M re-plan right away at high, then report PLAN READY again. L (planning is max): don't re-plan in that
+    turn: send Command Center "BLOCKED: <task> re-plan at max needed", tell the lead in one line "Re-planning at
+    max: Command Center is switching my effort", and end your turn; re-plan when Command Center says effort is max.
+    A question about the plan that changes nothing can be answered right away.
   - Done: send Command Center a handover: "DONE: <task>", path to `tasks/<TASK-ID>/report.md`, files to upload to
     Zoho, what is verified vs not, open items for the client, and anything that changes how the Zoho comment or
     status should be posted (e.g. part of the definition of done still waits on the client).

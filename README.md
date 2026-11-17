@@ -12,8 +12,11 @@ lead would, with the Claude desktop app:
   DONE to Command Center. Reports lead with the result; one go covers the whole plan.
 - **Gates you control:** nothing live changes before your go, no Zoho comment is posted before you OK the exact text
   and tags, and the Zoho status only moves after the work is done and verified.
-- **Context watch:** task chats checkpoint to disk and are reset at 70% context, long before auto-compact, so a chat
-  never loses track in the middle of live work.
+- **Context watch and pacing:** task chats checkpoint to disk and reset at 40% context, Command Center at 35%, long
+  before auto-compact, so no chat loses track mid-work and every turn stays cheap. At most 2 chats work at once, and
+  all of them pause at 75% of the 5-hour usage limit.
+- **Builds with several chats:** `references/builds.md` sets up builders and QA chats for large builds (one fix list
+  per QA pass, scripted checks, a Figma sweep before building).
 
 It came out of daily use on more than 20 client projects; the rules carry the lessons learned there.
 
@@ -122,6 +125,7 @@ client document before your go, never posts in Zoho without your OK on the exact
 .claude-plugin/plugin.json         the plugin
 .claude-plugin/marketplace.json    this repo as a one-plugin marketplace
 skills/zoho-command-center/SKILL.md the workflow and its rules
+skills/zoho-command-center/references/builds.md  builds with builder and QA chats
 CHANGELOG.md                       what changed in each version
 AGENTS.md                          rules for changing the skill
 ```
