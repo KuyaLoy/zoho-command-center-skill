@@ -5,6 +5,31 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-17
+
+The lead always knows the next step: a next-step box at the end of every Command Center turn, and no chat stops
+silently.
+
+### Added
+
+- Command Center ends every turn with the next-step box (`wrap_up` with an ask and buttons), even when nothing seems
+  pending. It leads: the first button is its recommendation, "Proceed: <action>", the second a realistic alternative;
+  while waiting (a usage pause, a chat working) it still offers the choice.
+- No silent idle: every turn that stops without the work going on (plan ready, waiting for a go, checkpoint, usage
+  pause, blocked, a part done) ends with a short report: what was done, the state, decisions taken (with the default
+  chosen) and the Next line. Its first 400 characters reach Command Center as the wake note, so no second message.
+
+### Changed
+
+- The last line of every turn, in every chat, is "Next: <step> — waiting on <who>" (replaces 1.2.1's "Waiting on
+  you" / "Nothing needed from you" line).
+- Command Center step 3: on every stop, Command Center tells the lead in 2 to 4 lines which chat, why it stopped, the
+  decisions it took and the next step, and never lets a chat sit idle unreported. A task chat's question, options and
+  plan still stay in that chat; for the lead's go or answer there, the box offers "Proceed: open <chat>" and "Later".
+- Kept: separate messages to Command Center only for READY FOR QA, DONE, BLOCKED and CHECKPOINT; a button reply in
+  Command Center is never a go for a task or a phase; only Command Center posts in Zoho.
+- Wording tightened to stay under the line cap (Command Center intro, task talk rule).
+
 ## [1.2.2] - 2026-11-17
 
 Ties the "Waiting on you" line to the rule that a task chat's decisions stay in the task chat.

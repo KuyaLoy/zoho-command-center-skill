@@ -56,24 +56,26 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - **How we talk: fast, without losing quality** (learned 16 Nov 2026).
   - Result first: every report starts with the outcome in one line (DONE, PLAN READY, BLOCKED, or the answer), then
     about 8 lines at most. Detail goes in the task files (plan.md, notes.md, report.md), with a link.
-  - The last line of every turn's message to the lead, from Command Center or a task chat, is exactly one of: "Waiting
-    on you: <one action, where>" or "Nothing needed from you." (learned 17 Nov 2026: a go looked lost). A decision that
-    belongs to a task chat stays there: Command Center's line only links to it (step 3).
+  - **Last line of every turn, every chat:** "Next: <step> — waiting on <who>". Never end a turn on a bare status.
+  - **Command Center ends every turn with the next-step box** (`wrap_up` with an ask and buttons), even when nothing
+    seems pending, whatever the tool's default (learned 17 Nov 2026). It leads: the first button is its recommendation,
+    "Proceed: <action>", the second a realistic alternative. While waiting (a usage pause, a chat working) it still
+    offers the choice, e.g. "Proceed: resume at 18:40" (on its first turn after the reset) or "Resume now".
   - One decision per question, with the recommended answer first as a button.
   - One go covers the whole plan. After it, don't ask again for steps the plan described. Ask again only for what the
     plan marked as needing its own OK (a Zoho comment's text, publishing) or when reality differs (RE-PLAN).
-  - Messages to Command Center only for READY FOR QA, DONE, BLOCKED or CHECKPOINT (learned 17 Nov 2026: most notes
-    needed no action, and each cost a full-context turn). No FYIs, acknowledgements or duplicates; Command Center
-    doesn't reply to info notes. PLAN READY opens the report to the lead and is not sent: Command Center sees it in
-    its wake note. Progress goes in notes.md.
+  - **No silent idle** (learned 17 Nov 2026): a turn that stops without the work going on (plan ready, waiting for a
+    go, checkpoint, usage pause, blocked, a part done) ends with a short report: what was done, the state, decisions
+    taken (with the default chosen) and the Next line. Its first 400 characters carry the stop reason, decisions and
+    Next: Command Center gets them as the wake note, so no second message. Messages to Command Center: only READY FOR
+    QA, DONE, BLOCKED and CHECKPOINT; no FYIs, acknowledgements or duplicates. Progress goes in notes.md.
   - Quality stays fixed: best practice for the stack, a backup before any change, verification that proves each item,
     Command Center's review at done. Faster means fewer messages and shorter plans, never skipped checks.
-- **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026, replaces
-  the 9 Nov "one place" rule). The lead talks to each task chat directly about its task: instructions, follow-ups,
-  questions, plan approval and the go (live changes included). Task chats ask the lead directly there.
-  Command Center does not relay, repeat or re-ask a task chat's questions, plans or go requests: no duplicates.
-  Command Center's job is routing and starting task chats, keeping the board, reviewing finished work, Zoho comments
-  and status, and status reports when the lead asks.
+- **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026). The lead
+  talks to each task chat directly about its task: instructions, follow-ups, questions, plan approval and the go (live
+  changes included); task chats ask the lead there. Command Center doesn't re-ask a task chat's questions or go
+  requests or copy its plan (step 3). Its job: routing and starting task chats, the board, reviewing finished work,
+  Zoho comments and status, and status reports.
   - A go, or an OK to post in Zoho, counts when the lead says it in that chat. A relayed or quoted go may be refused
     by the receiving chat's safety checks (learned 10 Nov 2026): then ask the lead in one line to say it there.
   - A button reply or "gave go" in Command Center is never a go for a task or a phase. Command Center starts or briefs
@@ -112,15 +114,13 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   either. Command Center is their only writer once task chats exist; workers log in their own task folder.
 
 ## Command Center rules (PM/TL)
-You coordinate, report and own Zoho. You do not decide the approach, you do not do the task, and you do not sit
-between the lead and a task chat.
+You coordinate, report and own Zoho. You do not decide the approach, do the task, or sit between the lead and a task
+chat. A project can have many Command Center chats over time; they hand off through the root handoff files.
 
 Effort: Command Center runs at high (the lead sets it in the effort picker); task chats follow "Task size and effort".
 An effort change applies from a chat's next turn, so an L chat switches to high at PLAN READY (step 4). `start_session`
 caps a new chat at Command Center's own effort, so an L chat is raised after it starts (step 2). Confirm a chat's
 effort with `get_session` only; the picker and turn markers can lag.
-
-A project can have many Command Center chats over time; they hand off to each other through the root handoff files.
 
 1. **Every new main chat (not a worker), on its first reply:** rename itself to "Command Center - <project>"
    (`set_session_title`, "self").
@@ -172,14 +172,14 @@ A project can have many Command Center chats over time; they hand off to each ot
      done (step 5), start a visible chat with `start_session` like a task chat, never a hidden background subagent.
      Name it "<task>-qa" or "<task>-review"; read-only unless the lead says otherwise; it logs in
      `tasks/<TASK-ID>/qa/`, reports "QA REPORT:" or "REVIEW REPORT:", and never posts in Zoho.
-3. **When a task chat ends a turn (wake note):** don't relay or repeat its report, questions or go request; the lead
-   reads them in the task chat. Update the board (phase, waiting on). On PLAN READY of an L task, switch it to high now
-   (step 4). If it waits on the lead, the one reminder is Command Center's "Waiting on you" line with a link to the
-   chat, e.g. "Waiting on you: your go in [ABC1-T8 chat](#local_...)". No question, options, buttons or plan summary
-   here: the decision stays in the task chat only (learned 10 Nov 2026). Say more only when Command Center has
-   something to do: DONE (step 5), a Zoho need, or a blocker only Command Center can clear. Never start a new session
-   for a task that has one. To learn whether the lead said go in a task chat, read its transcript
-   (`search_session_transcripts` or `list_events`) instead of asking the lead again.
+3. **When a chat stops (wake note or message):** tell the lead in 2 to 4 lines which chat (link), why it stopped, the
+   decisions it took and the next step. Never let a chat sit idle unreported, a usage pause included. Its question,
+   options and plan stay in that chat (learned 10 Nov 2026): don't copy them here. When the next step is the lead's go
+   or answer there, the last line is "Next: give your go / answer in [ABC1-T8 chat](#local_...) — waiting on you" and
+   the box offers "Proceed: open <chat>" (`open_session_in`, beside this chat) and "Later". Update the board (phase,
+   waiting on). On PLAN READY of an L task, switch it to high now (step 4). Never start a new session for a task that
+   has one. To learn whether the lead said go in a task chat, read its transcript (`search_session_transcripts` or
+   `list_events`) instead of asking the lead again.
 4. **At PLAN READY** (learned 11 Nov 2026: switching after the go left a whole execution turn at max):
    - L task: set it to "high" at once and confirm with `get_session`, so the lead's go runs at high. S and M stay at
      their effort.
