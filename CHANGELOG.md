@@ -5,6 +5,22 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-11-17
+
+Every stop reaches Command Center promptly, whoever started the turn.
+
+### Changed
+
+- No silent idle: a stop also goes to Command Center as one short message, whoever started the turn, the lead's own
+  turns included (wake notes for those come late). Shape: "<TYPE>: <TASK-ID> <why it stopped>. Decisions: <defaults
+  taken, or none>. Next: <step> — waiting on <who>"; TYPE is PLAN READY, WAITING, PART DONE, PAUSED, READY FOR QA,
+  DONE, BLOCKED or CHECKPOINT. The `wrap_up` recap opens with the stop reason. Replaces 1.3.0's "no second message".
+- Worker rules: "Plan ready: no message" becomes the stop message above; the task chat brief says the same.
+- Command Center step 3: a wake note and a message for the same stop are one stop, reported to the lead once, with
+  no reply to the chat.
+- Unchanged: the next-step box, the Next line, task chat decisions stay in the task chat, only Command Center posts
+  in Zoho.
+
 ## [1.3.0] - 2026-11-17
 
 The lead always knows the next step: a next-step box at the end of every Command Center turn, and no chat stops

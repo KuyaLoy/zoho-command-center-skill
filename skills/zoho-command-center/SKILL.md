@@ -64,11 +64,10 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   - One decision per question, with the recommended answer first as a button.
   - One go covers the whole plan. After it, don't ask again for steps the plan described. Ask again only for what the
     plan marked as needing its own OK (a Zoho comment's text, publishing) or when reality differs (RE-PLAN).
-  - **No silent idle** (learned 17 Nov 2026): a turn that stops without the work going on (plan ready, waiting for a
-    go, checkpoint, usage pause, blocked, a part done) ends with a short report: what was done, the state, decisions
-    taken (with the default chosen) and the Next line. Its first 400 characters carry the stop reason, decisions and
-    Next: Command Center gets them as the wake note, so no second message. Messages to Command Center: only READY FOR
-    QA, DONE, BLOCKED and CHECKPOINT; no FYIs, acknowledgements or duplicates. Progress goes in notes.md.
+  - **No silent idle** (learned 17 Nov 2026): a turn that stops without the work going on (plan ready, waiting on
+    someone, checkpoint, usage pause, blocked, a part done) ends with a short report: what was done, the state,
+    decisions taken (defaults chosen) and the Next line; the recap opens with the stop reason. The stop also goes to
+    Command Center as one message, whoever started the turn (Worker rules). No FYIs or duplicates.
   - Quality stays fixed: best practice for the stack, a backup before any change, verification that proves each item,
     Command Center's review at done. Faster means fewer messages and shorter plans, never skipped checks.
 - **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026). The lead
@@ -163,9 +162,9 @@ effort with `get_session` only; the picker and turn markers can lag.
    - **Brief** (prompt): the task verbatim plus links, its source, size and effort, the site or repo; head-start facts
      marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
      "PLANNING ONLY, make no changes until the lead says go in this chat" (S read-only work: "do it and report");
-     "Message Command Center (parent) only for READY FOR QA, DONE, BLOCKED or CHECKPOINT"; "Follow the Context watch
-     rules: check your context % each step; at 40% checkpoint and reset". Don't copy the shared rules into the brief:
-     the task chat reads them in the skill.
+     "Send Command Center (parent) a short message at every stop, your lead-driven turns too"; "Follow the Context
+     watch rules: check your context % each step; at 40% checkpoint and reset". Don't copy the shared rules into the
+     brief: the task chat reads them in the skill.
      Several task chats on the same site or repo: give each its own local ports and temp folders, name the files they
      share, forbid whole-database restores, and tell them to announce live uploads to each other.
    - **QA, helper or review chats:** for a separate check the lead asks for, and for the review of every L task at
@@ -173,13 +172,13 @@ effort with `get_session` only; the picker and turn markers can lag.
      Name it "<task>-qa" or "<task>-review"; read-only unless the lead says otherwise; it logs in
      `tasks/<TASK-ID>/qa/`, reports "QA REPORT:" or "REVIEW REPORT:", and never posts in Zoho.
 3. **When a chat stops (wake note or message):** tell the lead in 2 to 4 lines which chat (link), why it stopped, the
-   decisions it took and the next step. Never let a chat sit idle unreported, a usage pause included. Its question,
-   options and plan stay in that chat (learned 10 Nov 2026): don't copy them here. When the next step is the lead's go
-   or answer there, the last line is "Next: give your go / answer in [ABC1-T8 chat](#local_...) — waiting on you" and
-   the box offers "Proceed: open <chat>" (`open_session_in`, beside this chat) and "Later". Update the board (phase,
-   waiting on). On PLAN READY of an L task, switch it to high now (step 4). Never start a new session for a task that
-   has one. To learn whether the lead said go in a task chat, read its transcript (`search_session_transcripts` or
-   `list_events`) instead of asking the lead again.
+   decisions it took and the next step, once per stop (a wake note and a message for the same stop are one; don't reply
+   to the chat). Never let a chat sit idle unreported, a usage pause included. Its question, options and plan stay in
+   that chat (learned 10 Nov 2026): don't copy them here. When the next step is the lead's go or answer there, the last
+   line is "Next: give your go / answer in [ABC1-T8 chat](#local_...) — waiting on you" and the box offers "Proceed:
+   open <chat>" (`open_session_in`, beside this chat) and "Later". Update the board (phase, waiting on). On PLAN READY
+   of an L task, switch it to high now (step 4). To learn whether the lead said go in a task chat, read its transcript
+   (`search_session_transcripts` or `list_events`) instead of asking the lead again.
 4. **At PLAN READY** (learned 11 Nov 2026: switching after the go left a whole execution turn at max):
    - L task: set it to "high" at once and confirm with `get_session`, so the lead's go runs at high. S and M stay at
      their effort.
@@ -312,8 +311,9 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - The lead talks to you directly: ask your questions and get the go here; keep questions to real blockers.
 - **Talk to Command Center directly at each milestone** (learned 11 Nov 2026), without the lead having to ask. Use
   `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id:
-  - Plan ready: no message. Your report to the lead opens with "PLAN READY: <task>, plan at
-    tasks/<TASK-ID>/plan.md". Command Center sees it in its wake note; for an L task it then sets you to high.
+  - Every stop (No silent idle), the lead's own turns included, as one message of at most 4 lines: "<TYPE>: <TASK-ID>
+    <why it stopped>. Decisions: <defaults taken, or none>. Next: <step> — waiting on <who>". TYPE is PLAN READY (with
+    the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT.
   - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan during the
     work: S and M re-plan right away at high, then report PLAN READY again. L (planning is max): don't re-plan in that
     turn: send Command Center "BLOCKED: <task> re-plan at max needed", tell the lead in one line "Re-planning at
