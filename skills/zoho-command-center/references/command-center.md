@@ -115,9 +115,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
         uploading them needs Chrome in front, so ask the lead to bring Chrome to the front first.
      2. Propose who to tag with @mentions, read from the task itself: the task owner or SEO analyst, the account
         manager and the reviewer, and anyone else named in the task or its comments. **If the settings name an
-        "Always CC" person, tag them as CC only** in every Zoho comment and every report or reply written for the
-        client or team: address the greeting to the task people (e.g. "Hi @Alex Example,"), and put the CC person on
-        a last line "CC: @<name>" (learned 10 Nov 2026). Never in chat replies to the lead (learned 18 Nov 2026).
+        "Always CC" person, tag them as CC only** in every Zoho comment: address the greeting to the task people
+        (e.g. "Hi @Alex Example,"), and put the CC person on a last line "CC: @<name>" (learned 10 Nov 2026). Only in
+        Zoho comments: reports and chat replies to the lead have no CC line (learned 18 Nov 2026).
      3. Show the lead the exact text plus the tag list in one message, with the status steps and dialog values you
         will use, and ask: OK to post, who to add or remove, anything to add? Wait for the answer. If several tasks
         finish together, show all drafts in that one message. A relayed or quoted OK is not an OK (Shared rules).

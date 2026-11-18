@@ -5,6 +5,14 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.1.3] - 2026-11-18
+
+### Fixed
+
+- The "Always CC" line goes in Zoho comments (the Zoho report) only. Reports and chat replies to the lead have no CC
+  line, and neither do other reports or reply drafts (the lead's rule, 18 Nov 2026; SKILL.md Settings, step 6,
+  README).
+
 ## [2.1.2] - 2026-11-18
 
 ### Fixed

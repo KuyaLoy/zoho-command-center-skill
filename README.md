@@ -103,8 +103,8 @@ the second gives the skill your details.
 - Lead: <your name> (approves plans, gos and Zoho comments)
 - Zoho portal: https://projects.zoho.com/portal/<your-portal>
 - Reply language: English
-- Always CC: @<name> (optional: CC only, last line "CC: @<name>" in Zoho comments and reports or replies for the
-  client or team; never in chat replies to you)
+- Always CC: @<name> (optional: CC only, last line "CC: @<name>" in Zoho comments only; reports and chat replies to
+  you have none)
 ```
 
 Don't want every empty folder to become a Command Center? Drop "when the project folder is empty" and start one by
