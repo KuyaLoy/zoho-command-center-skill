@@ -5,6 +5,14 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.2.1] - 2026-11-18
+
+### Changed
+
+- EOD (step 3): the EOD answer is the handoff skill's summary block exactly, one block per task worked on that day
+  with its links (the staging magic link already shared with the client included), status words as the handoff
+  skill says. Replaces 2.2.0's "no custom sections": the handoff skill owns the shape.
+
 ## [2.2.0] - 2026-11-18
 
 Lessons from the first real task on 2.1: no change before the go, the site in the project folder, QA before every

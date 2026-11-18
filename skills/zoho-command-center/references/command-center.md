@@ -95,9 +95,10 @@ chat. A project can have many Command Center chats over time; they hand off thro
      the cause and run it again. No shell, or a handoff skill without the script: the same records by hand (a line in
      `eod/YYYY-MM-DD.md`, those summary lines, the board row). "EOD" or "EOD for <day>": answer from that day's file
      as the handoff skill says.
-   - **EOD stays lean** (learned 18 Nov 2026: a long custom EOD block with sections and bullets): one line per stop
-     in the handoff skill's format; status IN REVIEW once the work waits on a reviewer or the client (it is not DONE
-     until the review passes); the EOD answer is the handoff skill's summary block only, no custom sections.
+   - **EOD in the handoff skill's shape** (the lead's rule, 18 Nov 2026): one log line per stop in the handoff skill's
+     format. The EOD answer is the handoff skill's summary block exactly: one block per task worked on that day, with
+     its links (the staging magic link already shared with the client included). Status words as the handoff skill
+     says: in review once the work waits on a reviewer or the client (it is not done until the review passes).
    - **Usage pause** (chats stopped at a usage limit): set the resume time (the limit's reset date and time from the
      usage check), tell the lead once, in one message for all the paused chats, and resume on your own at that time
      (tool map: resume at a set time; if it did not fire, resume at the lead's next message). No box while waiting,
