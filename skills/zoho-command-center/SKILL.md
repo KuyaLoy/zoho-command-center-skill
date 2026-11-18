@@ -92,8 +92,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     account team about it. List it, one line each, under "Findings (not touched)" in the report. The lead's team
     decides those after the task is submitted, only ones we can fix ourselves; ones needing the client are dropped.
   - **Except a serious one** (learned 18 Nov 2026): a hacked site, malware, injected spam or a backdoor. Tell the lead
-    in one line when you find it, then fix it with the task (backup first; the task itself still gets done) and report
-    it under "Serious finding (fixed)": what was found, what was removed, how it was checked.
+    in one line when you find it and add the fix to the plan (backup first; the task's go covers it; the task itself
+    still gets done). Report it under "Serious finding (fixed)": what was found, what was removed, how it was checked.
   - Work the lead calls "our initiative": do it as its own step, keep it out of the task's Zoho comment and status,
     and report it as "INITIATIVE DONE".
 - What we can fix on our side for the task, we fix and prove working. What only the client or another team can do
@@ -156,9 +156,10 @@ effort with `get_session` only; the picker and turn markers can lag.
    - **Where does it go? One task, one chat** (the lead's rule, 18 Nov 2026). Check the board; the first that fits:
      1. Only a question (status, where things are, what a chat found): answer from the board and task files. No chat.
      2. The same Zoho link or task ID as a board row (a follow-up, a client reply, a fix after review): always that
-        task's chat, until the lead says otherwise. Archived: `unarchive_session`, `clear_session` it, set its effort
-        for the size, and send "Follow-up for <TASK-ID>. Load the zoho-command-center skill (Worker rules). Read
-        tasks/<TASK-ID>/report.md and notes.md, not the old conversation; re-check the current state; then: <request>".
+        task's chat, until the lead says otherwise. Open: send it the request (Context watch first). Archived:
+        `unarchive_session`, `clear_session`, set its effort for the size, and send "Follow-up for <TASK-ID>. Load the
+        zoho-command-center skill (Worker rules). Read tasks/<TASK-ID>/report.md and notes.md, not the old
+        conversation; re-check the current state; then: <request>".
      3. Anything else: a new chat (2-chat limit, else QUEUED), unless the lead says "send it to X".
      Tell the lead in one line where it went, e.g. "Sent to [abc1-t8 chat](#local_...) (same task, revived)" or "New
      chat, M, high". Name a medium exception there.
@@ -307,8 +308,7 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   revive or a reset: read report.md and notes.md (and checkpoint.md) first, and re-check the current state.
 - Keep your own log in `tasks/<TASK-ID>/notes.md` (dated: what changed, where, backups taken, what failed, and
   the lead's instructions and approvals quoted). Command Center reads it. Don't edit the root handoff files or `eod/`.
-- Never post in Zoho or change task status. Command Center does that.
-- The lead talks to you directly: ask your questions and get the go here; keep questions to real blockers.
+- Never post in Zoho or change task status (Command Center does). Ask the lead here (blockers only); get the go here.
 - **Talk to Command Center directly at each milestone** (learned 11 Nov 2026), without the lead having to ask. Use
   `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id:
   - Every stop (No silent idle), the lead's own turns included, as one message of at most 4 lines: "<TYPE>: <TASK-ID>

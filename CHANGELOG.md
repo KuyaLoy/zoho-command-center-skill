@@ -13,9 +13,9 @@ Major: the routing and the Command Center workflow changed.
 ### Changed
 
 - Routing (step 2): one task, one chat. The same Zoho link or task ID always goes to that task's chat until the lead
-  says otherwise; anything else gets a new chat. Replaces the reuse of an idle chat on the same site under 25%. An
-  archived chat is revived (`unarchive_session`), cleared, and resumes from its report.md and notes.md, not from its
-  old conversation.
+  says otherwise (an open chat gets the request; an archived one is revived); anything else gets a new chat. Replaces
+  the reuse of an idle chat on the same site under 25%. An archived chat is revived (`unarchive_session`), cleared,
+  and resumes from its report.md and notes.md, not from its old conversation.
 - Only the task, straightforward: sensible defaults and obvious fixes inside the task are made and listed in the
   report; the lead is asked only about blockers, the client only when really needed (through the Zoho comment or
   reply draft); other clarifications go in the report and that draft.
@@ -37,9 +37,9 @@ Major: the routing and the Command Center workflow changed.
 - No hallucination: Command Center answers from files and checks made now, never from memory; unknown means check
   first. It keeps the lead's open requests (verbatim, dated, with a status) under `## Open requests` in handoff.md,
   reads them first after any compact, reload or new chat, and lists all of them in every report on a round.
-- Serious unrelated findings (a hacked site, malware, injected spam, a backdoor) are fixed with the task, backup first;
-  the lead gets one line when found, and the report has a "Serious finding (fixed)" part. Other unrelated findings stay
-  untouched and listed.
+- Serious unrelated findings (a hacked site, malware, injected spam, a backdoor) are fixed with the task, backup
+  first, as part of its plan and go; the lead gets one line when found, and the report has a "Serious finding
+  (fixed)" part. Other unrelated findings stay untouched and listed.
 - Archive idle task chats: when Command Center starts, it archives task, QA and review chats idle for 2 days or more,
   never a Command Center or a working chat, and names any of their tabs still open. Board phase ARCHIVED.
 - EOD log: Command Center writes one line per stop to `eod/YYYY-MM-DD.md` (format from the handoff skill) and answers
