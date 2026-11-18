@@ -5,6 +5,14 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-11-18
+
+### Fixed
+
+- Archive idle task chats (step 1): Command Center lists its own chats with `list_sessions {"linked": true}` (all of
+  them) instead of `list_sessions`, whose default list (the newest 20 across all projects) missed its older idle chats.
+  Board rows the list doesn't show (chats an earlier Command Center chat started) are checked by id with `get_session`.
+
 ## [2.0.0] - 2026-11-18
 
 One task, one chat, straight to the point, and a Command Center that never clears itself and answers from files.

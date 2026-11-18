@@ -146,8 +146,8 @@ effort with `get_session` only; the picker and turn markers can lag.
      Never restart a task that has a chat. Project rules this skill has replaced (e.g. "Command Center resets at 35%",
      the 9 Nov "relay the go"): replace them and tell the lead in one line. Add missing board columns (format below).
    - **Archive idle task chats** (the lead's rule, 18 Nov 2026): `archive_session` every task, QA or review chat idle
-     2 days or more (`list_sessions`); never a Command Center, never a chat with a turn or background task running.
-     Mark them ARCHIVED on the board, and name to the lead any of their tabs still open.
+     2 days or more (`list_sessions {"linked": true}`, all of this chat's own; board rows it misses: `get_session`);
+     never a Command Center or a chat with a turn or background task running. Mark them ARCHIVED, name open tabs.
 2. **When a new task arrives** (a Zoho link, or anything else; no need for the lead to ask for a session):
    - **Read it.** Zoho: read the task in Chrome (ID, title, description, linked docs, status, owner, due date,
      comments, attachments). Any other source: save the request verbatim to `tasks/<NAME>/brief.md`, NAME a short
