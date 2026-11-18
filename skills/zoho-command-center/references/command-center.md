@@ -14,8 +14,10 @@ chat. A project can have many Command Center chats over time; they hand off thro
   or new chat, and list all of them with their status in every report on a round, not only the newest.
 - **Effort:** every chat runs at high, Command Center too (the lead sets it). When the lead says "use max" for a task,
   raise that chat to max (a level above Command Center's needs the lead's approval in the app) for the part he named,
-  and set it back to high after it. An effort change applies from a chat's next turn. Confirm a chat's effort only
-  from its session info; the picker and turn markers can lag.
+  and set it back to high after it. Said in Command Center: raise it before the chat's next turn (a new chat: before
+  its brief is sent, where the tool allows). Said in the task chat: it sends "USE MAX"; raise it the same way. An
+  effort change applies from a chat's next turn. Confirm a chat's effort only from its session info; the picker and
+  turn markers can lag.
 
 1. **Every new main chat (not a worker), on its first reply:** rename itself to "Command Center - <project>".
    - New empty folder: also create the handoff files, put `Mode: Command Center` under the project rules in
@@ -38,12 +40,14 @@ chat. A project can have many Command Center chats over time; they hand off thro
      comments, attachments). Any other source: save the request verbatim to `tasks/<NAME>/brief.md`, NAME a short
      uppercase slug (e.g. SHIPPING-ERROR). Only light reading, enough to size it and write a good brief.
    - **Size it** (S, M or L, SKILL.md "Task size and effort").
-   - **Where does it go? One task, one chat** (the lead's rule, 18 Nov 2026). Check the board; the first that fits:
+   - **Where does it go? One task, one chat** (the lead's rule, 18 Nov 2026). Check the board (and its archived rows
+     in `handoff-archive.md`, where the handoff skill moves DONE and ARCHIVED rows); the first that fits:
      1. Only a question (status, where things are, what a chat found): answer from the board and task files. No chat.
      2. The same Zoho link or task ID as a board row (a follow-up, a client reply, a fix after review): always that
         task's chat, until the lead says otherwise. Open: send it the request. Archived: revive it, clear it, keep it
         at high, and send "Follow-up for <TASK-ID>. Load the zoho-command-center skill (Worker rules). Read
-        tasks/<TASK-ID>/report.md and notes.md, not the old conversation; re-check the current state; then: <request>".
+        tasks/<TASK-ID>/report.md and notes.md, not the old conversation; re-check the current state; plan this
+        follow-up and wait for the lead's go; then: <request>".
      3. Anything else: a new chat (2-chat limit, else QUEUED), unless the lead says "send it to X".
      Tell the lead in one line where it went, e.g. "Sent to [abc1-t8 chat](#local_...) (same task, revived)" or "New
      chat, M, high". Name a medium exception there.
@@ -76,14 +80,18 @@ chat. A project can have many Command Center chats over time; they hand off thro
      "Later". After "Later", no box until that chat's next stop.
    - Whether the lead gave a task chat its go: read its notes.md, where the chat quotes it. Never read transcripts for
      it (costly, and a summary can mislead); no quote there means no go yet.
-   - **Record the stop in one call** (learned 18 Nov 2026: 3 or 4 edits per stop): the handoff skill's stop script, as
-     the handoff skill describes it, with the EOD line (format from the handoff skill, written at the moment, never
-     recalled later), the summary's Last change and Next action, and this task's board row (Phase, Waiting on). No
-     shell, or a handoff skill without the script: the same records by hand (a line in `eod/YYYY-MM-DD.md`, those
-     summary lines, the board row). "EOD" or "EOD for <day>": answer from that day's file as the handoff skill says.
-   - **Usage pause** (chats stopped at a usage limit): set the resume time (the limit's reset time from the usage
-     check), tell the lead once, and resume on your own at that time (tool map: resume at a set time). No box while
-     waiting, unless the lead's input is needed. At the resume: check usage, then resume the paused chats (at most 2).
+   - **Record the stop in one call** (learned 18 Nov 2026: 3 or 4 edits per stop): the handoff skill's stop script
+     (`scripts/record-stop.sh`, run from the project root as the handoff skill describes it) with the EOD line (format
+     from the handoff skill, written at the moment, never recalled later), the summary's Last change and Next action,
+     and this task's board row (its Phase and Waiting on cells; a new task's full row). Read its one line: on FAIL, fix
+     the cause and run it again. No shell, or a handoff skill without the script: the same records by hand (a line in
+     `eod/YYYY-MM-DD.md`, those summary lines, the board row). "EOD" or "EOD for <day>": answer from that day's file
+     as the handoff skill says.
+   - **Usage pause** (chats stopped at a usage limit): set the resume time (the limit's reset date and time from the
+     usage check), tell the lead once, in one message for all the paused chats, and resume on your own at that time
+     (tool map: resume at a set time; if it did not fire, resume at the lead's next message). No box while waiting,
+     unless the lead's input is needed. At the resume: check usage, then send the paused chats (then QUEUED ones, at
+     most 2 working) "Usage reset: re-check your context %, then continue from your next step." 
 4. **At PLAN READY:** check the task chat's context %; past 50% it checkpoints and resets before the go (Context
    watch). Every size keeps its effort (high) for the go; a "use max" plan goes back to high now.
 5. **After implementation:** review the work against the source doc, sized to the task. S and M: read the report and
@@ -120,10 +128,11 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - **Close tabs and archive, without asking** (the lead's rule, 18 Nov 2026: in review, the reviewer and the client
      take it from here): right after Request Review (other sources: after the reply draft is handed over), close your
      tabs for the task and send the task chat "The task is in review: close every browser tab you opened for
-     <TASK-ID> (Chrome tabs and any automation browser), then reply in one line." Once it is idle, archive it (not
-     where the project's rules say never), mark it ARCHIVED, and tell the lead in one line: "<TASK-ID> in review, tabs
-     closed, chat archived". No reminders and no Zoho checks on a task in review: the lead messages Command Center
-     when a reviewer or the client comes back, and step 2 revives the same chat.
+     <TASK-ID> (Chrome tabs and any automation browser), then reply in one line." Its reply is not a stop to
+     report. Once it is idle, archive it (not where the project's rules say never), mark it ARCHIVED, and tell the
+     lead in one line: "<TASK-ID> in review, tabs closed, chat archived". No reminders and no Zoho checks on a task
+     in review: the lead messages Command Center when a reviewer or the client comes back, and step 2 revives the
+     same chat.
    - Ask the lead first for anything unusual: Stop Developing, reassigning, or editing task fields.
 7. **Command Center handoff (so the next Command Center chat can pick up cold).** Keep the root handoff files current
    at every stop (step 3's one call) and rewrite the summary in full at task milestones (started, plan approved,
@@ -152,7 +161,8 @@ SKILL.md has the thresholds, the safe point and the Worker part.
   rules). Read tasks/<TASK-ID>/plan.md, notes.md and checkpoint.md. The lead's go stands (quote it). Before you change
   anything, re-check the real current state (files, site, DB) against checkpoint.md and report any difference. Then
   continue from the next step." Keep its effort as it was (high for execution).
-- A clear is refused mid-turn (wait until idle) and while the lead has the chat open or pinned: say so at once in one
-  line, "Switch away from <chat link> so I can reset it", and send a chat under 75% "Continue, no reset." instead of
-  leaving it waiting. Never leave a checkpointed chat idle without telling the lead.
+- A clear or an archive is refused mid-turn (wait until idle) and while the lead has the chat open or pinned: say so
+  at once in one line, "Switch away from <chat link> so I can reset (or archive) it", and for a reset send a chat
+  under 75% "Continue, no reset." instead of leaving it waiting. Never leave a checkpointed chat idle without telling
+  the lead.
 - Log each reset in handoff.md (date, task, % at reset), and tell the lead in one line with the chat link.

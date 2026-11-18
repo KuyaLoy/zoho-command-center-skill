@@ -11,7 +11,7 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | A worker messages Command Center | `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id | Add the stop line under "## Stops" at the top of notes.md; tell the lead "Tell Command Center: check <TASK-ID>" |
 | A chat's stop reaches Command Center | its stop message, and the wake note while wake notes are on (step 3) | the lead says "check <TASK-ID>"; read its notes.md |
 | A chat's context % | `get_usage` with its `local_...` id ("self" for your own) | each chat reads its own tool's context meter and checkpoints itself |
-| Usage limits (5-hour, weekly) | `get_usage` (plan) | the tool's usage page, or ask the lead at each start; keep the 2-chat limit |
+| Usage limits (5-hour, weekly), any chat | `get_usage` (its plan part) | the tool's usage page, or ask the lead at each start; keep the 2-chat limit |
 | A chat's state and effort | `get_session` | its notes.md and the board |
 | List your own chats | `list_sessions {"linked": true}`; board rows it misses: `get_session` by id | the board |
 | Set a chat's effort | `set_session_effort` (a level above Command Center's needs the lead's approval) | the lead sets the tool's reasoning or model setting: its highest for "use max", else its standard high |
@@ -21,18 +21,26 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | Rename your own chat | `set_session_title` ("self") | skip |
 | Open a chat beside Command Center | `open_session_in` | the lead opens it |
 | The next-step box | `wrap_up` with `ask` and `actions` (only for a new decision) | a last line "Decide: <question> (<option 1> / <option 2>)" |
-| Resume at a set time | `CronCreate` one-shot (recurring false, minute and hour pinned) with the resume message; this chat must stay open | tell the lead the time; resume on the lead's next message |
-| Record a stop | the handoff skill's stop script | the same where the tool runs commands; else by hand |
-| Read Zoho, post comments, change status | Claude in Chrome | the tool's browser control with the lead's sign-in; without one, draft the comment and the lead posts it |
+| Resume at a set time | `CronCreate` one-shot (recurring false; minute, hour, day and month pinned to the reset) with the resume message; this chat must stay open | tell the lead the time; resume on the lead's next message |
+| Record a stop | the handoff skill's stop script, `scripts/record-stop.sh` (needs a shell) | the same where the tool runs commands; else by hand |
+| Read Zoho, post comments, change status | Claude in Chrome | the tool's browser control with the lead's sign-in; without one, show the lead the comment, tags, transition and Request Review values, and the lead clicks them |
+| Close a task's browser tabs | the browser tools' close-tab action (Chrome, the app's pane, the automation browser) | the lead closes them; name them |
+| Link a chat for the lead | `[title](#local_...)` | its task ID and folder |
 | Live form tests (bot checks) | the app's built-in browser pane | a browser with no AI extension, or the lead submits |
 | Checkpoint before auto-compact | the Context watch (SKILL.md) | the same, from the tool's own meter |
 
 ## One-chat mode (tools without session tools)
-- Command Center runs in one chat and keeps the board, `## Open requests`, the handoff files and the EOD log as usual.
-- Each task keeps its own folder `tasks/<TASK-ID>/` (brief.md, plan.md, notes.md, report.md). The lead opens a task
-  chat with one line: "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's Worker rules".
+- Install: link the skill folder into the tool's skills folder (README); where a tool has no skills, a line in its
+  rules file points to SKILL.md.
+- Command Center keeps its own chat and never does the task. It keeps the board, `## Open requests`, the handoff
+  files and the EOD log as usual; when its tool compacts or the lead starts a new Command Center chat, it starts from
+  the handoff files (step 1).
+- Each task gets its own chat, which the lead opens by hand, and its own folder `tasks/<TASK-ID>/` (brief.md,
+  plan.md, notes.md, report.md), with one line: "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's
+  Worker rules". Briefs keep their wording: "message Command Center" means the "## Stops" line in notes.md.
 - Stops go into the task's notes.md ("## Stops" at the top) and the lead tells Command Center "check <TASK-ID>".
-- Context comes from the tool's own meter, with a checkpoint at each page end from 50% and at 75% at once; the reset
-  is a new chat with the resume message.
+- Context comes from the tool's own meter, with a checkpoint at each page end from 50% and at 75% at once; on
+  "check <TASK-ID>" after a CHECKPOINT, Command Center gives the lead the resume message to paste into a new chat.
+- Close-out: after Request Review, the lead closes the task chat and its tabs; Command Center marks it ARCHIVED.
 - Zoho comments are drafted and shown to the lead as usual; the lead posts them when the tool cannot drive a browser.
 - Every gate stays: the plan, the lead's go, the comment OK, backups, the review at done.

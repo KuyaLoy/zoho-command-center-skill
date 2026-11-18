@@ -1,6 +1,6 @@
 ---
 name: zoho-command-center
-description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app; other AI tools run it in one chat.'
+description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app; in other AI tools the lead opens each chat by hand (one-chat mode).'
 license: MIT
 ---
 
@@ -39,11 +39,11 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - S work that only reads or checks needs no go: do it and report. Live changes, Zoho and the client always need it.
 - A read-only QA or helper chat may run on a cheaper model; never a chat that changes a live site.
 - **Usage pacing** (learned 17 Nov 2026: four chats at once used 97% of the 5-hour limit; the stops were raised later,
-  as 75% wasted a quarter of the window): at most 2 chats working at once; more wait as QUEUED. Check the usage limits
-  before starting or resuming any chat. Every working chat stops at its next safe point at 95% of the 5-hour limit and
-  at 80% of the weekly limit; Command Center then sets the resume time, says it once and resumes on its own (step 3).
-  A project the lead tells "don't stop" (quoted and dated in its handoff.md rules) runs on to 100%. Commit or save
-  after every step, so a stop leaves a clean state.
+  as 75% wasted a quarter of the window): at most 2 chats working at once (QA and review chats count); more wait as
+  QUEUED. Check the usage limits before starting or resuming any chat. Every working chat stops at its next safe
+  point at 95% of the 5-hour limit and at 80% of the weekly limit; Command Center then sets the resume time, says it
+  once and resumes on its own (step 3). A project the lead tells "don't stop" (quoted and dated in its handoff.md
+  rules) runs on to 100%. Commit or save after every step, so a stop leaves a clean state.
 - **Builds** (a whole site or design from Figma, HTML, Next.js or another stack; learned 18 Nov 2026: multi-chat builds
   cost far more usage than the work needed): one task chat builds it with the figma-to-wordpress or
   convert-to-wordpress skill. `references/builds.md` is retired: it is kept only for a build already running with
@@ -76,7 +76,7 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     "Proceed: wait" came back after every click while waiting for a usage reset; replaces the 17 Nov rule "a box every
     turn"). One decision, the first button its recommendation "Proceed: <action>", the second a realistic
     alternative. Once the lead has confirmed a wait, a schedule or "later", turns end with the recap and the Next line
-    only, no buttons, until something new needs a decision.
+    only, no buttons, until something new needs a decision (another chat's question or go, a new task, a blocker).
   - One go covers the whole plan. After it, don't ask again for steps the plan described. Ask again only for what the
     plan marked as needing its own OK (a Zoho comment's text, publishing) or when reality differs (RE-PLAN).
   - **No silent idle** (learned 17 Nov 2026): a turn that stops without the work going on (plan ready, waiting on
@@ -137,7 +137,8 @@ Task chats don't need that file.
 ## Context watch: never let a task chat hit auto-compact (learned 11 Nov 2026)
 Why: a task chat that ran to 100% auto-compacted mid-work, lost track and broke a website. So we reset early, at a safe
 point, from a checkpoint on disk: the chat writes a checkpoint, Command Center clears it (an idle task chat it
-started, never itself) and sends a resume message. Auto-compact starts at about 97%.
+started, never itself) and sends a resume message (other tools: the lead opens a new chat with that message).
+Auto-compact starts at about 97%.
 
 Thresholds (context % of the task chat; set 17 Nov 2026: a flat 50% cut work off mid-page, so finish the page first):
 - **Under 50%:** nothing to do: keep working. A chat checkpoints only at the threshold in force (the brief's or plan's,
@@ -159,9 +160,11 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   safe to clear." and end your turn. Don't start new work after that line.
 
 ## Worker rules (task chat)
-- **In the Claude desktop app:** your context % is `get_usage` ("self"); a message to Command Center is
-  `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id. In any other tool, read
-  `references/tool-map.md` once at start (one-chat mode: stops go into notes.md).
+- **In the Claude desktop app:** `get_usage` ("self") gives your context % and the usage limits; a message to
+  Command Center is `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id. In any
+  other tool, read `references/tool-map.md` once at start (one-chat mode: "message Command Center" means a line under
+  "## Stops" in notes.md).
+- The lead says "use max" here: tell Command Center in one line ("USE MAX: <TASK-ID> <for what>"); it raises you.
 - Phase 1, plan (at high, or max when the lead said "use max"; if you run below that, say so in one line at the top
   of your report): investigate yourself, decide local vs live, and plan at the size's length ("Task size and effort").
   Verify the brief's key facts; don't redo research the brief already gives. M and L: `tasks/<TASK-ID>/plan.md` with
@@ -192,7 +195,10 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
     Zoho, what is verified vs not, open items for the client, and anything that changes how the Zoho comment or
     status should be posted (e.g. part of the definition of done still waits on the client).
   - Answer Command Center's follow-up questions about the work directly (review, comment draft); never post in Zoho.
-  - Told the task is in review: close every browser tab you opened for it, reply in one line, and end your turn.
+  - Told the task is in review: close every browser tab you opened for it, reply in one line (not a stop report),
+    and end your turn.
+- A follow-up after review (a revive): plan it like a new task at its size and wait for the lead's go in this chat;
+  the earlier go covered the earlier plan only.
 - Final report `tasks/<TASK-ID>/report.md`, once the work is done and verified, standing alone (a revived chat works
   from it): "DONE:" first; what changed, how you verified it (counts, URLs checked), what is not verified, rollback
   location, decisions and obvious fixes made, clarifications for the client, what the client or another team must do,

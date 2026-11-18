@@ -26,8 +26,9 @@ skill that task chats carry at about half the size and other AI tools can run.
   lead message and follow-up.
 - One signal per stop: a wake note and a stop message for the same stop are one reply; wake notes stay on until a test
   shows the stop message always arrives (step 3).
-- One call to the handoff skill's stop script per stop records the EOD line, the summary's Last change and Next action
-  and the board row; without it, the same records by hand (steps 3 and 7).
+- One call to the handoff skill's stop script (`scripts/record-stop.sh`, handoff 1.3) per stop records the EOD line,
+  the summary's Last change and Next action and the board row; without it, the same records by hand (steps 3 and 7).
+- Routing (step 2) also searches the board's archived rows in `handoff-archive.md`.
 - Effort: high for every size, L included; max only when the lead says "use max". The max switch for L chats (raise
   after start, stopped first turn, back to high at PLAN READY, re-plan at max) is removed. L keeps its full plan and
   its review chat (now at high).
@@ -39,6 +40,11 @@ skill that task chats carry at about half the size and other AI tools can run.
 - `references/tool-map.md`: each action, its Claude desktop tool and what to do in other AI tools, plus one-chat
   mode (task folders, stops in notes.md, the lead opens task chats and posts drafted Zoho comments when needed).
 - A project's own rules in its handoff.md win over the skill's defaults (for example a project that never archives).
+- A revived chat plans its follow-up and waits for the lead's go; the earlier go covered the earlier plan only.
+- "use max" said in a task chat: the chat tells Command Center ("USE MAX: <TASK-ID> <for what>"), which raises it.
+- QA and review chats count toward the 2-chat limit. The usage-pause resume message, one message to the lead for all
+  paused chats, and resuming at the lead's next message when the timer did not fire.
+- Archive refusals (the lead has the chat open) are handled like clear refusals; the tab-close reply is not a stop.
 
 ### Docs
 
