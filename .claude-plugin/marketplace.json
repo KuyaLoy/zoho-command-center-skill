@@ -6,7 +6,7 @@
     {
       "name": "zoho-command-center",
       "source": "./",
-      "description": "PM/TL workflow for Zoho Projects tasks in the Claude desktop app.",
+      "description": "PM/TL workflow for Zoho Projects tasks and any other task, in the Claude desktop app or one chat elsewhere.",
       "category": "productivity"
     }
   ]

@@ -1,14 +1,16 @@
 # zoho-command-center
 
-A Claude Code skill (packaged as a plugin) for running Zoho Projects tasks, and any other task, the way a PM or tech
-lead would, with the Claude desktop app:
+A skill (packaged as a Claude Code plugin, in the open Agent Skills format) for running Zoho Projects tasks, and any
+other task, the way a PM or tech lead would. It runs in full in the Claude desktop app and in one chat in other AI
+tools:
 
 - **One Command Center chat per project** gives each task (a Zoho link, a client message, BugHerd, Slack, your own
   idea) its own task chat: the same link or task ID always goes back to the same chat, an archived chat is revived
   from its report and notes. It keeps a task board and your open requests in `handoff.md`, a daily EOD log in `eod/`,
   reviews finished work, and owns the Zoho comments and status changes. It answers from files and checks, not memory.
-- **Effort that fits the task:** small and normal tasks are planned and done at high effort with short plans; large or
-  risky ones (go-lives, migrations, database work) are planned at max and their review at done runs at max.
+- **Effort and plans that fit the task:** every task runs at high effort (max when you say "use max"); small tasks get
+  a 5-line plan, normal ones about 20 lines, large or risky ones (go-lives, migrations, database work) a full plan and
+  a review chat at done.
 - **Task chats** do only the task: short plans, sensible defaults and obvious fixes decided themselves and listed in
   the report, questions only for blockers. They may work locally right after the plan and wait for your go before
   anything live, log in `tasks/<TASK-ID>/`, and report every stop to Command Center. One go covers the whole plan.
@@ -22,15 +24,19 @@ lead would, with the Claude desktop app:
   tell "don't stop" runs on to 100%).
 - **Builds** run in one task chat with a conversion skill (figma-to-wordpress or convert-to-wordpress);
   `references/builds.md` is kept only for builds already running with builder and QA chats.
-- **Tidy:** at close-out Command Center asks "Close tabs and archive?"; task chats idle for 2 days are archived.
+- **Quiet close-out:** once a task is in review, Command Center closes the tabs, archives its chat and tells you in
+  one line, with no follow-up questions; you message it when a reviewer or the client comes back, and the same chat is
+  revived. The question box only appears for a new decision. Task chats idle for 2 days are archived.
 
 It came out of daily use on more than 20 client projects; the rules carry the lessons learned there.
 
 ## Requirements
 
-- The **Claude desktop app, Code tab**. Command Center starts and steers chats with the app's session tools
-  (start a chat, set its effort, read its context %, clear it), so the skill does not work in a plain chat app or in
-  other agents.
+- The **Claude desktop app, Code tab**, for the full workflow: Command Center starts and steers chats with the app's
+  session tools (start a chat, set its effort, read its context %, clear it).
+- **Other AI tools** (Claude Code in a terminal, Codex, Cursor, Antigravity, OpenCode, Cline, Devin Desktop and others
+  that read Agent Skills): one-chat mode. Each task keeps its folder, you open task chats with one line, and stops go
+  into the task's notes. `references/tool-map.md` lists each action and what to do there.
 - **Claude in Chrome**, for reading Zoho tasks and posting comments.
 - A **Zoho Projects** portal.
 
@@ -55,7 +61,9 @@ this to `~/.claude/settings.json`:
 }
 ```
 
-Without the plugin system: copy `skills/zoho-command-center/` into `~/.claude/skills/` (no automatic updates).
+Without the plugin system, or for another AI tool: clone this repository once and link (or copy)
+`skills/zoho-command-center/` into the tool's skills folder (`~/.claude/skills/`, `~/.agents/skills/`, or the folder
+your tool documents). A clone updates with `git pull --ff-only`.
 
 ## Set it up (once)
 
@@ -87,8 +95,9 @@ Then open a new chat.
    same task's chat when it has one), and tells you in one line where it went. Say "send it to X" to override.
 3. Talk to the task chat directly: read its plan, answer its questions, say **go** there.
 4. When it reports DONE, Command Center reviews the work. Zoho tasks: it shows you the Zoho comment draft with the
-   tags; say OK, and it posts the comment, moves the status, and asks "Close tabs and archive?". Other tasks: it gives
-   you a reply or report draft to send. Say "EOD" for the day's summary.
+   tags; say OK, and it posts the comment, moves the status, requests review, then closes the tabs and archives the
+   task chat without asking. Other tasks: it gives you a reply or report draft to send. Say "EOD" for the day's
+   summary.
 
 ## Update
 
@@ -130,8 +139,10 @@ client document before your go, never posts in Zoho without your OK on the exact
 ```
 .claude-plugin/plugin.json         the plugin
 .claude-plugin/marketplace.json    this repo as a one-plugin marketplace
-skills/zoho-command-center/SKILL.md the workflow and its rules
-skills/zoho-command-center/references/builds.md  builds already running with builder and QA chats
+skills/zoho-command-center/SKILL.md the shared rules and the task chat (Worker) rules
+skills/zoho-command-center/references/command-center.md  Command Center's steps 1 to 7
+skills/zoho-command-center/references/tool-map.md  each action's tool, and one-chat mode for other AI tools
+skills/zoho-command-center/references/builds.md  retired: builds already running with builder and QA chats
 CHANGELOG.md                       what changed in each version
 AGENTS.md                          rules for changing the skill
 ```

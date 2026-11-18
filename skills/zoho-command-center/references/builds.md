@@ -1,5 +1,8 @@
 # Builds with builder and QA chats
 
+**Retired** (2.1.0): new builds run in one task chat with the figma-to-wordpress or convert-to-wordpress skill. This
+file is kept only for a build already running with builder and QA chats, and is removed once that build ends.
+
 Read this when one site or design is built by several chats in phases. Everything in SKILL.md still applies; this
 file adds the build rules (learned 17 Nov 2026 on a multi-chat design build).
 

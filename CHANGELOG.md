@@ -5,6 +5,46 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-11-18
+
+A quiet close-out, the question box only for a new decision, fewer steps per stop, high effort for every size, and a
+skill that task chats carry at about half the size and other AI tools can run.
+
+### Changed
+
+- Split: SKILL.md keeps the settings, sizes, roles, shared rules, Context watch thresholds and the Worker rules
+  (33 KB to 19 KB, the text every task chat carries). Command Center's steps 1 to 7 (numbers unchanged) and its part
+  of the Context watch move to `references/command-center.md`, read by Command Center at start and after any reload.
+- Close-out (step 6): after Request Review, Command Center closes its tabs, has the task chat close its own, archives
+  the chat once it is idle and tells the lead in one line. No "Close tabs and archive?" question, no reminders and no
+  Zoho checks on a task in review; the lead messages Command Center when someone comes back and the same chat is
+  revived. Stop Developing, reassigning and editing task fields are still asked first. The Browser tabs rule matches.
+- The next-step box only for a new decision (replaces "a box every turn", 17 Nov). After the lead confirms a wait, a
+  schedule or "later", turns end with the recap and the Next line only.
+- Usage pause: Command Center sets the resume time, says it once and resumes on its own (step 3).
+- Context checks on working chats only at PLAN READY and at each stop (step 3 and 4), no longer on every wake note,
+  lead message and follow-up.
+- One signal per stop: a wake note and a stop message for the same stop are one reply; wake notes stay on until a test
+  shows the stop message always arrives (step 3).
+- One call to the handoff skill's stop script per stop records the EOD line, the summary's Last change and Next action
+  and the board row; without it, the same records by hand (steps 3 and 7).
+- Effort: high for every size, L included; max only when the lead says "use max". The max switch for L chats (raise
+  after start, stopped first turn, back to high at PLAN READY, re-plan at max) is removed. L keeps its full plan and
+  its review chat (now at high).
+- Steps in plain words, so other AI tools can follow them; the description no longer says Claude desktop only.
+- `references/builds.md` is marked retired: kept only for a build already running with builder and QA chats.
+
+### Added
+
+- `references/tool-map.md`: each action, its Claude desktop tool and what to do in other AI tools, plus one-chat
+  mode (task folders, stops in notes.md, the lead opens task chats and posts drafted Zoho comments when needed).
+- A project's own rules in its handoff.md win over the skill's defaults (for example a project that never archives).
+
+### Docs
+
+- README: other AI tools (one-chat mode, install by clone and link), the quiet close-out, effort high for every size,
+  the new reference files. AGENTS.md: the reference files, frontmatter fields and plain-word steps.
+
 ## [2.0.1] - 2026-11-18
 
 ### Fixed

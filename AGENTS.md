@@ -4,9 +4,11 @@ This repository is the **zoho-command-center** skill, packaged as a Claude Code 
 
 ## Using it
 
-Read `skills/zoho-command-center/SKILL.md` and follow it. It needs the Claude desktop app (Code tab). Detail that
-only some tasks need lives next to it in `references/` (for example `references/builds.md`); SKILL.md says when to
-read it. The line cap is for SKILL.md only.
+Read `skills/zoho-command-center/SKILL.md` and follow it. The full workflow needs the Claude desktop app (Code tab);
+other AI tools run it in one chat (`references/tool-map.md`). Command Center's steps live in
+`references/command-center.md`; SKILL.md says when to read each file in `references/`. The line cap is for SKILL.md
+only. Keep the frontmatter to `name`, `description` and `license`, and write steps in plain words: tool names belong
+in the tool map.
 
 ## Changing the skill
 
@@ -14,8 +16,8 @@ read it. The line cap is for SKILL.md only.
   English, no dashes as punctuation.
 - No real names of people, clients, companies, portals, sites or internal task IDs. Examples use "Alex Example",
   "ABC1-T8" and example.com. Personal details belong in each user's settings block (README), never in the skill.
-- Keep the section names and the Command Center step numbers 1 to 7 stable: chats in the middle of a task may
-  reload the skill. Add new items as sub-bullets.
+- Keep the section names and the Command Center step numbers 1 to 7 (in `references/command-center.md`) stable:
+  chats in the middle of a task may reload the skill. Add new items as sub-bullets.
 - Every rule says what to do; add the date it was learned when the reason helps.
 - Before a change is done:
   - `claude plugin validate . --strict` passes;
