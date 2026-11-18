@@ -9,14 +9,18 @@ tools:
   from its report and notes. It keeps a task board and your open requests in `handoff.md`, a daily EOD log in `eod/`,
   reviews finished work, and owns the Zoho comments and status changes. It answers from files and checks, not memory.
 - **Effort and plans that fit the task:** every task runs at high effort (max when you say "use max"); small tasks get
-  a 5-line plan, normal ones about 20 lines, large or risky ones (go-lives, migrations, database work) a full plan and
-  a review chat at done.
+  a 5-line plan, normal ones about 20 lines, large or risky ones (go-lives, migrations, database work) about 40 lines,
+  with no hour estimates.
 - **Task chats** do only the task: short plans, sensible defaults and obvious fixes decided themselves and listed in
-  the report, questions only for blockers. They may work locally right after the plan and wait for your go before
-  anything live, log in `tasks/<TASK-ID>/`, and report every stop to Command Center. One go covers the whole plan.
+  the report, questions only for blockers. Until your go on the plan they only read and plan (no download, local
+  copy or install); a site copy goes in the project folder itself (`<folder>.test`). They log in `tasks/<TASK-ID>/`
+  and report every stop to Command Center. One go covers the whole plan.
   Unrelated problems are only listed, except a hacked site or malware, which is fixed with the task and reported.
-- **Gates you control:** nothing live changes before your go, no Zoho comment is posted before you OK the exact text
-  and tags, and the Zoho status only moves after the work is done and verified.
+- **QA before every Zoho post:** a separate, read-only QA chat checks the work; Command Center sends its findings to
+  the task chat, which fixes them, and QA checks again until it finds nothing.
+- **Gates you control:** nothing changes before your go, no Zoho comment is posted before you OK the exact text, tags
+  and status steps, and the Zoho status only moves after the work is done and verified (then it always moves to
+  review, so it never sits in "Ready For Development" while waiting on a reviewer).
 - **Context watch and pacing:** from 50% context a task chat finishes the page it is on, then checkpoints to disk and
   resets (75% is the hard cap). That is long before auto-compact, so no chat loses track mid-work. Command Center
   never clears its own chat: it keeps the handoff files current at every stop instead. At most 2 chats work at once,
@@ -24,8 +28,9 @@ tools:
   tell "don't stop" runs on to 100%).
 - **Builds** run in one task chat with a conversion skill (figma-to-wordpress or convert-to-wordpress);
   `references/builds.md` is kept only for builds already running with builder and QA chats.
-- **Quiet close-out:** once a task is in review, Command Center closes the tabs, archives its chat and tells you in
-  one line, with no follow-up questions; you message it when a reviewer or the client comes back, and the same chat is
+- **Quiet close-out:** one short Zoho comment (greeting, links, "Done:" one line per item, the CC line), then the
+  status moves to review; Command Center closes the tabs, archives the task and QA chats and tells you in one line,
+  with no follow-up questions. You message it when a reviewer or the client comes back, and the same chats are
   revived. The question box only appears for a new decision. Task chats idle for 2 days are archived.
 
 It came out of daily use on more than 20 client projects; the rules carry the lessons learned there.
@@ -118,9 +123,10 @@ Then open a new chat.
 2. Paste a task: a Zoho task link, or any request. Command Center sizes it (S, M or L), gives it its own chat (the
    same task's chat when it has one), and tells you in one line where it went. Say "send it to X" to override.
 3. Talk to the task chat directly: read its plan, answer its questions, say **go** there.
-4. When it reports DONE, Command Center reviews the work. Zoho tasks: it shows you the Zoho comment draft with the
-   tags; say OK, and it posts the comment, moves the status, requests review, then closes the tabs and archives the
-   task chat without asking. Other tasks: it gives you a reply or report draft to send. Say "EOD" for the day's
+4. When it reports DONE, Command Center has a QA chat check the work, and the task chat fixes what QA finds until
+   QA finds nothing. Zoho tasks: Command Center then shows you the short comment draft with the tags and the status
+   steps; say OK, and it posts the comment, moves the status to review, then closes the tabs and archives the task
+   and QA chats without asking. Other tasks: it gives you a reply or report draft to send. Say "EOD" for the day's
    summary.
 
 ## Update

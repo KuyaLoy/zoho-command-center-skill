@@ -38,9 +38,12 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 - Each task gets its own chat, which the lead opens by hand, and its own folder `tasks/<TASK-ID>/` (brief.md,
   plan.md, notes.md, report.md), with one line: "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's
   Worker rules". Briefs keep their wording: "message Command Center" means the "## Stops" line in notes.md.
+- QA chat (step 5): Command Center writes `tasks/<TASK-ID>/qa/brief.md` and the lead opens it like a task chat;
+  findings go to the task chat as a dated "## Follow-up" in its brief.md ("fix every item in qa/qa-<n>.md").
 - Stops go into the task's notes.md ("## Stops" at the top) and the lead tells Command Center "check <TASK-ID>".
 - Context comes from the tool's own meter, with a checkpoint at each page end from 50% and at 75% at once; on
   "check <TASK-ID>" after a CHECKPOINT, Command Center gives the lead the resume message to paste into a new chat.
-- Close-out: after Request Review, the lead closes the task chat and its tabs; Command Center marks it ARCHIVED.
+- Close-out: after Request Review, the lead closes the task and QA chats and their tabs; Command Center marks the
+  row ARCHIVED.
 - Zoho comments are drafted and shown to the lead as usual; the lead posts them when the tool cannot drive a browser.
 - Every gate stays: the plan, the lead's go, the comment OK, backups, the review at done.

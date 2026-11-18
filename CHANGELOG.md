@@ -5,6 +5,45 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-11-18
+
+Lessons from the first real task on 2.1: no change before the go, the site in the project folder, QA before every
+Zoho post, a short comment with the status steps, lean plans and EOD, and one close-out sequence.
+
+### Changed
+
+- No change before the go (SKILL.md shared rules, Worker Phase 1 and 2, the brief in step 2): Phase 1 only reads and
+  plans, with no download to work from, local copy, install or change anywhere; an answer, a route choice or a
+  preference is not a go (re-plan, PLAN READY, wait). Replaces "local work may start right after the plan". A serious
+  finding is reported at once and fixed after the go.
+- QA before every Zoho post, every size (step 5): a separate read-only QA chat; QA REPORT -> Command Center -> the task
+  chat fixes and reports FIXED -> QA re-checks, until 0 findings. An L task's QA chat runs at high on the main model
+  and is its review (replaces the L review chat). The QA chat is archived with the task chat and revived for its
+  follow-ups (step 2).
+- One close-out sequence (step 6): QA 0 -> comment, tags and status steps in one OK message -> post -> status ->
+  close tabs -> archive the task and QA chats -> EOD line IN REVIEW -> one line to the lead.
+- The Zoho comment in a fixed short shape: greeting, what is ready, links, "Done:" one line per item in the task's
+  order, one line on live or staging, a client question only when needed, one line for a serious fix, the CC line. No
+  methods, side notes, backup names or "please confirm" lists.
+- Status follows the work: a hand-over comment (staging review or done) carries the start transition and Request
+  Review in the same OK message, done right after posting; the status never stays "Ready For Development" while the
+  work waits on a review.
+- Plans: L about 40 lines, no hour or time estimates for any size. EOD: one line per stop in the handoff skill's
+  format, IN REVIEW once the work waits on a reviewer or the client, no custom EOD blocks (step 3).
+
+### Added
+
+- The project folder is the site (SKILL.md): a local copy, clone or Duplicator install goes in the project folder
+  (`<folder>.test`), backups in `tasks/<TASK-ID>/backup/`, a sibling `<folder>-old` only for a redesign. Step 1's
+  whole-folder web block then gives way to the handoff skill's file block plus `tasks/` and `eod/` blocks, each
+  checked for 403.
+- QA chat rules and the FIXED stop in the Worker rules; the QA chat in one-chat mode (tool map).
+
+### Docs
+
+- README: QA before every Zoho post, no change before the go, the site in the project folder, the short comment and
+  status steps.
+
 ## [2.1.3] - 2026-11-18
 
 ### Fixed

@@ -29,7 +29,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 |---|---|---|---|
 | S | one small, reversible change (a text, a setting, a redirect, one section), a check, an investigation, local-only work | high | about 5 lines in the first reply (what, where, backup, how it is checked), copied to plan.md |
 | M | everything else: the usual task | high | plan.md of about 20 lines |
-| L | a go-live or launch, migration, DNS, database change or restore, bulk changes over many pages, live checkout, payments or tracking, anything hard to undo | high | full plan.md, and a review chat at done |
+| L | a go-live or launch, migration, DNS, database change or restore, bulk changes over many pages, live checkout, payments or tracking, anything hard to undo | high | plan.md of about 40 lines; its QA chat runs at high as the review |
+- **Lean plans** (learned 18 Nov 2026): keep to the size's length; no hour or time estimates; detail goes in notes.md.
 - **High for every size** (learned 16 and 18 Nov 2026: max made planning slow, and switching L chats to max and back
   cost an approval and about 6 steps per task). Max only when the lead says "use max" for a task (its plan, its
   review or all of it). Medium only by exception, when high is really not needed: work that only reads or follows
@@ -85,8 +86,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     someone, checkpoint, usage pause, blocked, a part done) ends with a short report: what was done, the state,
     decisions taken (defaults chosen) and the Next line; the recap opens with the stop reason. The stop also goes to
     Command Center as one message, whoever started the turn (Worker rules). No FYIs or duplicates.
-  - Quality stays fixed: best practice for the stack, a backup before any change, verification that proves each item,
-    Command Center's review at done. Faster means fewer messages and shorter plans, never skipped checks.
+  - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
+    proves each item, a separate QA chat before every Zoho post (until it finds 0) and Command Center's review. Faster
+    means fewer messages and shorter plans, never skipped checks.
 - **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026). The lead
   talks to each task chat directly (instructions, follow-ups, questions, plan approval, the go); task chats ask the
   lead there. Command Center doesn't re-ask their questions or go requests or copy their plans; it routes and starts
@@ -105,14 +107,24 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     decides those after the task is submitted, only ones we can fix ourselves; ones needing the client are dropped.
   - **Except a serious one** (learned 18 Nov 2026): a hacked site, malware, injected spam or a backdoor. Tell the lead
     in one line when you find it and add the fix to the plan (backup first; the task's go covers it; the task itself
-    still gets done). Report it under "Serious finding (fixed)": what was found, what was removed, how it was checked.
+    still gets done). The fix waits for the go like every step. Report it under "Serious finding (fixed)": what was
+    found, what was removed, how it was checked.
   - Work the lead calls "our initiative": do it as its own step, keep it out of the task's Zoho comment and status,
     and report it as "INITIATIVE DONE".
 - What we can fix on our side for the task, we fix and prove working. What only the client or another team can do
   (their DNS such as SPF/DKIM/DMARC, servers or logins we don't have) goes back to the task creator and the client in
   the Zoho comment or the reply draft, with exactly what they need to do. Don't chase it further (learned 9 Nov 2026).
-- Plan first. Local work (a local copy, a branch, drafts) may start right after the plan. No changes to live sites,
-  CMS, hosting, Zoho or client docs, and nothing sent to the client, until the lead says go.
+- **No change before the go** (learned 18 Nov 2026: a task chat took the lead's answer about the route as a go and
+  started a download and a local copy before its plan existed; replaces "local work may start right after the
+  plan"). Before the lead's go on the plan, only read and plan: no downloads to work from, no local copy or clone, no
+  installs, no change to files, databases, Zoho, live sites or client docs, nothing sent to the client. An answer, a
+  route choice or a preference is not a go: re-plan, report PLAN READY and wait for an explicit go on that plan.
+- **The project folder is the site** (learned 18 Nov 2026: a copy in a sibling folder split the project). A local
+  copy, clone or Duplicator install goes in the project folder itself, so the local URL is `<folder>.test`, matching
+  the live name (folder "example" -> example.test for example.com). Backups go in `tasks/<TASK-ID>/backup/` (kept off
+  the web, out of git and deploys), never in sibling folders. Only for a redesign: the old site is the sibling
+  `<folder>-old` (`<folder>-old.test`), removed after go-live on the lead's OK. Once a site is in the folder, the root
+  is a web root: block the handoff files, `tasks/` and `eod/` as the handoff skill says, and check a 403 for each.
 - Delete pages, menus, media, options or records only by explicit IDs, after a dry-run list, a count check and a
   database backup, never by a filter. Tag scratch content with one marker (learned 17 Nov 2026: a filtered list
   command ignored its filter and deleted every page; restored from the backup).
@@ -167,18 +179,22 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   other tool, read `references/tool-map.md` once at start (one-chat mode: "message Command Center" means a line under
   "## Stops" in notes.md).
 - The lead says "use max" here: tell Command Center in one line ("USE MAX: <TASK-ID> <for what>"); it raises you.
-- Phase 1, plan (at high, or max when the lead said "use max"; if you run below that, say so in one line at the top
-  of your report): investigate yourself, decide local vs live, and plan at the size's length ("Task size and effort").
-  Verify the brief's key facts; don't redo research the brief already gives. M and L: `tasks/<TASK-ID>/plan.md` with
-  approach, method, backup and rollback, verification (prove every item is done), decisions taken (defaults chosen)
-  and real blockers only; L adds dry run, risks and a time estimate. S: about 5 lines, in your reply and in plan.md.
-  Default to implementing the source doc verbatim. Report PLAN READY (result first, approach in 2-3 lines, blockers),
-  then go on with local work only (a local copy, a branch, drafts). S work that only reads or checks: do it, DONE.
-- Phase 2, live (high, also for every follow-up after the go): live changes, Zoho and anything for the client only
-  after the lead's go in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks
-  refuse a relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command
-  Center reads it there. Follow the plan; if reality differs, stop and report instead of improvising outside scope,
-  and re-plan (below).
+- Phase 1, plan, read-only (at high, or max when the lead said "use max"; if you run below that, say so in one line
+  at the top of your report): investigate by reading only (No change before the go), decide local vs live, and plan
+  at the size's length ("Task size and effort"). Verify the brief's key facts; don't redo research the brief already
+  gives. M and L: `tasks/<TASK-ID>/plan.md` with approach, method, where the site goes (The project folder is the
+  site), backup and rollback, verification (prove every item is done), decisions taken (defaults chosen) and real
+  blockers only; L adds dry run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the
+  source doc verbatim. Report PLAN READY (result first, approach in 2-3 lines, blockers) and end your turn. S work
+  that only reads or checks: do it, DONE.
+- Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go
+  on the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
+  relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center
+  reads it there. Follow the plan; if reality differs, stop and report instead of improvising outside scope, and
+  re-plan (below).
+- **QA findings** (Command Center sends QA's list before any Zoho post): fix every item in one pass inside the plan
+  and its go (an item that needs more is a RE-PLAN), verify each, update report.md, and report "FIXED: <TASK-ID>
+  <n> items" with how each was checked. QA then re-checks; repeat until QA finds 0.
 - A new task from Command Center: finish or park the current one first (DONE, or only waiting on the lead), then start
   Phase 1 for the new task in its own folder `tasks/<NEW-ID>/`. Put the task ID in every milestone message. After a
   revive or a reset: read report.md and notes.md (and checkpoint.md) first, and re-check the current state.
@@ -188,8 +204,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - **Talk to Command Center directly at each milestone** (learned 11 Nov 2026), without the lead having to ask:
   - Every stop (No silent idle), the lead's own turns included, as one message of at most 4 lines: "<TYPE>: <TASK-ID>
     <why it stopped>. Decisions: <defaults taken, or none>. Next: <step> — waiting on <who>". TYPE is PLAN READY (with
-    the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT. A serious finding gets
-    its one line to the lead and Command Center when found.
+    the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, FIXED, BLOCKED or CHECKPOINT. A serious
+    finding gets its one line to the lead and Command Center when found.
   - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan, re-plan
     right away at your current effort (every size) and report PLAN READY again. A question that changes nothing is
     answered right away.
@@ -201,6 +217,12 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
     and end your turn.
 - A follow-up after review (a revive): plan it like a new task at its size and wait for the lead's go in this chat;
   the earlier go covered the earlier plan only.
+- **A QA chat** (Command Center step 5; learned 18 Nov 2026: QA found 3 issues after a comment was already posted):
+  read-only, never fixes or posts. Check every item of the source doc against the real result (the site, staging or
+  live, and the files) and the task chat's report.md; also links, forms, mobile and console errors where the task
+  touches them. Write one consolidated list to `tasks/<TASK-ID>/qa/qa-<n>.md` (item, where, expected, found) and send
+  Command Center "QA REPORT: <TASK-ID> <n> findings" with the path. A re-check covers the fixed items and what they
+  touch, then the same report; "0 findings" ends QA.
 - Final report `tasks/<TASK-ID>/report.md`, once the work is done and verified, standing alone (a revived chat works
   from it): "DONE:" first; what changed, how you verified it (counts, URLs checked), what is not verified, rollback
   location, decisions and obvious fixes made, clarifications for the client, what the client or another team must do,
