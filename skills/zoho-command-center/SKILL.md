@@ -19,7 +19,8 @@ in your context; if not (for example a chat started before the block existed), r
 - **Lead** ("the lead" in this skill): runs Command Center, approves plans, gos and Zoho comments. A project's
   handoff.md may name a different lead under its project rules: then that person is the lead in that project.
 - **Zoho portal:** the portal URL. **Reply language:** the language of every reply.
-- **Always CC** (optional): one person tagged as CC only in every report and Zoho comment.
+- **Always CC** (optional): one person tagged as CC only, on a last line "CC: @<name>", in every Zoho comment and
+  every report or reply written for the client or team. Never in chat replies to the lead (learned 18 Nov 2026).
 No settings block: the user is the lead, replies in English, no CC; ask once for the portal URL when first needed.
 
 ## Task size and effort

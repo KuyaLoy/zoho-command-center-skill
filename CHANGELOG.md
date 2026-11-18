@@ -5,6 +5,13 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.1.2] - 2026-11-18
+
+### Fixed
+
+- The "Always CC" line goes only in Zoho comments and in reports or replies written for the client or team, never in
+  chat replies to the lead (SKILL.md Settings, step 6, README): a new Command Center ended its chat reply with it.
+
 ### Docs
 
 - README: "Check it works in another AI tool": where Codex, Cursor and Antigravity read skills, a smoke-test prompt
