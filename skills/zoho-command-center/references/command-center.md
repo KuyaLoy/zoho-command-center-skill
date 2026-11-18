@@ -76,8 +76,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - **Context check:** check that chat's context % here, at its stops, and at PLAN READY (step 4), nowhere else
      (learned 18 Nov 2026: task chats check themselves at each step). Put the % in the board's Phase column.
    - When the next step is the lead's go or answer in that chat, the last line is "Next: give your go / answer in
-     [ABC1-T8 chat](#local_...) — waiting on you"; the box offers "Proceed: open <chat>" (beside this chat) and
-     "Later". After "Later", no box until that chat's next stop.
+     [ABC1-T8 chat](#local_...) — waiting on you". Report only: no box, no button and no "open <chat>" for it (the
+     lead's rule, 18 Nov 2026: fewer clicks; he answers in the task chat's own box). Open a chat beside this one only
+     when the lead asks.
    - Whether the lead gave a task chat its go: read its notes.md, where the chat quotes it. Never read transcripts for
      it (costly, and a summary can mislead); no quote there means no go yet.
    - **Record the stop in one call** (learned 18 Nov 2026: 3 or 4 edits per stop): the handoff skill's stop script

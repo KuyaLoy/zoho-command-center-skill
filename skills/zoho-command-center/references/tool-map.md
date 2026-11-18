@@ -19,7 +19,7 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | Stop a chat | `stop_session` (only when the lead asks) | the lead stops it |
 | Archive or revive a chat | `archive_session`, `unarchive_session` | the lead closes or reopens it; the revive message is the same |
 | Rename your own chat | `set_session_title` ("self") | skip |
-| Open a chat beside Command Center | `open_session_in` | the lead opens it |
+| Open a chat beside Command Center (only when the lead asks) | `open_session_in` | the lead opens it |
 | The next-step box | `wrap_up` with `ask` and `actions` (only for a new decision) | a last line "Decide: <question> (<option 1> / <option 2>)" |
 | Resume at a set time | `CronCreate` one-shot (recurring false; minute, hour, day and month pinned to the reset) with the resume message; this chat must stay open | tell the lead the time; resume on the lead's next message |
 | Record a stop | the handoff skill's stop script, `scripts/record-stop.sh` (needs a shell) | the same where the tool runs commands; else by hand |

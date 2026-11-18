@@ -5,6 +5,14 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-11-18
+
+### Changed
+
+- A task chat waiting on the lead's go or answer is only reported (step 3): no box, no button and no "open <chat>"
+  for it; the lead answers in the task chat's own box (the lead's rule, 18 Nov 2026: fewer clicks). Command Center
+  opens a chat beside itself only when the lead asks. The box rule in SKILL.md matches.
+
 ## [2.1.0] - 2026-11-18
 
 A quiet close-out, the question box only for a new decision, fewer steps per stop, high effort for every size, and a

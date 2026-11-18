@@ -76,7 +76,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     "Proceed: wait" came back after every click while waiting for a usage reset; replaces the 17 Nov rule "a box every
     turn"). One decision, the first button its recommendation "Proceed: <action>", the second a realistic
     alternative. Once the lead has confirmed a wait, a schedule or "later", turns end with the recap and the Next line
-    only, no buttons, until something new needs a decision (another chat's question or go, a new task, a blocker).
+    only, no buttons, until something new needs a decision in Command Center itself (a new task, a blocker). A task
+    chat waiting on the lead's go or answer is only reported: the lead decides in that chat's own box (step 3).
   - One go covers the whole plan. After it, don't ask again for steps the plan described. Ask again only for what the
     plan marked as needing its own OK (a Zoho comment's text, publishing) or when reality differs (RE-PLAN).
   - **No silent idle** (learned 17 Nov 2026): a turn that stops without the work going on (plan ready, waiting on
