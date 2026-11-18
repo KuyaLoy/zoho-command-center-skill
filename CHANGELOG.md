@@ -37,7 +37,11 @@ Zoho post, a short comment with the status steps, lean plans and EOD, and one cl
   (`<folder>.test`), backups in `tasks/<TASK-ID>/backup/`, a sibling `<folder>-old` only for a redesign. Step 1's
   whole-folder web block then gives way to the handoff skill's file block plus `tasks/` and `eod/` blocks, each
   checked for 403.
-- QA chat rules and the FIXED stop in the Worker rules; the QA chat in one-chat mode (tool map).
+- QA chat rules and the FIXED stop in the Worker rules (one `qa-<pass>.md` per pass, the first pass covers every
+  item, a disputed finding goes to the lead as PLAN READY in the task chat); the QA chat in one-chat mode (tool map).
+- The site's web block in a safe order (file blocks first, then the whole-folder deny goes, 403 and 200 checks after
+  the install), packages and deploys exclude the project notes, and a staging hand-over plans go-live as its own phase.
+- Board Phase values QA <pass> and IN REVIEW; the QA chat shares the task's row and closes its tabs at close-out.
 
 ### Docs
 

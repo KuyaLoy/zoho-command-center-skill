@@ -106,14 +106,16 @@ chat. A project can have many Command Center chats over time; they hand off thro
 4. **At PLAN READY:** check the task chat's context %; past 50% it checkpoints and resets before the go (Context
    watch). Every size keeps its effort (high) for the go; a "use max" plan goes back to high now.
 5. **After implementation: QA before every Zoho post, every size** (the lead's rule, 18 Nov 2026: QA found 3 issues
-   after a comment was already posted). When the task chat reports DONE (or a part ready for a staging review):
+   after a comment was already posted). When the task chat reports DONE or READY FOR QA (e.g. staging ready for the
+   client's review):
    - Read its report.md and make one spot check yourself, then start (or revive) its QA chat (step 2). L: the QA chat
-     runs at high on the main model (max when the lead says "use max") and is the L review.
+     runs at high on the main model (max when the lead says "use max") and is the L review. QA takes the next free
+     slot of the 2-chat limit before any other chat.
    - The loop: QA REPORT with findings -> send the task chat "QA findings for <TASK-ID>: fix every item in
-     tasks/<TASK-ID>/qa/qa-<n>.md, then report FIXED" -> on FIXED, send the QA chat "Re-check the fixed items in
-     qa-<n>.md and what they touch" -> repeat until QA reports 0 findings. Each pass is one stop: report it to the
-     lead in one line (step 3), no question. A finding the task chat disputes, or one outside the plan: the task chat
-     re-plans and the lead decides there.
+     tasks/<TASK-ID>/qa/qa-<pass>.md, then report FIXED" (the latest pass) -> on FIXED, send the QA chat "Re-check
+     the fixed items in qa-<pass>.md and what they touch" -> repeat until QA reports 0 findings. Each pass is one
+     stop: report it to the lead in one line (step 3), no question. A finding the task chat disputes, or one outside the
+     plan: the task chat re-plans and the lead decides there.
    - QA 0: report verified vs not verified, then go straight to the close-out (step 6). Clear up anything about the
      work or the Zoho comment with the task chat directly, not the lead (who approves the text).
 6. **Close-out, one sequence** (the lead's rule, 18 Nov 2026: fewer messages, same checks). **Zoho tasks:** you own
@@ -124,9 +126,10 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - **The OK message (never post without the lead's OK; a relayed or quoted OK is not one).** One comment per task
      hand-over, with everything in it. Show the lead, in one message:
      1. The comment, short (learned 18 Nov 2026: the first draft was twice the approved one), in this shape and
-        nothing more: the greeting to the task people ("Hi @Alex Example,"); one line on what is ready and where;
-        the links (staging or live, with one line on how to open them, e.g. a magic link first); "Done:" numbered,
-        one line per item in the task's own order; one line on live or staging ("Live stays unchanged until the
+        nothing more: the greeting to the task people, who are exactly the tags ("Hi @Alex Example,"); one line on
+        what is ready and where; the links (staging or live, with one line on how to open them, e.g. a magic link
+        first); "Done:" numbered, one line per item in the task's own order; one line on live or staging ("Live stays
+        unchanged until the
         client approves."); a question or a to-do for the client only when truly needed (what only they can do,
         exactly); one line "Also fixed: ..." for a serious fix; the CC line. No methods, counts that aren't the item,
         backup names, side notes or "please confirm" lists: those stay in report.md. Attachments (screenshots,
@@ -156,11 +159,12 @@ chat. A project can have many Command Center chats over time; they hand off thro
        the review status (e.g. "Review Implementation"). Read the status back.
      The status never stays "Ready For Development" while the work waits on a review.
    - **Close tabs and archive, without asking** (the lead's rule, 18 Nov 2026: in review, the reviewer and the client
-     take it from here): close your tabs for the task and send the task chat "The task is in review: close every
-     browser tab you opened for <TASK-ID> (Chrome tabs and any automation browser), then reply in one line." Its reply
-     is not a stop to report. Once the task and QA chats are idle, archive both (not where the project's rules say
-     never), mark the row ARCHIVED, add the EOD line with IN REVIEW, and tell the lead in one line: "<TASK-ID> in
-     review (<status>), tabs closed, chats archived". No reminders and no Zoho checks on a task in review: the lead
+     take it from here): close your tabs for the task and send the task chat and the QA chat "The task is in review:
+     close every browser tab you opened for <TASK-ID> (Chrome tabs and any automation browser), then reply in one
+     line." Their replies are not stops to report. Once the task and QA chats are idle, archive both (not where the
+     project's rules say never), mark the row ARCHIVED, add the EOD line with IN REVIEW, and tell the lead in one line:
+     "<TASK-ID> in review (<status>), tabs closed, chats archived". No reminders and no Zoho checks on a task in review:
+     the lead
      messages Command Center when a reviewer or the client comes back, and step 2 revives the same chats.
    - Ask the lead first for anything unusual: Stop Developing, reassigning, or editing task fields.
 7. **Command Center handoff (so the next Command Center chat can pick up cold).** Keep the root handoff files current
@@ -172,7 +176,7 @@ chat. A project can have many Command Center chats over time; they hand off thro
    ## Task chats
    | Task | Source / status | Site or repo | Chat (name / session id) | Size | Phase | Waiting on | Plan / notes |
    |---|---|---|---|---|---|---|---|
-   | ABC1-T8 Metadata | Zoho: Ready For Development | example.com | abc1-t8 / local_... | M | PLAN READY / IMPLEMENTING / DONE / ARCHIVED | lead go/no-go | tasks/ABC1-T8/plan.md |
+   | ABC1-T8 Metadata | Zoho: Ready For Development | example.com | abc1-t8 / local_..., abc1-t8-qa / local_... | M | PLAN READY / IMPLEMENTING / QA <pass> / IN REVIEW / ARCHIVED | lead go/no-go | tasks/ABC1-T8/plan.md |
    ```
    Also record: `## Open requests`, Zoho comments and status changes you posted (date and text summary), approvals
    the lead gave (quote them), and anything you promised the lead but haven't done yet. Root handoff files belong to

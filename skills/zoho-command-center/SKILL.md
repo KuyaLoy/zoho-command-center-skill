@@ -38,8 +38,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   copying text verbatim into a local file). Never medium for a change to a live site, Zoho or a client document, or
   for judgement.
 - Unsure between two sizes: take the larger. The lead can always say "make it L" or "use max".
-- S work that only reads or checks needs no go: do it and report. Live changes, Zoho and the client always need it.
-- A read-only QA or helper chat may run on a cheaper model; never a chat that changes a live site.
+- S work that only reads or checks needs no go: do it and report. Every change, local ones included, needs it.
+- A read-only QA or helper chat may run on a cheaper model (not an L task's QA chat); never a chat that changes a
+  live site.
 - **Usage pacing** (learned 17 Nov 2026: four chats at once used 97% of the 5-hour limit; the stops were raised later,
   as 75% wasted a quarter of the window): at most 2 chats working at once (QA and review chats count); more wait as
   QUEUED. Check the usage limits before starting or resuming any chat. Every working chat stops at its next safe
@@ -69,7 +70,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   A question with a sensible default: decide it and list the decision in the report. An obvious fix inside the task
   that we can make on our side: make it and list it. Ask the lead only about real blockers (something missing, broken
   or impossible, or outside the scope); ask the client only when really needed, through the Zoho comment or reply
-  draft. Other clarifications go in the report and that draft, without holding up the work.
+  draft. Other clarifications go in the report, without holding up the work; the Zoho comment only carries what the
+  client must act on.
 - **How we talk: fast, without losing quality** (learned 16 Nov 2026).
   - Result first: every report starts with the outcome in one line (DONE, PLAN READY, BLOCKED, or the answer), then
     about 8 lines at most. Detail goes in the task files (plan.md, notes.md, report.md), with a link.
@@ -118,13 +120,18 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   started a download and a local copy before its plan existed; replaces "local work may start right after the
   plan"). Before the lead's go on the plan, only read and plan: no downloads to work from, no local copy or clone, no
   installs, no change to files, databases, Zoho, live sites or client docs, nothing sent to the client. An answer, a
-  route choice or a preference is not a go: re-plan, report PLAN READY and wait for an explicit go on that plan.
+  route choice or a preference is not a go: update plan.md (a dated line in notes.md), report PLAN READY and wait for
+  an explicit go on that plan. Backups, live ones too, are plan steps run after the go.
 - **The project folder is the site** (learned 18 Nov 2026: a copy in a sibling folder split the project). A local
   copy, clone or Duplicator install goes in the project folder itself, so the local URL is `<folder>.test`, matching
   the live name (folder "example" -> example.test for example.com). Backups go in `tasks/<TASK-ID>/backup/` (kept off
   the web, out of git and deploys), never in sibling folders. Only for a redesign: the old site is the sibling
-  `<folder>-old` (`<folder>-old.test`), removed after go-live on the lead's OK. Once a site is in the folder, the root
-  is a web root: block the handoff files, `tasks/` and `eod/` as the handoff skill says, and check a 403 for each.
+  `<folder>-old` (`<folder>-old.test`), removed after go-live on the lead's OK. Putting the site in the folder is a
+  plan step of the task chat, in this order: add the handoff skill's file block to the root `.htaccess` and
+  `Require all denied` in `tasks/` and `eod/`; then remove Command Center's whole-folder deny (merge into the site's
+  `.htaccess`, never replace it); check 403 for the handoff files, `tasks/` and `eod/` and 200 for the home page,
+  again after the install and after a permalink save. Site packages and deploys exclude `tasks/`, `eod/` and the
+  handoff files (the plan names the filter; check the package).
 - Delete pages, menus, media, options or records only by explicit IDs, after a dry-run list, a count check and a
   database backup, never by a filter. Tag scratch content with one marker (learned 17 Nov 2026: a filtered list
   command ignored its filter and deleted every page; restored from the backup).
@@ -191,10 +198,12 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   on the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
   relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center
   reads it there. Follow the plan; if reality differs, stop and report instead of improvising outside scope, and
-  re-plan (below).
+  re-plan (below). A staging hand-over: the plan marks go-live as its own phase, planned and approved after the
+  client's OK.
 - **QA findings** (Command Center sends QA's list before any Zoho post): fix every item in one pass inside the plan
   and its go (an item that needs more is a RE-PLAN), verify each, update report.md, and report "FIXED: <TASK-ID>
-  <n> items" with how each was checked. QA then re-checks; repeat until QA finds 0.
+  <n> items" with how each was checked. An item you dispute, or one that needs more than the plan: report PLAN READY
+  naming it and why; the lead decides here. QA then re-checks; repeat until QA finds 0.
 - A new task from Command Center: finish or park the current one first (DONE, or only waiting on the lead), then start
   Phase 1 for the new task in its own folder `tasks/<NEW-ID>/`. Put the task ID in every milestone message. After a
   revive or a reset: read report.md and notes.md (and checkpoint.md) first, and re-check the current state.
@@ -220,9 +229,10 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - **A QA chat** (Command Center step 5; learned 18 Nov 2026: QA found 3 issues after a comment was already posted):
   read-only, never fixes or posts. Check every item of the source doc against the real result (the site, staging or
   live, and the files) and the task chat's report.md; also links, forms, mobile and console errors where the task
-  touches them. Write one consolidated list to `tasks/<TASK-ID>/qa/qa-<n>.md` (item, where, expected, found) and send
-  Command Center "QA REPORT: <TASK-ID> <n> findings" with the path. A re-check covers the fixed items and what they
-  touch, then the same report; "0 findings" ends QA.
+  touches them. Each pass writes one consolidated list to `tasks/<TASK-ID>/qa/qa-<pass>.md` (item, where, expected,
+  found; a 0 pass says so in one line) and sends Command Center "QA REPORT: <TASK-ID> <n> findings" with the path. The
+  first pass covers every item; a re-check covers the fixed items and what they touch. "0 findings" ends QA. Your
+  notes.md and checkpoint.md live in `tasks/<TASK-ID>/qa/`; close your tabs when told the task is in review.
 - Final report `tasks/<TASK-ID>/report.md`, once the work is done and verified, standing alone (a revived chat works
   from it): "DONE:" first; what changed, how you verified it (counts, URLs checked), what is not verified, rollback
   location, decisions and obvious fixes made, clarifications for the client, what the client or another team must do,
