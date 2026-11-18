@@ -65,6 +65,29 @@ Without the plugin system, or for another AI tool: clone this repository once an
 `skills/zoho-command-center/` into the tool's skills folder (`~/.claude/skills/`, `~/.agents/skills/`, or the folder
 your tool documents). A clone updates with `git pull --ff-only`.
 
+## Check it works in another AI tool
+
+Link the clone's `skills/zoho-command-center/` into the folder the tool reads skills from: `~/.agents/skills/` for
+Codex and Cursor, `~/.gemini/config/skills/` for Antigravity. Link the
+[handoff skill](https://github.com/KuyaLoy/handoff-skill) the same way, from its own clone, as its README says.
+
+Then make a new empty folder outside any web root, open it in the tool, start an agent chat and paste this prompt:
+
+```
+Smoke test of the zoho-command-center skill in one-chat mode. This folder is a new, empty project for a Command
+Center. Load the zoho-command-center skill from your skills folder and follow it for a new main chat in an empty
+folder (its first step), in its one-chat mode, since you have no session tools. Do not open Zoho or any website. Then
+stop. Report in at most 6 lines: the skill files you read (paths), the files you created, and a last line in the
+skill's Next format.
+```
+
+It passes when the skill's SKILL.md and both reference files were read; handoff.md (with "Mode: Command Center",
+"## Open requests", "## Task chats"), ai-handoff-summary.md, AGENTS.md and eod/<date>.md were created; the summary
+checker says OK; the last line reads "Next: ... — waiting on <the lead>".
+
+Tested: Codex CLI 0.146.0 on 2026-11-18 with gpt-5.6-sol: pass. If Codex says a model "is not supported when using
+Codex with a ChatGPT account", run it with `-m` and a model your account supports.
+
 ## Set it up (once)
 
 Add this to your `~/.claude/CLAUDE.md` and fill in your values. The first block tells Claude when to load the skill;

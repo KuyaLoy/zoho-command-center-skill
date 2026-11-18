@@ -5,6 +5,11 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+### Docs
+
+- README: "Check it works in another AI tool": where Codex, Cursor and Antigravity read skills, a smoke-test prompt
+  with its pass marks, and the Codex CLI result (2026-11-18: pass).
+
 ## [2.1.1] - 2026-11-18
 
 ### Changed
