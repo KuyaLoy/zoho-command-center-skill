@@ -3,21 +3,26 @@
 A Claude Code skill (packaged as a plugin) for running Zoho Projects tasks, and any other task, the way a PM or tech
 lead would, with the Claude desktop app:
 
-- **One Command Center chat per project** routes each task (a Zoho link, a client message, BugHerd, Slack, your own
-  idea) to a new task chat or to an existing one that already has the context, keeps a task board in `handoff.md`,
-  reviews finished work, and owns the Zoho comments and status changes.
+- **One Command Center chat per project** gives each task (a Zoho link, a client message, BugHerd, Slack, your own
+  idea) its own task chat: the same link or task ID always goes back to the same chat, an archived chat is revived
+  from its report and notes. It keeps a task board and your open requests in `handoff.md`, a daily EOD log in `eod/`,
+  reviews finished work, and owns the Zoho comments and status changes. It answers from files and checks, not memory.
 - **Effort that fits the task:** small and normal tasks are planned and done at high effort with short plans; large or
   risky ones (go-lives, migrations, database work) are planned at max and their review at done runs at max.
-- **Task chats** plan first, wait for your go, then implement, log in `tasks/<TASK-ID>/`, and report PLAN READY and
-  DONE to Command Center. Reports lead with the result; one go covers the whole plan.
+- **Task chats** do only the task: short plans, sensible defaults and obvious fixes decided themselves and listed in
+  the report, questions only for blockers. They may work locally right after the plan and wait for your go before
+  anything live, log in `tasks/<TASK-ID>/`, and report every stop to Command Center. One go covers the whole plan.
+  Unrelated problems are only listed, except a hacked site or malware, which is fixed with the task and reported.
 - **Gates you control:** nothing live changes before your go, no Zoho comment is posted before you OK the exact text
   and tags, and the Zoho status only moves after the work is done and verified.
 - **Context watch and pacing:** from 50% context a task chat finishes the page it is on, then checkpoints to disk and
-  resets (75% is the hard cap); Command Center resets at 35%. That is long before auto-compact, so no chat loses track
-  mid-work and every turn stays cheap. At most 2 chats work at once, and all of them pause at 95% of the 5-hour usage
-  limit and, by default, at 80% of the weekly limit (a project you tell "don't stop" runs on to 100%).
-- **Builds with several chats:** `references/builds.md` sets up builders and QA chats for large builds (one fix list
-  per QA pass, scripted checks, a Figma sweep before building).
+  resets (75% is the hard cap). That is long before auto-compact, so no chat loses track mid-work. Command Center
+  never clears its own chat: it keeps the handoff files current at every stop instead. At most 2 chats work at once,
+  and all of them pause at 95% of the 5-hour usage limit and, by default, at 80% of the weekly limit (a project you
+  tell "don't stop" runs on to 100%).
+- **Builds** run in one task chat with a conversion skill (figma-to-wordpress or convert-to-wordpress);
+  `references/builds.md` is kept only for builds already running with builder and QA chats.
+- **Tidy:** at close-out Command Center asks "Close tabs and archive?"; task chats idle for 2 days are archived.
 
 It came out of daily use on more than 20 client projects; the rules carry the lessons learned there.
 
@@ -78,12 +83,12 @@ Then open a new chat.
 ## Use
 
 1. Open an empty folder in the Code tab. The main chat sets itself up as "Command Center - <folder>".
-2. Paste a task: a Zoho task link, or any request. Command Center sizes it (S, M or L), picks the chat (a new one, or
-   an idle one on the same site), and tells you in one line where it went and why. Say "new chat" to override.
+2. Paste a task: a Zoho task link, or any request. Command Center sizes it (S, M or L), gives it its own chat (the
+   same task's chat when it has one), and tells you in one line where it went. Say "send it to X" to override.
 3. Talk to the task chat directly: read its plan, answer its questions, say **go** there.
 4. When it reports DONE, Command Center reviews the work. Zoho tasks: it shows you the Zoho comment draft with the
-   tags; say OK, and it posts the comment, moves the status, and asks whether to close the tabs. Other tasks: it gives
-   you a reply or report draft to send.
+   tags; say OK, and it posts the comment, moves the status, and asks "Close tabs and archive?". Other tasks: it gives
+   you a reply or report draft to send. Say "EOD" for the day's summary.
 
 ## Update
 
@@ -118,7 +123,7 @@ Then remove the two blocks from your `~/.claude/CLAUDE.md`.
 
 The skill never types passwords or creates accounts (you sign in), never changes a live site, CMS, hosting, Zoho or
 client document before your go, never posts in Zoho without your OK on the exact text, and keeps its planning files
-(`handoff.md`, `tasks/`) off the web and out of git.
+(`handoff.md`, `tasks/`, `eod/`) off the web and out of git.
 
 ## Layout
 
@@ -126,7 +131,7 @@ client document before your go, never posts in Zoho without your OK on the exact
 .claude-plugin/plugin.json         the plugin
 .claude-plugin/marketplace.json    this repo as a one-plugin marketplace
 skills/zoho-command-center/SKILL.md the workflow and its rules
-skills/zoho-command-center/references/builds.md  builds with builder and QA chats
+skills/zoho-command-center/references/builds.md  builds already running with builder and QA chats
 CHANGELOG.md                       what changed in each version
 AGENTS.md                          rules for changing the skill
 ```

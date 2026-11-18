@@ -5,6 +5,54 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-18
+
+One task, one chat, straight to the point, and a Command Center that never clears itself and answers from files.
+Major: the routing and the Command Center workflow changed.
+
+### Changed
+
+- Routing (step 2): one task, one chat. The same Zoho link or task ID always goes to that task's chat until the lead
+  says otherwise; anything else gets a new chat. Replaces the reuse of an idle chat on the same site under 25%. An
+  archived chat is revived (`unarchive_session`), cleared, and resumes from its report.md and notes.md, not from its
+  old conversation.
+- Only the task, straightforward: sensible defaults and obvious fixes inside the task are made and listed in the
+  report; the lead is asked only about blockers, the client only when really needed (through the Zoho comment or
+  reply draft); other clarifications go in the report and that draft.
+- Plans: S about 5 lines, M about 20 (was about 40), L in full. Local work (a local copy, a branch, drafts) may start
+  right after the plan; the lead's go is needed before live changes, Zoho or the client. The brief line says so.
+- Command Center never clears its own chat: the 35% self-reset is removed (no `clear_session` "self" at any %). It
+  keeps the root handoff files current at every stop and milestone instead. Task chat resets are unchanged.
+- A go is read from the task chat's notes.md, where the chat quotes it at once; Command Center no longer reads
+  transcripts to check a go.
+- Reviews sized to the task (step 5): S and M, the report plus one live spot check; L keeps the review chat.
+- Close-out (step 6): one question, "Close tabs and archive?"; on yes the task chat closes its tabs, then Command
+  Center archives it (was a separate "and agents" request).
+- Builds: one task chat with the figma-to-wordpress or convert-to-wordpress skill; `references/builds.md` stays only
+  for builds already running with builder and QA chats.
+- Plugin description: one task, one chat. README matches.
+
+### Added
+
+- No hallucination: Command Center answers from files and checks made now, never from memory; unknown means check
+  first. It keeps the lead's open requests (verbatim, dated, with a status) under `## Open requests` in handoff.md,
+  reads them first after any compact, reload or new chat, and lists all of them in every report on a round.
+- Serious unrelated findings (a hacked site, malware, injected spam, a backdoor) are fixed with the task, backup first;
+  the lead gets one line when found, and the report has a "Serious finding (fixed)" part. Other unrelated findings stay
+  untouched and listed.
+- Archive idle task chats: when Command Center starts, it archives task, QA and review chats idle for 2 days or more,
+  never a Command Center or a working chat, and names any of their tabs still open. Board phase ARCHIVED.
+- EOD log: Command Center writes one line per stop to `eod/YYYY-MM-DD.md` (format from the handoff skill) and answers
+  "EOD" from that file. Task chats never write `eod/`; new projects keep `eod/` out of git.
+- A running task keeps its brief and plan rules, so a skill reload or new version mid-task changes nothing for it.
+- Worker: after a revive or reset, read report.md and notes.md first; the final report stands alone (decisions,
+  obvious fixes, client clarifications, findings).
+
+### Kept
+
+- Effort rules (high floor), usage pacing (2 chats, 95% 5-hour, 80% weekly), task chat context watch (page end from
+  50%, cap 75%), Zoho comment and status rules, the next-step box, the "Next:" line, no silent idle.
+
 ## [1.4.0] - 2026-11-17
 
 New usage limits from the lead: faster work with fewer stops while the lead is out of the office.
