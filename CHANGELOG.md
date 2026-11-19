@@ -5,6 +5,17 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.4.3] - 2026-11-19
+
+### Fixed
+
+- No stall after a CHECKPOINT (Context watch, Command Center's part): Command Center never ends a turn waiting on
+  another chat to go idle. For every step that needs a chat idle (a clear, an archive, a revive, the close-out) it
+  checks the chat's state now; still running, it sets a one-shot check in 2 minutes naming the exact step (tool map),
+  then one more, then tells the lead.
+- Revived and resumed chats keep their stop signal: the revive and resume messages repeat "Send Command Center
+  (parent) a short message at every stop", as a revived chat may not bring back its wake notes.
+
 ## [2.4.2] - 2026-11-19
 
 ### Added

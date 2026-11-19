@@ -68,13 +68,14 @@ chat. A project can have many Command Center chats over time; they hand off thro
      in `handoff-archive.md`, where the handoff skill moves DONE and ARCHIVED rows); the first that fits:
      1. Only a question (status, where things are, what a chat found): answer from the board and task files. No chat.
      2. The same Zoho link or task ID as a board row (a follow-up, a client reply, a fix after review): always that
-        task's chat, until the lead says otherwise. Open: send it the request. Archived: revive it, clear it, keep it
-        at high, and send "Follow-up for <TASK-ID>. Load the zoho-command-center skill (Worker rules). Read
+        task's chat, until the lead says otherwise. Open: send it the request. Archived: revive it, clear it, keep it at
+        high, and send "Follow-up for <TASK-ID>. Load the zoho-command-center skill (Worker rules). Read
         tasks/<TASK-ID>/report.md and notes.md, not the old conversation; re-check the current state; plan this
-        follow-up and wait for the lead's go; then: <request>". Its QA chat is revived at step 5 the same way (same
-        chats, never new ones), with "Follow-up QA for <TASK-ID>. Load the zoho-command-center skill (QA chat rules).
-        Read tasks/<TASK-ID>/report.md and qa/; check the follow-up's items and what they touch; task chat:
-        <name> (<local_...>)". Pass numbers go on from the last qa-<pass>.md.
+        follow-up and wait for the lead's go; send Command Center (parent) a short message at every stop; then:
+        <request>". A revived chat may not bring back its wake notes, so that line keeps its stops reaching you. Its QA
+        chat is revived at step 5 the same way (same chats, never new ones), with "Follow-up QA for <TASK-ID>. Load the
+        zoho-command-center skill (QA chat rules). Read tasks/<TASK-ID>/report.md and qa/; check the follow-up's items
+        and what they touch; task chat: <name> (<local_...>)". Pass numbers go on from the last qa-<pass>.md.
      3. Anything else: a new chat (2-chat limit, else QUEUED), unless the lead says "send it to X".
      Tell the lead in one line where it went, e.g. "Sent to [abc1-t8 chat](#local_...) (same task, revived)", "New
      chat, M, high" or "New chat, L, max for the plan" (that line goes out before the start: the app asks the lead to
@@ -238,15 +239,22 @@ SKILL.md has the thresholds, the safe point and the Worker part.
 - At 50% or more and the chat is still working: send it "Context at <n>%: at your next page end write
   tasks/<TASK-ID>/checkpoint.md, send CHECKPOINT, and end your turn." (At 75%+ say "now, at the first safe point".)
   Don't stop a chat mid-step unless the lead asks; a hard stop mid-edit is what breaks sites.
-- When it reports CHECKPOINT and is idle: read checkpoint.md (it must name the next step and current state; if not,
-  ask the chat to fix it first). Then clear that chat and send it the resume message:
-  "Resumed after a context reset. You are the task chat for <TASK-ID>. Load the zoho-command-center skill (Worker
-  rules). Read tasks/<TASK-ID>/plan.md, notes.md and checkpoint.md. The lead's go stands (quote it). Before you change
-  anything, re-check the real current state (files, site, DB) against checkpoint.md and report any difference. Then
-  continue from the next step." Keep its effort as it was (high for execution). Inside a QA loop add "QA loop at
-  pass <n>, other chat: <name> (<local_...>)"; a QA chat gets "You are the QA chat for <TASK-ID>" and reads qa/.
-- A clear or an archive is refused mid-turn (wait until idle) and while the lead has the chat open or pinned: say so
-  at once in one line, "Switch away from <chat link> so I can reset (or archive) it", and for a reset send a chat
+- **Never end a turn waiting on another chat to go idle** (learned 19 Nov 2026: a CHECKPOINT came while the chat was
+  still ending its turn, Command Center ended its own turn "waiting for it to go idle", and nothing woke either chat).
+  This holds for every step that needs a chat idle (a clear, an archive, a revive, the close-out). Check its state
+  now (tool map: a chat's state): idle, do the step in this turn; still running, set a check in 2 minutes (tool map:
+  wait for a chat to go idle) that names the exact step, and say so in one line. At the check: idle, do it; still
+  running, one more 2-minute check, then tell the lead in one line.
+- When it reports CHECKPOINT and is idle: read checkpoint.md (it must name the next step and current state; if not, ask
+  the chat to fix it first). Then clear that chat and send it the resume message: "Resumed after a context reset. You
+  are the task chat for <TASK-ID>. Load the zoho-command-center skill (Worker rules). Read tasks/<TASK-ID>/plan.md,
+  notes.md and checkpoint.md. The lead's go stands (quote it). Before you change anything, re-check the real current
+  state (files, site, DB) against checkpoint.md and report any difference. Then continue from the next step. Send
+  Command Center (parent) a short message at every stop." Keep its effort as it was (high for execution). Inside a QA
+  loop add "QA loop at pass <n>, other chat: <name> (<local_...>)"; a QA chat gets "You are the QA chat for <TASK-ID>"
+  and reads qa/.
+- A clear or an archive is refused mid-turn (wait until idle, as above) and while the lead has the chat open or pinned:
+  say so at once in one line, "Switch away from <chat link> so I can reset (or archive) it", and for a reset send a chat
   under 75% "Continue, no reset." instead of leaving it waiting. Never leave a checkpointed chat idle without telling
   the lead.
 - Log each reset in handoff.md (date, task, % at reset), and tell the lead in one line with the chat link.
