@@ -48,13 +48,12 @@ chat. A project can have many Command Center chats over time; they hand off thro
      skill's file block plus `Require all denied` in `tasks/` and `eod/` take over, each checked for 403. In a git repo,
      keep `tasks/`, `eod/` and the handoff files out of commits (`.git/info/exclude`) unless the lead says otherwise.
    - Existing Command Center project: read `ai-handoff-summary.md`, then `## Open requests` and the `## Task chats`
-     board in handoff.md. Check each chat not DONE or ARCHIVED (its session info) and its latest report or task
-     folder, then tell the lead in a few lines: open tasks, phase, open requests, what waits on them (after your own
-     reset: skip that report unless the lead asks; go on with the message that woke you). Never restart a task that
-     has a chat. Project rules this skill has replaced (e.g. "Command Center resets at 35%", the 9 Nov "relay the
-     go", the 17 Nov "a box every turn", the 18 Nov "never clear your own chat"): replace them and tell the lead in
-     one line. Add missing board
-     columns (format below).
+     board in handoff.md. Check each chat not DONE or ARCHIVED (its session info) and its latest report or task folder,
+     then tell the lead in a few lines: open tasks, phase, open requests, what waits on them (after your own reset: skip
+     that report unless the lead asks; go on with the message that woke you). Never restart a task that has a chat.
+     Project rules this skill has replaced (e.g. "Command Center resets at 35%", the 9 Nov "relay the go", the 17 Nov "a
+     box every turn", the 18 Nov "never clear your own chat" and "the lead's go starts the work, NOT the Zoho status"):
+     replace them and tell the lead in one line. Add missing board columns (format below).
    - **Archive idle task chats** (the lead's rule, 18 Nov 2026): archive every task, QA or review chat of this
      Command Center idle 2 days or more (list your own chats; board rows the list misses: check them by id); never a
      Command Center or a chat with a turn or background task running, and not where the project's rules say so. Mark
@@ -114,15 +113,15 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - Whether the lead gave a task chat its go: read its notes.md, where the chat quotes it. Never read transcripts for
      it (costly, and a summary can mislead); no quote there means no go yet.
    - **"GO: <TASK-ID>" means status at the go** (the lead's rule, 19 Nov 2026: the team only saw the work once it was
-     done; replaces "the lead's go starts the work, NOT the Zoho status"). It is not a stop to report. Check the
-     quoted go in its notes.md, then, for a Zoho task, click the start transition the task offers (standing
-     permission): usually "Start Development", sometimes "Start Development Edits" or a tracking one such as "+Start
-     Installing Tracking Codes"; read the real button, they differ by task type. Its dialog may ask for the site or
-     GitHub URL (use the site URL), Task Type and Web Task Type: fill them from the task and the project. Read the
-     status back, record it (board Source / status, Phase IMPLEMENTING; the stop script), and tell the lead in one
-     line: "<TASK-ID> in development (<status>)". Already in a development status (a re-plan's go): record only. A
-     task blocked after the start: the status stays; tell the lead; Stop Developing only on his word. Other sources:
-     record only.
+     done; replaces "the lead's go starts the work, NOT the Zoho status"). It is not a stop to report. Check the quoted
+     go in its notes.md, then, for a Zoho task, click the start transition the task offers (standing permission):
+     usually "Start Development", sometimes "Start Development Edits" or a tracking one such as "+Start Installing
+     Tracking Codes"; read the real button, they differ by task type. Its dialog may ask for the site or GitHub URL (use
+     the site URL), Task Type and Web Task Type: fill them from the task and the project. Read the status back, update
+     its board row (Source / status, Phase IMPLEMENTING; no EOD line), and tell the lead in one line: "<TASK-ID> in
+     development (<status>)". Already in a development status (a re-plan's go): record only. No quoted go in notes.md:
+     don't click; tell the task chat in one line to quote it. A task blocked after the start: the status stays; tell the
+     lead; Stop Developing only on his word. Other sources: record only.
    - **Record the stop in one call** (learned 18 Nov 2026: 3 or 4 edits per stop): the handoff skill's stop script
      (`scripts/record-stop.sh`, run from the project root as the handoff skill describes it) with the EOD line (format
      from the handoff skill, written at the moment, never recalled later), the summary's Last change and Next action,
@@ -194,7 +193,7 @@ chat. A project can have many Command Center chats over time; they hand off thro
      it doesn't, use the reviewer named in the task or its last review (named in the OK message). Fill any other
      required field (e.g. Site URL, "Hosted by us"); a mandatory comment field gets the text proposed in the OK
      message. Click Complete; the status becomes the review status (e.g. "Review Implementation"). Read the status
-     back. A task whose go came before 2.4.0 and still shows its waiting status: do the start transition first.
+     back. A task whose go is quoted in notes.md but still shows its waiting status: do the start transition first.
    - **Close tabs and archive, without asking** (the lead's rule, 18 Nov 2026: in review, the reviewer and the client
      take it from here): close your tabs for the task and send the task chat and the QA chat "The task is in review:
      close every browser tab you opened for <TASK-ID> (Chrome tabs and any automation browser), then reply in one

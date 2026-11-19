@@ -101,14 +101,17 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     asked for; never cut validation, error handling, security or accessibility; new logic with a branch or loop gets
     one small check.
   - **Clean code** (the lead's rule, 19 Nov 2026: reusable, simple, best practice, no spaghetti; task, QA and build
-    chats, senior WordPress level): enqueue CSS and JS, never echo `<style>` or `<script>` from shortcodes or
-    templates; use the theme's or builder's globals for colours, fonts and spacing (CSS variables, kit globals,
-    theme.json, ACF options), never hex values or font copies; prefix functions, hooks, meta keys and options with the
-    project's prefix; one shared helper per piece of logic, no near-copies; lists and names that belong in data go in
-    data (ACF, options, a taxonomy), not in code; custom PHP lives in a versioned file (the child theme or an
-    mu-plugin) when the site has one, and a site that only uses a snippets plugin also gets the exact code in
-    `tasks/<TASK-ID>/build/`; generated SEO titles and descriptions use the SEO plugin's variables, not fixed text
-    per page; scripts and builders find elements by selector or ID, never by position ("the third widget").
+    chats, senior WordPress level): enqueue CSS and JS, never echo `<style>` or `<script>` from shortcodes or templates;
+    use the theme's or builder's globals for colours, fonts and spacing (CSS variables, kit globals, theme.json, ACF
+    options), never hex values or font copies; prefix functions, hooks, meta keys, options, shortcode tags, script and
+    style handles, CSS classes and post types with the project's prefix (plan.md names it); a value with no global yet
+    gets one added in the theme (a decision in the report); one shared helper per piece of logic, no near-copies; lists
+    and names that belong in data go in data (ACF, options, a taxonomy), not in code; custom PHP lives in a versioned
+    file (the child theme or an mu-plugin) when the site has one, and a site that only uses a snippets plugin also gets
+    the exact code in `tasks/<TASK-ID>/build/`; generated SEO titles and descriptions use the SEO plugin's variables,
+    not fixed text per page; scripts and builders find elements by selector or ID, never by position ("the third
+    widget"). Self-check before DONE (search for `<style`, `<script`, hex values and unprefixed names); fixes that bring
+    code up to these rules are always inside the plan and its go.
   - **Helper skills** (added 19 Nov 2026), used by task, QA and build chats when installed; otherwise the current
     checks. They serve the task: no extra scope, steps or approval flow of their own; findings outside the task go
     to "Findings (not touched)".
@@ -170,8 +173,10 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - Delete pages, menus, media, options or records only by explicit IDs, after a dry-run list, a count check and a
   database backup, never by a filter. Tag scratch content with one marker (learned 17 Nov 2026: a filtered list
   command ignored its filter and deleted every page; restored from the backup).
-- **Bulk scripts are safe to re-run** (learned 19 Nov 2026, a 209-page task): check by slug or ID before each create;
-  a script never trashes or deletes; duplicates are listed, then trashed by explicit ID under the rule above.
+- **Bulk scripts are safe to re-run** (learned 19 Nov 2026, a 209-page task): items a script creates carry a source key
+  (a meta field) and it checks that key, slug or ID before each create; a script never trashes or deletes. Duplicates:
+  keep the one that menus or links use, else the lowest ID; check what links to the others, then trash them by explicit
+  ID under the rule above (trash only; emptying the trash needs the lead's OK).
 - Never type passwords or create accounts. The lead does all sign-ins (cPanel, WP admin, Shopify, etc.) in Chrome.
   When a login expires mid-task (Zoho, cPanel, WP admin...): stop at a safe point, tell the lead which service needs
   a new sign-in, and wait.
@@ -232,13 +237,13 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   blockers only; L adds dry run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the
   source doc verbatim. Report PLAN READY (result first, approach in 2-3 lines, blockers) and end your turn. S work
   that only reads or checks: do it, DONE.
-- Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go
-  on the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
-  relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center
-  reads it there. Then send Command Center one line "GO: <TASK-ID>" (not a stop report) before your first step: it moves
-  the Zoho status to development. Follow the plan; if reality differs, stop and report instead of improvising outside
-  scope, and re-plan (below). A staging hand-over: the plan marks go-live as its own phase, planned and approved after
-  the client's OK.
+- Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go on
+  the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
+  relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center reads
+  it there. Then send Command Center one line "GO: <TASK-ID>" (after a re-plan's go: "GO: <TASK-ID> (re-plan)"; not a
+  stop report) before your first step: it moves the Zoho status to development. Follow the plan; if reality differs,
+  stop and report instead of improvising outside scope, and re-plan (below). A staging hand-over: the plan marks go-live
+  as its own phase, planned and approved after the client's OK.
 - **QA findings** (before any Zoho post; Command Center gives you the QA chat's session id): the QA chat sends its
   findings to you directly. Fix every item in one pass inside the plan and its go, verify each, update report.md, and
   send the QA chat (not Command Center) "FIXED: <TASK-ID> pass <n>" with how each was checked; that turn is not a
@@ -260,11 +265,11 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
     <why it stopped>. Decisions: <defaults taken, or none>. Next: <step> — waiting on <who>". TYPE is PLAN READY (with
     the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT. A serious
     finding gets its one line to the lead and Command Center when found.
-  - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan, re-plan
-    right away at your current effort (every size) and report PLAN READY again. After the go too (learned 19 Nov
-    2026): an instruction from the lead that changes the method or scope rewrites those plan.md steps in place
-    (never "see notes"), then PLAN READY and a new go; plan.md always matches what is being done. A question that
-    changes nothing is answered right away.
+  - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan, re-plan right
+    away at your current effort (every size) and report PLAN READY again. After the go too (learned 19 Nov 2026): an
+    instruction from the lead that changes the method or scope rewrites those plan.md steps in place (never "see
+    notes"), listing done steps the change affects with their undo; make no further change until the new go, then PLAN
+    READY and wait; plan.md always matches what is being done. A question that changes nothing is answered right away.
   - Done: send Command Center a handover: "DONE: <task>", path to `tasks/<TASK-ID>/report.md`, files to upload to
     Zoho, what is verified vs not, open items for the client, and anything that changes how the Zoho comment or
     status should be posted (e.g. part of the definition of done still waits on the client).

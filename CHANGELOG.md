@@ -29,6 +29,12 @@ Quality of the work, and the Zoho status at the go.
 - QA reviews code: the first pass reads every added or changed file against Clean code and security.
 - Close-out records: a 403 for `tasks/` before a database dump goes there; the posted Zoho comment saved in
   report.md; "tabs closed: <ids>" in the task chat's notes; handoff.md's Current State and Next Steps rewritten.
+- Details from the dry read: GO updates the board row only (no EOD line), no quoted go means no click, a re-plan's
+  go is sent as "GO: <TASK-ID> (re-plan)"; a method change lists affected done steps with their undo and stops
+  changes until the new go; plan.md names the prefix, which also covers shortcode tags, handles, CSS classes and post
+  types; a missing global is added in the theme; a self-check before DONE; clean-code fixes are inside the plan;
+  script-created items carry a source key; duplicates keep the linked one (else the lowest ID), links are checked,
+  trash only.
 
 ## [2.3.3] - 2026-11-19
 
