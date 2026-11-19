@@ -97,6 +97,22 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     helper, then WordPress or the platform, then an installed library); add no option, wrapper or abstraction nobody
     asked for; never cut validation, error handling, security or accessibility; new logic with a branch or loop gets
     one small check.
+  - **Helper skills** (added 19 Nov 2026), used by task, QA and build chats when installed; otherwise the current
+    checks. They serve the task: no extra scope, steps or approval flow of their own; findings outside the task go
+    to "Findings (not touched)".
+
+    | Helper | When |
+    |---|---|
+    | web-quality-audit | the QA chat's pass on the staging or live pages the task touched, for M and L tasks and every go-live (Lighthouse: performance, accessibility, SEO, best practices); not for S text edits |
+    | performance, core-web-vitals | tasks about speed, a PageSpeed score, LCP, CLS or INP |
+    | accessibility | tasks that add or change forms, menus, new pages or interactive parts |
+    | seo | tasks on titles, meta, schema, sitemaps or redirects, and every go-live |
+    | best-practices | security headers, mixed content and console errors, in QA on every go-live |
+    | wp-plugin-development | any custom PHP (plugin or theme functions): its nonce, capability, sanitising and escaping rules |
+    | wp-wpcli-and-ops | every WP-CLI job: search-replace, database export or import, local copies, migrations, cache flush |
+    | wp-performance | backend slowness: slow admin, slow queries, autoloaded options, cron |
+    | wp-phpstan | L tasks with new custom PHP, when PHPStan is available |
+    | Chrome DevTools MCP | performance traces, LCP or layout-shift debugging, computed CSS; Playwright stays for clicks, forms and screenshots |
 - **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026). The lead
   talks to each task chat directly (instructions, follow-ups, questions, plan approval, the go); task chats ask the
   lead there. Command Center doesn't re-ask their questions or go requests or copy their plans; it routes and starts

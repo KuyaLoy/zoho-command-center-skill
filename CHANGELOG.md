@@ -5,6 +5,20 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.3.2] - 2026-11-19
+
+### Added
+
+- Helper skills (SKILL.md Shared rules): when task, QA and build chats use web-quality-audit, performance,
+  core-web-vitals, accessibility, seo, best-practices, wp-plugin-development, wp-wpcli-and-ops, wp-performance,
+  wp-phpstan and the Chrome DevTools MCP; only when installed, otherwise the current checks; they never add scope,
+  steps or approvals.
+
+### Docs
+
+- README Team setup: the helper skills as recommended extras (clone and link for Claude Code, Codex, Cursor and
+  Antigravity) and the Chrome DevTools MCP line with both privacy flags.
+
 ## [2.3.1] - 2026-11-19
 
 ### Changed

@@ -130,6 +130,29 @@ or API keys; the one exception is your default local admin password, read from t
 only. Command Center: the settings block below (Set it up).
 handoff: its README's "Make it load every session" block in `~/.claude/CLAUDE.md` (recommended).
 
+**Recommended extras (the Helper skills in SKILL.md).** Free and open source; the skill uses them when installed:
+[addyosmani/web-quality-skills](https://github.com/addyosmani/web-quality-skills) (web-quality-audit, performance,
+core-web-vitals, accessibility, seo, best-practices) and
+[WordPress/agent-skills](https://github.com/WordPress/agent-skills) (only wp-plugin-development, wp-performance,
+wp-wpcli-and-ops, wp-phpstan). Clone each once and link its skills like ours, into `~/.claude/skills` (Claude
+Code), `~/.agents/skills` (Codex, Cursor) and `~/.gemini/config/skills` (Antigravity):
+
+```powershell
+git clone https://github.com/addyosmani/web-quality-skills <repos>\web-quality-skills
+git clone https://github.com/WordPress/agent-skills <repos>\wordpress-agent-skills
+foreach ($s in "web-quality-audit","performance","core-web-vitals","accessibility","seo","best-practices") {
+  New-Item -ItemType Junction -Path <folder>\$s -Target <repos>\web-quality-skills\skills\$s }
+foreach ($s in "wp-plugin-development","wp-performance","wp-wpcli-and-ops","wp-phpstan") {
+  New-Item -ItemType Junction -Path <folder>\$s -Target <repos>\wordpress-agent-skills\skills\$s }
+```
+
+Chrome DevTools MCP for Claude Code, with both privacy flags (no usage statistics, no CrUX field-data lookups);
+on Windows put `cmd /c` before `npx`. Other tools: the same command in their MCP settings.
+
+```
+claude mcp add chrome-devtools --scope user -- npx -y chrome-devtools-mcp@latest --no-usage-statistics --no-performance-crux
+```
+
 **Check each one loads.**
 - zoho-command-center: the test in "Check it works in another AI tool" above.
 - handoff: in a project folder it creates `handoff.md` and `ai-handoff-summary.md` the first time it works there.
