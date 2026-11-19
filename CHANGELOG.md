@@ -5,6 +5,21 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.3.1] - 2026-11-19
+
+### Changed
+
+- A Command Center reset that is dropped (the lead's message came first) or refused: say nothing more about it and
+  try again only at the next safe point.
+- Task chats keep wake notes on (step 3, tool map): the 19 Nov test found 4 of 29 wake notes with no stop message
+  behind them. Replaces "until a test shows the stop message always arrives". QA chats still start without them.
+
+### Added
+
+- Lean code (Shared rules): use what already exists first (the site's theme, plugin or helper, then the platform,
+  then an installed library); no option, wrapper or abstraction nobody asked for; never cut validation, error
+  handling, security or accessibility; one small check for new logic with a branch or loop.
+
 ### Docs
 
 - README: "Team setup: everything a teammate installs": the four skills' requirements, where each goes in Claude

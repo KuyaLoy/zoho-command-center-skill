@@ -93,6 +93,10 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
     proves each item, a separate QA chat before every Zoho post (until it finds 0) and Command Center's review. Faster
     means fewer messages and shorter plans, never skipped checks.
+  - **Lean code** (learned 19 Nov 2026): before writing code, use what already exists (the site's theme, plugin or
+    helper, then WordPress or the platform, then an installed library); add no option, wrapper or abstraction nobody
+    asked for; never cut validation, error handling, security or accessibility; new logic with a branch or loop gets
+    one small check.
 - **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026). The lead
   talks to each task chat directly (instructions, follow-ups, questions, plan approval, the go); task chats ask the
   lead there. Command Center doesn't re-ask their questions or go requests or copy their plans; it routes and starts

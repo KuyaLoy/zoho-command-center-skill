@@ -20,7 +20,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
   <date time>, about <n>K tokens" and the browser tabs still open for open tasks; end the reply with the line
   "Resetting this chat to save usage; state is in ai-handoff-summary.md." before the Next line; the reset call is
   the turn's last tool call. After it, the first turn runs step 1's existing-project path (the title stays; no
-  rename), then handles the message that woke it.
+  rename), then handles the message that woke it. A reset that is dropped (the lead's message came first) or refused:
+  say nothing more about it, and try again only at the next safe point.
 - Keep the root handoff files current at every stop (steps 3 and 7): they are what a reset or a new chat starts from.
 - **No hallucination:** answer from files and checks made now, never from memory. Unknown means check first (the
   board, task files, the chat's session info, the live page), or say "not checked". Keep the lead's open requests in
@@ -96,9 +97,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
    stopped, the decisions it took and the next step, once per stop. Never let a chat sit idle unreported, a usage
    pause included. Its question, options and plan stay in that chat (learned 10 Nov 2026): don't copy them here.
    - **One signal per stop** (learned 18 Nov 2026: each signal costs Command Center a full turn): a wake note and a
-     stop message for the same stop are one; reply once, and don't reply to the chat. New chats keep wake notes on
-     until a test shows the stop message always arrives (the app holds some, e.g. from turns the lead drove); after
-     that test passes, start chats without wake notes and act on the stop message alone.
+     stop message for the same stop are one; reply once, and don't reply to the chat. Task chats keep wake notes on
+     (wake-note test, 19 Nov 2026: 4 of 29 wake notes had no stop message behind them, as the app holds some, e.g.
+     from turns the lead drove); QA chats start without them (step 2).
    - **Context check:** check that chat's context % here, at its stops, and at PLAN READY (step 4), nowhere else
      (learned 18 Nov 2026: task chats check themselves at each step). Put the % in the board's Phase column.
    - When the next step is the lead's go or answer in that chat, the last line is "Next: give your go / answer in
