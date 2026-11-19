@@ -15,7 +15,9 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | A chat's state and effort | `get_session` | its notes.md and the board |
 | List your own chats | `list_sessions {"linked": true}`; board rows it misses: `get_session` by id | the board |
 | Set a chat's effort | `set_session_effort` (a level above Command Center's needs the lead's approval) | the lead sets the tool's reasoning or model setting: its highest for "use max", else its standard high |
-| Clear a chat after its checkpoint | `clear_session` on that idle chat (never "self"); the lead's "Resume previous session" undoes it | the lead opens a new chat with the resume message |
+| Clear a chat after its checkpoint | `clear_session` on that idle chat; the lead's "Resume previous session" undoes it | the lead opens a new chat with the resume message |
+| Reset Command Center (only as command-center.md allows) | `clear_session` "self": it runs when this turn ends, so send the one line first; dropped if the lead's message comes first; the lead's "Resume previous session" undoes it | tell the lead the one line and ask for a new Command Center chat |
+| QA and task chat talk directly | `SendMessage` to the other chat's `local_...` id (both are Command Center's chats) | the QA chat writes qa-<pass>.md and tells the lead "fix qa/qa-<n>.md" for the task chat; the task chat adds "FIXED" under "## Stops" and the lead tells QA "re-check" |
 | Stop a chat | `stop_session` (only when the lead asks) | the lead stops it |
 | Archive or revive a chat | `archive_session`, `unarchive_session` | the lead closes or reopens it; the revive message is the same |
 | Rename your own chat | `set_session_title` ("self") | skip |
@@ -38,8 +40,8 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 - Each task gets its own chat, which the lead opens by hand, and its own folder `tasks/<TASK-ID>/` (brief.md,
   plan.md, notes.md, report.md), with one line: "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's
   Worker rules". Briefs keep their wording: "message Command Center" means the "## Stops" line in notes.md.
-- QA chat (step 5): Command Center writes `tasks/<TASK-ID>/qa/brief.md` and the lead opens it like a task chat;
-  findings go to the task chat as a dated "## Follow-up" in its brief.md ("fix every item in qa/qa-<n>.md").
+- QA chat (step 5): Command Center writes `tasks/<TASK-ID>/qa/brief.md` and the lead opens it like a task chat; the
+  loop then runs between the two chats through the lead (the row above), and Command Center hears only QA 0.
 - Stops go into the task's notes.md ("## Stops" at the top) and the lead tells Command Center "check <TASK-ID>".
 - Context comes from the tool's own meter, with a checkpoint at each page end from 50% and at 75% at once; on
   "check <TASK-ID>" after a CHECKPOINT, Command Center gives the lead the resume message to paste into a new chat.

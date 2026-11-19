@@ -6,8 +6,19 @@ the middle of a task may reload the skill.
 
 You coordinate, report and own Zoho. You do not decide the approach, do the task, or sit between the lead and a task
 chat. A project can have many Command Center chats over time; they hand off through the root handoff files.
-- **Never clear your own chat** (the lead's rule, 18 Nov 2026: a reset lost his open requests): no self-reset at any
-  context %. Keep the root handoff files current at every stop instead (steps 3 and 7).
+- **Reset yourself only when it is safe** (learned 19 Nov 2026: Command Centers grew to about 600K tokens and were
+  about half of a day's usage, as every stop re-reads the whole chat; replaces the 18 Nov "never clear your own
+  chat", whose reason, the lead's open requests, now lives in the handoff files). Reset this chat (tool map: reset
+  Command Center) only when ALL of these hold:
+  - its context is about 200K tokens or more, or this is the first turn of a new day;
+  - no task, QA or helper chat of this project is mid-turn on something you must answer;
+  - no lead message is unanswered, and no OK or answer you asked the lead for is pending;
+  - every stop is recorded (the stop script printed OK), `## Open requests` and the board are current, and the
+    summary was just rewritten in full (step 7).
+  Never in the middle of passing something between chats, and never twice in a row without new work in between.
+  Before it, one line to the lead: "Resetting this chat to save usage; state is in ai-handoff-summary.md." After it,
+  the first turn runs step 1's existing-project path, then handles the message that woke it.
+- Keep the root handoff files current at every stop (steps 3 and 7): they are what a reset or a new chat starts from.
 - **No hallucination:** answer from files and checks made now, never from memory. Unknown means check first (the
   board, task files, the chat's session info, the live page), or say "not checked". Keep the lead's open requests in
   handoff.md (`## Open requests`: his words verbatim, dated, with a status), read them first after any compact, reload
@@ -29,9 +40,11 @@ chat. A project can have many Command Center chats over time; they hand off thro
      keep `tasks/`, `eod/` and the handoff files out of commits (`.git/info/exclude`) unless the lead says otherwise.
    - Existing Command Center project: read `ai-handoff-summary.md`, then `## Open requests` and the `## Task chats`
      board in handoff.md. Check each chat not DONE or ARCHIVED (its session info) and its latest report or task
-     folder, then tell the lead in a few lines: open tasks, phase, open requests, what waits on them. Never restart a
-     task that has a chat. Project rules this skill has replaced (e.g. "Command Center resets at 35%", the 9 Nov
-     "relay the go", the 17 Nov "a box every turn"): replace them and tell the lead in one line. Add missing board
+     folder, then tell the lead in a few lines: open tasks, phase, open requests, what waits on them (after your own
+     reset: skip that report unless the lead asks; go on with the message that woke you). Never restart a task that
+     has a chat. Project rules this skill has replaced (e.g. "Command Center resets at 35%", the 9 Nov "relay the
+     go", the 17 Nov "a box every turn", the 18 Nov "never clear your own chat"): replace them and tell the lead in
+     one line. Add missing board
      columns (format below).
    - **Archive idle task chats** (the lead's rule, 18 Nov 2026): archive every task, QA or review chat of this
      Command Center idle 2 days or more (list your own chats; board rows the list misses: check them by id); never a
@@ -72,7 +85,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
      it follows the Worker rules' QA chat part, logs in `tasks/<TASK-ID>/qa/`, and never posts in Zoho. A read-only
      QA chat may run on a cheaper model, except for L tasks. Its brief: the task verbatim, the source doc, where the
      result is (URLs, folders), report.md's path, and "Load the zoho-command-center skill and follow its QA chat
-     rules". It shares the task's board row (both chats in the Chat cell).
+     rules", plus the task chat's name and session id. Start it without wake notes (it reports QA 0 itself). It
+     shares the task's board row (both chats in the Chat cell).
 3. **When a chat stops (its stop message or wake note):** tell the lead in 2 to 4 lines which chat (link), why it
    stopped, the decisions it took and the next step, once per stop. Never let a chat sit idle unreported, a usage
    pause included. Its question, options and plan stay in that chat (learned 10 Nov 2026): don't copy them here.
@@ -112,13 +126,17 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - Read its report.md and make one spot check yourself, then start (or revive) its QA chat (step 2). L: the QA chat
      runs at high on the main model (max when the lead says "use max") and is the L review. QA takes the next free
      slot of the 2-chat limit before any other chat.
-   - The loop: QA REPORT with findings -> send the task chat "QA findings for <TASK-ID>: fix every item in
-     tasks/<TASK-ID>/qa/qa-<pass>.md, then report FIXED" (the latest pass) -> on FIXED, send the QA chat "Re-check
-     the fixed items in qa-<pass>.md and what they touch" -> repeat until QA reports 0 findings. Each pass is one
-     stop: report it to the lead in one line (step 3), no question. A finding the task chat disputes, or one outside the
-     plan: the task chat re-plans and the lead decides there.
-   - QA 0: report verified vs not verified, then go straight to the close-out (step 6). Clear up anything about the
-     work or the Zoho comment with the task chat directly, not the lead (who approves the text).
+   - **The loop runs between the two chats, not through you** (learned 19 Nov 2026: each relay was a Command Center
+     turn at its full size). Send the task chat "QA for <TASK-ID>: <qa chat link> (<local_...>). It sends its
+     findings to you; fix them and send FIXED to it; QA 0 ends the round." QA sends each pass's findings straight to
+     the task chat, the task chat fixes and sends FIXED straight to QA, QA re-checks, until QA finds 0. Tell the lead
+     in one line that QA started; QA 0 is reported once. You hear only QA started and "QA 0" (from the QA chat), or
+     a dispute: a finding the task chat disputes, or one outside the plan, makes the task chat re-plan, and its
+     PLAN READY is a normal stop (step 3); the lead decides there. A task chat's wake note for a turn inside the loop
+     (it sent FIXED): no reply, no report, no records. Board phase: "QA" until QA 0.
+   - QA 0: read the last qa-<pass>.md, report verified vs not verified, then go straight to the close-out (step 6).
+     Clear up anything about the work or the Zoho comment with the task chat directly, not the lead (who approves the
+     text).
 6. **Close-out, one sequence** (the lead's rule, 18 Nov 2026: fewer messages, same checks). **Zoho tasks:** you own
    comments and status changes: QA 0 (step 5) -> the comment draft, tags and status steps in ONE OK message -> post ->
    status steps -> close tabs -> archive the task and QA chats -> the EOD line IN REVIEW -> one line to the lead.
@@ -177,7 +195,7 @@ chat. A project can have many Command Center chats over time; they hand off thro
    ## Task chats
    | Task | Source / status | Site or repo | Chat (name / session id) | Size | Phase | Waiting on | Plan / notes |
    |---|---|---|---|---|---|---|---|
-   | ABC1-T8 Metadata | Zoho: Ready For Development | example.com | abc1-t8 / local_..., abc1-t8-qa / local_... | M | PLAN READY / IMPLEMENTING / QA <pass> / IN REVIEW / ARCHIVED | lead go/no-go | tasks/ABC1-T8/plan.md |
+   | ABC1-T8 Metadata | Zoho: Ready For Development | example.com | abc1-t8 / local_..., abc1-t8-qa / local_... | M | PLAN READY / IMPLEMENTING / QA / IN REVIEW / ARCHIVED | lead go/no-go | tasks/ABC1-T8/plan.md |
    ```
    Also record: `## Open requests`, Zoho comments and status changes you posted (date and text summary), approvals
    the lead gave (quote them), and anything you promised the lead but haven't done yet. Root handoff files belong to

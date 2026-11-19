@@ -16,16 +16,18 @@ tools:
   copy or install); a site copy goes in the project folder itself (`<folder>.test`). They log in `tasks/<TASK-ID>/`
   and report every stop to Command Center. One go covers the whole plan.
   Unrelated problems are only listed, except a hacked site or malware, which is fixed with the task and reported.
-- **QA before every Zoho post:** a separate, read-only QA chat checks the work; Command Center sends its findings to
-  the task chat, which fixes them, and QA checks again until it finds nothing.
+- **QA before every Zoho post:** a separate, read-only QA chat checks the work and sends its findings straight to the
+  task chat, which fixes them and tells QA; QA checks again until it finds nothing. Command Center only hears that QA
+  started and that it passed. Task and QA chats prove each item with the cheapest reliable check (curl, wp-cli, a
+  script) and use the browser only where it is needed.
 - **Gates you control:** nothing changes before your go, no Zoho comment is posted before you OK the exact text, tags
   and status steps, and the Zoho status only moves after the work is done and verified (then it always moves to
   review, so it never sits in "Ready For Development" while waiting on a reviewer).
 - **Context watch and pacing:** from 50% context a task chat finishes the page it is on, then checkpoints to disk and
-  resets (75% is the hard cap). That is long before auto-compact, so no chat loses track mid-work. Command Center
-  never clears its own chat: it keeps the handoff files current at every stop instead. At most 2 chats work at once,
-  and all of them pause at 95% of the 5-hour usage limit and, by default, at 80% of the weekly limit (a project you
-  tell "don't stop" runs on to 100%).
+  resets (75% is the hard cap). That is long before auto-compact, so no chat loses track mid-work. Command Center keeps
+  the handoff files current at every stop and resets itself to save usage only when it is safe (about 200K tokens or a
+  new day, nothing pending, everything recorded). At most 2 chats work at once, and all of them pause at 95% of the
+  5-hour usage limit and, by default, at 80% of the weekly limit (a project you tell "don't stop" runs on to 100%).
 - **Builds** run in one task chat with a conversion skill (figma-to-wordpress or convert-to-wordpress);
   `references/builds.md` is kept only for builds already running with builder and QA chats.
 - **Quiet close-out:** one short Zoho comment (greeting, links, "Done:" one line per item, the CC line), then the

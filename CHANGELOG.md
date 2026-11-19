@@ -5,6 +5,29 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-11-19
+
+Usage: a lean Command Center, a QA loop that runs between the task and QA chats, and cheaper checks.
+
+### Changed
+
+- Command Center resets itself only when it is safe (references/command-center.md): about 200K tokens or the first
+  turn of a new day, no chat mid-turn on something it must answer, no unanswered lead message or pending OK, every
+  stop recorded, open requests and the board current, the summary just rewritten. One line to the lead first; after
+  it, step 1's existing-project path without the status report. Never mid-relay, never twice without new work.
+  Replaces the 18 Nov "never clear your own chat" (a usage check showed Command Centers at about 600K tokens and
+  half of a day's usage).
+- The QA loop runs directly between the QA chat and the task chat (step 5, Worker rules): QA FINDINGS to the task
+  chat, FIXED to the QA chat, until QA 0, which goes to Command Center and the task chat. Command Center hears only
+  that QA started and QA 0, or a dispute (the task chat re-plans; a normal stop). QA chats start without wake notes;
+  a task chat's wake for a loop turn gets no reply. Board phase "QA".
+
+### Added
+
+- Cheaper checks for task and QA chats (Worker rules): curl, wp-cli, a script or a DOM query first; a browser only
+  where needed, steps batched; screenshots only as visual proof; no full-page text dumps into the chat.
+- Tool map rows: reset Command Center (self-clear) and QA and task chat talking directly, with one-chat fallbacks.
+
 ## [2.2.1] - 2026-11-18
 
 ### Changed

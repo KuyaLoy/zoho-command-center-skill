@@ -87,7 +87,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   - **No silent idle** (learned 17 Nov 2026): a turn that stops without the work going on (plan ready, waiting on
     someone, checkpoint, usage pause, blocked, a part done) ends with a short report: what was done, the state,
     decisions taken (defaults chosen) and the Next line; the recap opens with the stop reason. The stop also goes to
-    Command Center as one message, whoever started the turn (Worker rules). No FYIs or duplicates.
+    Command Center as one message, whoever started the turn (Worker rules), except the turns inside a QA loop, which
+    go to the other chat of the loop. No FYIs or duplicates.
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
     proves each item, a separate QA chat before every Zoho post (until it finds 0) and Command Center's review. Faster
     means fewer messages and shorter plans, never skipped checks.
@@ -158,7 +159,8 @@ Task chats don't need that file.
 ## Context watch: never let a task chat hit auto-compact (learned 11 Nov 2026)
 Why: a task chat that ran to 100% auto-compacted mid-work, lost track and broke a website. So we reset early, at a safe
 point, from a checkpoint on disk: the chat writes a checkpoint, Command Center clears it (an idle task chat it
-started, never itself) and sends a resume message (other tools: the lead opens a new chat with that message).
+started; its own reset has rules of its own) and sends a resume message (other tools: the lead opens a new chat with
+that message).
 Auto-compact starts at about 97%.
 
 Thresholds (context % of the task chat; set 17 Nov 2026: a flat 50% cut work off mid-page, so finish the page first):
@@ -200,10 +202,15 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   reads it there. Follow the plan; if reality differs, stop and report instead of improvising outside scope, and
   re-plan (below). A staging hand-over: the plan marks go-live as its own phase, planned and approved after the
   client's OK.
-- **QA findings** (Command Center sends QA's list before any Zoho post): fix every item in one pass inside the plan
-  and its go (an item that needs more is a RE-PLAN), verify each, update report.md, and report "FIXED: <TASK-ID>
-  <n> items" with how each was checked. An item you dispute, or one that needs more than the plan: report PLAN READY
-  naming it and why; the lead decides here. QA then re-checks; repeat until QA finds 0.
+- **QA findings** (before any Zoho post; Command Center gives you the QA chat's session id): the QA chat sends its
+  findings to you directly. Fix every item in one pass inside the plan and its go, verify each, update report.md, and
+  send the QA chat (not Command Center) "FIXED: <TASK-ID> pass <n>" with how each was checked; that turn is not a
+  stop to report. QA re-checks; repeat until it sends QA 0. An item you dispute, or one that needs more than the plan:
+  tell the QA chat "paused", report PLAN READY to Command Center naming it and why; the lead decides here.
+- **Cheaper checks** (learned 19 Nov 2026: task chats made 80 to 200 calls, mostly browser steps and screenshots).
+  Prove each item with the cheapest reliable check: curl, wp-cli, a script or a DOM query first; a browser only for
+  what needs one (logged-in screens, visual checks, forms), with its steps batched; screenshots only as visual proof;
+  never a full-page text dump into the chat (save it to a file and read the part you need).
 - A new task from Command Center: finish or park the current one first (DONE, or only waiting on the lead), then start
   Phase 1 for the new task in its own folder `tasks/<NEW-ID>/`. Put the task ID in every milestone message. After a
   revive or a reset: read report.md and notes.md (and checkpoint.md) first, and re-check the current state.
@@ -229,10 +236,13 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - **A QA chat** (Command Center step 5; learned 18 Nov 2026: QA found 3 issues after a comment was already posted):
   read-only, never fixes or posts. Check every item of the source doc against the real result (the site, staging or
   live, and the files) and the task chat's report.md; also links, forms, mobile and console errors where the task
-  touches them. Each pass writes one consolidated list to `tasks/<TASK-ID>/qa/qa-<pass>.md` (item, where, expected,
-  found; a 0 pass says so in one line) and sends Command Center "QA REPORT: <TASK-ID> <n> findings" with the path. The
-  first pass covers every item; a re-check covers the fixed items and what they touch. "0 findings" ends QA. Your
-  notes.md and checkpoint.md live in `tasks/<TASK-ID>/qa/`; close your tabs when told the task is in review.
+  touches them, with the cheaper checks above. Each pass writes one consolidated list to
+  `tasks/<TASK-ID>/qa/qa-<pass>.md` (item, where, expected, found; a 0 pass says so in one line). Findings go straight
+  to the task chat (its session id is in your brief): "QA FINDINGS: <TASK-ID> pass <n>, <count> items: <path>"; end
+  your turn and wait for its FIXED; those turns are not stops to report. The first pass covers every item; a
+  re-check covers the fixed items and what they touch. At 0 findings, send "QA 0: <TASK-ID> pass <n>: <path>" to
+  Command Center and to the task chat. A "paused" from the task chat: stop and wait. Your notes.md and checkpoint.md
+  live in `tasks/<TASK-ID>/qa/`; close your tabs when told the task is in review.
 - Final report `tasks/<TASK-ID>/report.md`, once the work is done and verified, standing alone (a revived chat works
   from it): "DONE:" first; what changed, how you verified it (counts, URLs checked), what is not verified, rollback
   location, decisions and obvious fixes made, clarifications for the client, what the client or another team must do,
