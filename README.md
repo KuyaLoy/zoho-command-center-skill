@@ -8,9 +8,10 @@ tools:
   idea) its own task chat: the same link or task ID always goes back to the same chat, an archived chat is revived
   from its report and notes. It keeps a task board and your open requests in `handoff.md`, a daily EOD log in `eod/`,
   reviews finished work, and owns the Zoho comments and status changes. It answers from files and checks, not memory.
-- **Effort and plans that fit the task:** every task runs at high effort (max when you say "use max"); small tasks get
-  a 5-line plan, normal ones about 20 lines, large or risky ones (go-lives, migrations, database work) about 40 lines,
-  with no hour estimates.
+- **Effort and plans that fit the task:** every task runs at high effort; large tasks, and unclear or risky normal ones,
+  plan at max and go back to high at your go (and "use max" raises any part you name); small tasks get a 5-line plan,
+  normal ones about 20 lines, large or risky ones (go-lives, migrations, database work) about 40 lines, with no hour
+  estimates.
 - **Task chats** do only the task: short plans, sensible defaults and obvious fixes decided themselves and listed in
   the report, questions only for blockers. Until your go on the plan they only read and plan (no download, local
   copy or install); a site copy goes in the project folder itself (`<folder>.test`). They log in `tasks/<TASK-ID>/`

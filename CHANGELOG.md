@@ -5,6 +5,16 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.4.1] - 2026-11-19
+
+### Changed
+
+- Max for the plan when the task needs it (Task size and effort; command-center.md Effort, steps 2, 3 and 4; tool
+  map): Command Center starts the task chat at max for Phase 1 for every L task and an unclear or risky M (a new
+  approach, several systems, data or SEO at scale, a conversion or build plan), says so in one line before the start,
+  and sets it back to high at "GO" before the first work step. High stays the default; a re-plan after the go stays
+  at high; "use max" still raises any part the lead names. Replaces 2.1's "max only when the lead says use max".
+
 ## [2.4.0] - 2026-11-19
 
 Quality of the work, and the Zoho status at the go.

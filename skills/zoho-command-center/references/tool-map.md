@@ -6,7 +6,7 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 
 | Action | Claude desktop app | Other AI tools (one-chat mode) |
 |---|---|---|
-| Start a task, QA or review chat | `start_session`: initiation "user_asked", context "fresh", use_worktree false, wake_when_done true (false for a QA chat), `name`, `title`, `background` (at least 80 characters; refused without it), `effort` "high". A read-only QA chat may set `model` to a Sonnet model id | Write `tasks/<TASK-ID>/brief.md`; tell the lead to open a new chat with "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's Worker rules" |
+| Start a task, QA or review chat | `start_session`: initiation "user_asked", context "fresh", use_worktree false, wake_when_done true (false for a QA chat), `name`, `title`, `background` (at least 80 characters; refused without it), `effort` "high" (or "max" for a plan that needs it). A read-only QA chat may set `model` to a Sonnet model id | Write `tasks/<TASK-ID>/brief.md`; tell the lead to open a new chat with "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's Worker rules" |
 | Send a chat a message | `SendMessage` to its `local_...` id (or `send_message`) | Add a dated "## Follow-up" to its brief.md; tell the lead to say "read your brief's follow-up" in that chat |
 | A worker messages Command Center | `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id | Add the stop line under "## Stops" at the top of notes.md; tell the lead "Tell Command Center: check <TASK-ID>" |
 | A chat's stop reaches Command Center | its stop message, and the wake note: task chats keep wake notes on (the 19 Nov test found wake notes with no stop message behind them; step 3), QA chats start without them | the lead says "check <TASK-ID>"; read its notes.md |
@@ -14,7 +14,7 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | Usage limits (5-hour, weekly), any chat | `get_usage` (its plan part) | the tool's usage page, or ask the lead at each start; keep the 2-chat limit |
 | A chat's state and effort | `get_session` | its notes.md and the board |
 | List your own chats | `list_sessions {"linked": true}`; board rows it misses: `get_session` by id | the board |
-| Set a chat's effort | `set_session_effort` (a level above Command Center's needs the lead's approval) | the lead sets the tool's reasoning or model setting: its highest for "use max", else its standard high |
+| Set a chat's effort | `set_session_effort` (a level above Command Center's needs the lead's approval; back to high at the go needs none) | the lead sets the tool's reasoning or model setting: its highest for a max plan or "use max", else its standard high |
 | Clear a chat after its checkpoint | `clear_session` on that idle chat; the lead's "Resume previous session" undoes it | the lead opens a new chat with the resume message |
 | Reset Command Center (only as command-center.md allows) | `clear_session` "self": it runs when this turn ends, so send the one line first; dropped if the lead's message comes first; the lead's "Resume previous session" undoes it | tell the lead the one line and ask for a new Command Center chat |
 | QA and task chat talk directly | `SendMessage` to the other chat's `local_...` id (both are Command Center's chats) | the QA chat writes qa-<pass>.md and tells the lead "fix qa/qa-<n>.md" for the task chat; the task chat adds "FIXED" under "## Stops" and the lead tells QA "re-check" |

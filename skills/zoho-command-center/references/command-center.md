@@ -27,12 +27,13 @@ chat. A project can have many Command Center chats over time; they hand off thro
   board, task files, the chat's session info, the live page), or say "not checked". Keep the lead's open requests in
   handoff.md (`## Open requests`: his words verbatim, dated, with a status), read them first after any compact, reload
   or new chat, and list all of them with their status in every report on a round, not only the newest.
-- **Effort:** every chat runs at high, Command Center too (the lead sets it). When the lead says "use max" for a task,
-  raise that chat to max (a level above Command Center's needs the lead's approval in the app) for the part he named,
-  and set it back to high after it. Said in Command Center: raise it before the chat's next turn (a new chat: before
-  its brief is sent, where the tool allows). Said in the task chat: it sends "USE MAX"; raise it the same way. An
-  effort change applies from a chat's next turn. Confirm a chat's effort only from its session info; the picker and
-  turn markers can lag.
+- **Effort:** every chat runs at high by default, Command Center too (the lead sets it). A task chat whose plan needs
+  deep judgement plans at max (SKILL.md "Task size and effort": every L, an unclear or risky M) and goes back to high at
+  its go (step 3). When the lead says "use max" for a task, raise that chat to max (a level above Command Center's needs
+  the lead's approval in the app) for the part he named, and set it back to high after it. Said in Command Center: raise
+  it before the chat's next turn (a new chat: before its brief is sent, where the tool allows). Said in the task chat:
+  it sends "USE MAX"; raise it the same way. An effort change applies from a chat's next turn. Confirm a chat's effort
+  only from its session info; the picker and turn markers can lag.
 - **Zoho in the browser, text first** (learned 19 Nov 2026: a Command Center made 165 calls with 36 screenshots on
   one task, more than its task chat, mostly in Zoho; steps 2 and 6). Read Zoho as text (the page text or an element
   search), not screenshots; batch browser steps; take a screenshot only to confirm something visual (a rendered
@@ -75,11 +76,13 @@ chat. A project can have many Command Center chats over time; they hand off thro
         Read tasks/<TASK-ID>/report.md and qa/; check the follow-up's items and what they touch; task chat:
         <name> (<local_...>)". Pass numbers go on from the last qa-<pass>.md.
      3. Anything else: a new chat (2-chat limit, else QUEUED), unless the lead says "send it to X".
-     Tell the lead in one line where it went, e.g. "Sent to [abc1-t8 chat](#local_...) (same task, revived)" or "New
-     chat, M, high". Name a medium exception there.
-   - **New chat:** start a task chat (tool map: the settings it needs) at high (max only when the lead said "use
-     max"), name = task ID in lowercase (e.g. "abc1-t8"), title = "<TASK-ID> <task title>", and a background of at
-     least 80 characters (project, site, goal, constraints).
+     Tell the lead in one line where it went, e.g. "Sent to [abc1-t8 chat](#local_...) (same task, revived)", "New
+     chat, M, high" or "New chat, L, max for the plan" (that line goes out before the start: the app asks the lead to
+     approve a level above Command Center's own). Name a medium exception there.
+   - **New chat:** start a task chat (tool map: the settings it needs) at high, or at max for a plan that needs it
+     (every L, an unclear or risky M) or when the lead said "use max"; confirm it from its session info, and if it came
+     up lower, raise it (it applies from its next turn), name = task ID in lowercase (e.g. "abc1-t8"), title =
+     "<TASK-ID> <task title>", and a background of at least 80 characters (project, site, goal, constraints).
    - **Brief** (its first message): the task verbatim plus links, its source, size, the site or repo; head-start
      facts marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
      "Plan by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in
@@ -116,12 +119,13 @@ chat. A project can have many Command Center chats over time; they hand off thro
      done; replaces "the lead's go starts the work, NOT the Zoho status"). It is not a stop to report. Check the quoted
      go in its notes.md, then, for a Zoho task, click the start transition the task offers (standing permission):
      usually "Start Development", sometimes "Start Development Edits" or a tracking one such as "+Start Installing
-     Tracking Codes"; read the real button, they differ by task type. Its dialog may ask for the site or GitHub URL (use
-     the site URL), Task Type and Web Task Type: fill them from the task and the project. Read the status back, update
-     its board row (Source / status, Phase IMPLEMENTING; no EOD line), and tell the lead in one line: "<TASK-ID> in
-     development (<status>)". Already in a development status (a re-plan's go): record only. No quoted go in notes.md:
-     don't click; tell the task chat in one line to quote it. A task blocked after the start: the status stays; tell the
-     lead; Stop Developing only on his word. Other sources: record only.
+     Tracking Codes"; read the real button, they differ by task type. A chat that planned at max: set it to high now,
+     before its first work step (no approval needed), and confirm it from its session info. Its dialog may ask for the
+     site or GitHub URL (use the site URL), Task Type and Web Task Type: fill them from the task and the project. Read
+     the status back, update its board row (Source / status, Phase IMPLEMENTING; no EOD line), and tell the lead in one
+     line: "<TASK-ID> in development (<status>)". Already in a development status (a re-plan's go): record only. No
+     quoted go in notes.md: don't click; tell the task chat in one line to quote it. A task blocked after the start: the
+     status stays; tell the lead; Stop Developing only on his word. Other sources: record only.
    - **Record the stop in one call** (learned 18 Nov 2026: 3 or 4 edits per stop): the handoff skill's stop script
      (`scripts/record-stop.sh`, run from the project root as the handoff skill describes it) with the EOD line (format
      from the handoff skill, written at the moment, never recalled later), the summary's Last change and Next action,
@@ -139,7 +143,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
      unless the lead's input is needed. At the resume: check usage, then send the paused chats (then QUEUED ones, at
      most 2 working) "Usage reset: re-check your context %, then continue from your next step." 
 4. **At PLAN READY:** check the task chat's context %; past 50% it checkpoints and resets before the go (Context
-   watch). Every size keeps its effort (high) for the go; a "use max" plan goes back to high now.
+   watch). A chat that planned at max stays at max for a re-plan before the go, and goes back to high at its go
+   (step 3).
 5. **After implementation: QA before every Zoho post, every size** (the lead's rule, 18 Nov 2026: QA found 3 issues
    after a comment was already posted). When the task chat reports DONE or READY FOR QA (e.g. staging ready for the
    client's review):

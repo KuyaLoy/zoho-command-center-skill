@@ -28,15 +28,17 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 | Size | When | Effort | Plan |
 |---|---|---|---|
 | S | one small, reversible change (a text, a setting, a redirect, one section), a check, an investigation, local-only work | high | about 5 lines in the first reply (what, where, backup, how it is checked), copied to plan.md |
-| M | everything else: the usual task | high | plan.md of about 20 lines |
-| L | a go-live or launch, migration, DNS, database change or restore, bulk changes over many pages, live checkout, payments or tracking, anything hard to undo | high | plan.md of about 40 lines; its QA chat runs at high as the review |
+| M | everything else: the usual task | high; max for the plan when it is unclear or risky | plan.md of about 20 lines |
+| L | a go-live or launch, migration, DNS, database change or restore, bulk changes over many pages, live checkout, payments or tracking, anything hard to undo | max for the plan, high from the go | plan.md of about 40 lines; its QA chat runs at high as the review |
 - **Lean plans** (learned 18 Nov 2026): keep to the size's length; no hour or time estimates; detail goes in notes.md.
-- **High for every size** (learned 16 and 18 Nov 2026: max made planning slow, and switching L chats to max and back
-  cost an approval and about 6 steps per task). Max only when the lead says "use max" for a task (its plan, its
-  review or all of it). Medium only by exception, when high is really not needed: work that only reads or follows
-  fixed steps and changes nothing (a status check, collecting facts for a brief, re-running a script the plan named,
-  copying text verbatim into a local file). Never medium for a change to a live site, Zoho or a client document, or
-  for judgement.
+- **High by default, max for a plan that needs it** (the lead's rule, 19 Nov 2026; replaces 2.1's "max only when the
+  lead says use max"). Command Center starts the task chat at max for Phase 1 when the plan needs deep judgement: every
+  L task, and an M task that is unclear or risky (a new approach, several systems, data or SEO at scale, a conversion or
+  build plan). At the go it goes back to high before the first work step; a re-plan after the go stays at high. "use
+  max" from the lead still raises any part he names. Medium only by exception, when high is really not needed: work that
+  only reads or follows fixed steps and changes nothing (a status check, collecting facts for a brief, re-running a
+  script the plan named, copying text verbatim into a local file). Never medium for a change to a live site, Zoho or a
+  client document, or for judgement.
 - Unsure between two sizes: take the larger. The lead can always say "make it L" or "use max".
 - S work that only reads or checks needs no go: do it and report. Every change, local ones included, needs it.
 - A read-only QA or helper chat may run on a cheaper model (not an L task's QA chat); never a chat that changes a
@@ -229,14 +231,14 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   other tool, read `references/tool-map.md` once at start (one-chat mode: "message Command Center" means a line under
   "## Stops" in notes.md).
 - The lead says "use max" here: tell Command Center in one line ("USE MAX: <TASK-ID> <for what>"); it raises you.
-- Phase 1, plan, read-only (at high, or max when the lead said "use max"; if you run below that, say so in one line
-  at the top of your report): investigate by reading only (No change before the go), decide local vs live, and plan
-  at the size's length ("Task size and effort"). Verify the brief's key facts; don't redo research the brief already
-  gives. M and L: `tasks/<TASK-ID>/plan.md` with approach, method, where the site goes (The project folder is the
-  site), backup and rollback, verification (prove every item is done), decisions taken (defaults chosen) and real
-  blockers only; L adds dry run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the
-  source doc verbatim. Report PLAN READY (result first, approach in 2-3 lines, blockers) and end your turn. S work
-  that only reads or checks: do it, DONE.
+- Phase 1, plan, read-only (at the effort Command Center set: high, or max for a plan that needs it or when the lead
+  said "use max"; if you run below that, say so in one line at the top of your report): investigate by reading only (No
+  change before the go), decide local vs live, and plan at the size's length ("Task size and effort"). Verify the
+  brief's key facts; don't redo research the brief already gives. M and L: `tasks/<TASK-ID>/plan.md` with approach,
+  method, where the site goes (The project folder is the site), backup and rollback, verification (prove every item is
+  done), decisions taken (defaults chosen) and real blockers only; L adds dry run and risks. S: about 5 lines, in your
+  reply and in plan.md. Default to implementing the source doc verbatim. Report PLAN READY (result first, approach in
+  2-3 lines, blockers) and end your turn. S work that only reads or checks: do it, DONE.
 - Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go on
   the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
   relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center reads
