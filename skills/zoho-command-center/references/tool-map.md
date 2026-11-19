@@ -6,7 +6,7 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 
 | Action | Claude desktop app | Other AI tools (one-chat mode) |
 |---|---|---|
-| Start a task, QA or review chat | `start_session`: initiation "user_asked", context "fresh", use_worktree false, wake_when_done true, `name`, `title`, `background` (at least 80 characters; refused without it), `effort` "high". A read-only QA chat may set `model` to a Sonnet model id | Write `tasks/<TASK-ID>/brief.md`; tell the lead to open a new chat with "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's Worker rules" |
+| Start a task, QA or review chat | `start_session`: initiation "user_asked", context "fresh", use_worktree false, wake_when_done true (false for a QA chat), `name`, `title`, `background` (at least 80 characters; refused without it), `effort` "high". A read-only QA chat may set `model` to a Sonnet model id | Write `tasks/<TASK-ID>/brief.md`; tell the lead to open a new chat with "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's Worker rules" |
 | Send a chat a message | `SendMessage` to its `local_...` id (or `send_message`) | Add a dated "## Follow-up" to its brief.md; tell the lead to say "read your brief's follow-up" in that chat |
 | A worker messages Command Center | `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id | Add the stop line under "## Stops" at the top of notes.md; tell the lead "Tell Command Center: check <TASK-ID>" |
 | A chat's stop reaches Command Center | its stop message, and the wake note while wake notes are on (step 3) | the lead says "check <TASK-ID>"; read its notes.md |

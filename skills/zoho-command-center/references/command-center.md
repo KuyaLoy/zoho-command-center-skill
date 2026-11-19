@@ -12,12 +12,15 @@ chat. A project can have many Command Center chats over time; they hand off thro
   Command Center) only when ALL of these hold:
   - its context is about 200K tokens or more, or this is the first turn of a new day;
   - no task, QA or helper chat of this project is mid-turn on something you must answer;
-  - no lead message is unanswered, and no OK or answer you asked the lead for is pending;
-  - every stop is recorded (the stop script printed OK), `## Open requests` and the board are current, and the
-    summary was just rewritten in full (step 7).
+  - no lead message is unanswered (one answered in this turn counts as answered), and no OK or answer you asked the
+    lead for is pending; no resume at a set time is scheduled (step 3, usage pause);
+  - every stop is recorded (the stop script printed OK), and `## Open requests` and the board are current.
   Never in the middle of passing something between chats, and never twice in a row without new work in between.
-  Before it, one line to the lead: "Resetting this chat to save usage; state is in ai-handoff-summary.md." After it,
-  the first turn runs step 1's existing-project path, then handles the message that woke it.
+  Then, as the last steps of the turn: rewrite the summary in full (step 7) with a line "Last Command Center reset:
+  <date time>, about <n>K tokens" and the browser tabs still open for open tasks; end the reply with the line
+  "Resetting this chat to save usage; state is in ai-handoff-summary.md." before the Next line; the reset call is
+  the turn's last tool call. After it, the first turn runs step 1's existing-project path (the title stays; no
+  rename), then handles the message that woke it.
 - Keep the root handoff files current at every stop (steps 3 and 7): they are what a reset or a new chat starts from.
 - **No hallucination:** answer from files and checks made now, never from memory. Unknown means check first (the
   board, task files, the chat's session info, the live page), or say "not checked". Keep the lead's open requests in
@@ -63,7 +66,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
         at high, and send "Follow-up for <TASK-ID>. Load the zoho-command-center skill (Worker rules). Read
         tasks/<TASK-ID>/report.md and notes.md, not the old conversation; re-check the current state; plan this
         follow-up and wait for the lead's go; then: <request>". Its QA chat is revived at step 5 the same way (same
-        chats, never new ones).
+        chats, never new ones), with "Follow-up QA for <TASK-ID>. Load the zoho-command-center skill (QA chat rules).
+        Read tasks/<TASK-ID>/report.md and qa/; check the follow-up's items and what they touch; task chat:
+        <name> (<local_...>)". Pass numbers go on from the last qa-<pass>.md.
      3. Anything else: a new chat (2-chat limit, else QUEUED), unless the lead says "send it to X".
      Tell the lead in one line where it went, e.g. "Sent to [abc1-t8 chat](#local_...) (same task, revived)" or "New
      chat, M, high". Name a medium exception there.
@@ -130,11 +135,13 @@ chat. A project can have many Command Center chats over time; they hand off thro
      turn at its full size). Send the task chat "QA for <TASK-ID>: <qa chat link> (<local_...>). It sends its
      findings to you; fix them and send FIXED to it; QA 0 ends the round." QA sends each pass's findings straight to
      the task chat, the task chat fixes and sends FIXED straight to QA, QA re-checks, until QA finds 0. Tell the lead
-     in one line that QA started; QA 0 is reported once. You hear only QA started and "QA 0" (from the QA chat), or
-     a dispute: a finding the task chat disputes, or one outside the plan, makes the task chat re-plan, and its
-     PLAN READY is a normal stop (step 3); the lead decides there. A task chat's wake note for a turn inside the loop
-     (it sent FIXED): no reply, no report, no records. Board phase: "QA" until QA 0.
-   - QA 0: read the last qa-<pass>.md, report verified vs not verified, then go straight to the close-out (step 6).
+     in one line that QA started. You hear only QA started and "QA 0" (from the QA chat), a dispute, or a stop that
+     always comes to you (PAUSED, BLOCKED, CHECKPOINT, "QA STUCK" after 3 passes without 0): those are normal stops
+     (step 3). A disputed finding, or one outside the plan, makes the task chat re-plan; the lead decides there, and
+     the task chat then tells QA to go on. A task chat's wake note for a turn inside the loop (it got the QA link,
+     sent FIXED or got QA 0): no reply, no report, no records. Board phase: "QA" until QA 0.
+   - QA 0: read the last qa-<pass>.md; the OK message (step 6) opens with "QA 0 after <n> passes, <m> items fixed"
+     and what is verified vs not; no separate report. Then go straight to the close-out (step 6).
      Clear up anything about the work or the Zoho comment with the task chat directly, not the lead (who approves the
      text).
 6. **Close-out, one sequence** (the lead's rule, 18 Nov 2026: fewer messages, same checks). **Zoho tasks:** you own
@@ -212,7 +219,8 @@ SKILL.md has the thresholds, the safe point and the Worker part.
   "Resumed after a context reset. You are the task chat for <TASK-ID>. Load the zoho-command-center skill (Worker
   rules). Read tasks/<TASK-ID>/plan.md, notes.md and checkpoint.md. The lead's go stands (quote it). Before you change
   anything, re-check the real current state (files, site, DB) against checkpoint.md and report any difference. Then
-  continue from the next step." Keep its effort as it was (high for execution).
+  continue from the next step." Keep its effort as it was (high for execution). Inside a QA loop add "QA loop at
+  pass <n>, other chat: <name> (<local_...>)"; a QA chat gets "You are the QA chat for <TASK-ID>" and reads qa/.
 - A clear or an archive is refused mid-turn (wait until idle) and while the lead has the chat open or pinned: say so
   at once in one line, "Switch away from <chat link> so I can reset (or archive) it", and for a reset send a chat
   under 75% "Continue, no reset." instead of leaving it waiting. Never leave a checkpointed chat idle without telling

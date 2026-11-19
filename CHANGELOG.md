@@ -27,6 +27,13 @@ Usage: a lean Command Center, a QA loop that runs between the task and QA chats,
 - Cheaper checks for task and QA chats (Worker rules): curl, wp-cli, a script or a DOM query first; a browser only
   where needed, steps batched; screenshots only as visual proof; no full-page text dumps into the chat.
 - Tool map rows: reset Command Center (self-clear) and QA and task chat talking directly, with one-chat fallbacks.
+- Reset details: the summary is rewritten in full as the last step, with "Last Command Center reset" and the open
+  tabs; no reset while a timed resume is scheduled; the reset line comes before the Next line and the reset call is
+  the turn's last tool call; the title stays.
+- QA loop details: PAUSED, BLOCKED and CHECKPOINT always go to Command Center; "QA STUCK" after 3 passes without 0;
+  after a dispute the task chat tells QA to go on; QA 0 opens the OK message ("QA 0 after <n> passes, <m> items
+  fixed") instead of a separate report; a revived QA chat gets its own follow-up message and pass numbers go on;
+  resume messages name the loop's pass and the other chat; QA chats start with wake notes off (tool map).
 
 ## [2.2.1] - 2026-11-18
 

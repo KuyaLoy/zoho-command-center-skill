@@ -87,8 +87,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   - **No silent idle** (learned 17 Nov 2026): a turn that stops without the work going on (plan ready, waiting on
     someone, checkpoint, usage pause, blocked, a part done) ends with a short report: what was done, the state,
     decisions taken (defaults chosen) and the Next line; the recap opens with the stop reason. The stop also goes to
-    Command Center as one message, whoever started the turn (Worker rules), except the turns inside a QA loop, which
-    go to the other chat of the loop. No FYIs or duplicates.
+    Command Center as one message, whoever started the turn (Worker rules), except the turns inside a QA loop
+    (findings, FIXED, QA 0), which go to the other chat of the loop; PAUSED, BLOCKED and CHECKPOINT always go to
+    Command Center. No FYIs or duplicates.
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
     proves each item, a separate QA chat before every Zoho post (until it finds 0) and Command Center's review. Faster
     means fewer messages and shorter plans, never skipped checks.
@@ -205,8 +206,9 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - **QA findings** (before any Zoho post; Command Center gives you the QA chat's session id): the QA chat sends its
   findings to you directly. Fix every item in one pass inside the plan and its go, verify each, update report.md, and
   send the QA chat (not Command Center) "FIXED: <TASK-ID> pass <n>" with how each was checked; that turn is not a
-  stop to report. QA re-checks; repeat until it sends QA 0. An item you dispute, or one that needs more than the plan:
-  tell the QA chat "paused", report PLAN READY to Command Center naming it and why; the lead decides here.
+  stop to report, and neither are the turns that get the QA link or QA 0. QA re-checks; repeat until it sends QA 0.
+  An item you dispute, or one that needs more than the plan: tell the QA chat "paused", report PLAN READY to Command
+  Center naming it and why; the lead decides here; then tell the QA chat to go on.
 - **Cheaper checks** (learned 19 Nov 2026: task chats made 80 to 200 calls, mostly browser steps and screenshots).
   Prove each item with the cheapest reliable check: curl, wp-cli, a script or a DOM query first; a browser only for
   what needs one (logged-in screens, visual checks, forms), with its steps batched; screenshots only as visual proof;
@@ -220,7 +222,7 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - **Talk to Command Center directly at each milestone** (learned 11 Nov 2026), without the lead having to ask:
   - Every stop (No silent idle), the lead's own turns included, as one message of at most 4 lines: "<TYPE>: <TASK-ID>
     <why it stopped>. Decisions: <defaults taken, or none>. Next: <step> — waiting on <who>". TYPE is PLAN READY (with
-    the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, FIXED, BLOCKED or CHECKPOINT. A serious
+    the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT. A serious
     finding gets its one line to the lead and Command Center when found.
   - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan, re-plan
     right away at your current effort (every size) and report PLAN READY again. A question that changes nothing is
@@ -241,7 +243,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   to the task chat (its session id is in your brief): "QA FINDINGS: <TASK-ID> pass <n>, <count> items: <path>"; end
   your turn and wait for its FIXED; those turns are not stops to report. The first pass covers every item; a
   re-check covers the fixed items and what they touch. At 0 findings, send "QA 0: <TASK-ID> pass <n>: <path>" to
-  Command Center and to the task chat. A "paused" from the task chat: stop and wait. Your notes.md and checkpoint.md
+  Command Center and to the task chat. After 3 passes without 0, send Command Center "QA STUCK: <TASK-ID> pass <n>:
+  <path>" and wait. A "paused" from the task chat: stop and wait for its "go on". Your notes.md and checkpoint.md
   live in `tasks/<TASK-ID>/qa/`; close your tabs when told the task is in review.
 - Final report `tasks/<TASK-ID>/report.md`, once the work is done and verified, standing alone (a revived chat works
   from it): "DONE:" first; what changed, how you verified it (counts, URLs checked), what is not verified, rollback
