@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.4.4
+Version: 2.4.5
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -47,10 +47,11 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   live site.
 - **Usage pacing** (learned 17 Nov 2026: four chats at once used 97% of the 5-hour limit; the stops were raised later,
   as 75% wasted a quarter of the window): at most 2 chats working at once (QA and review chats count); more wait as
-  QUEUED. Check the usage limits before starting or resuming any chat. Every working chat stops at its next safe
-  point at 95% of the 5-hour limit and at 80% of the weekly limit; Command Center then sets the resume time, says it
-  once and resumes on its own (step 3). A project the lead tells "don't stop" (quoted and dated in its handoff.md
-  rules) runs on to 100%. Commit or save after every step, so a stop leaves a clean state.
+  QUEUED. Check the usage limits before starting or resuming any chat. Every working chat stops at its next safe point
+  at 95% of the 5-hour limit and at 95% of the weekly limit (raised from 80%, the lead's rule, 19 Nov 2026: the last 20%
+  of the week went unused); Command Center then sets the resume time, says it once and resumes on its own (step 3). A
+  project the lead tells "don't stop" (quoted and dated in its handoff.md rules) runs on to 100%. Commit or save after
+  every step, so a stop leaves a clean state.
 - **Builds** (a whole site or design from Figma, HTML, Next.js or another stack; learned 18 Nov 2026: multi-chat builds
   cost far more usage than the work needed): one task chat builds it with the figma-to-wordpress or
   convert-to-wordpress skill. `references/builds.md` is retired: it is kept only for a build already running with

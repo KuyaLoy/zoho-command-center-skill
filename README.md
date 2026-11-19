@@ -28,7 +28,7 @@ tools:
   resets (75% is the hard cap). That is long before auto-compact, so no chat loses track mid-work. Command Center keeps
   the handoff files current at every stop and resets itself to save usage only when it is safe (about 200K tokens or a
   new day, nothing pending, everything recorded). At most 2 chats work at once, and all of them pause at 95% of the
-  5-hour usage limit and, by default, at 80% of the weekly limit (a project you tell "don't stop" runs on to 100%).
+  5-hour usage limit and, by default, at 95% of the weekly limit (a project you tell "don't stop" runs on to 100%).
 - **Builds** run in one task chat with a conversion skill (figma-to-wordpress or convert-to-wordpress);
   `references/builds.md` is kept only for builds already running with builder and QA chats.
 - **Quiet close-out:** one short Zoho comment (greeting, links, "Done:" one line per item, the CC line), then the

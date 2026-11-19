@@ -5,6 +5,13 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.4.5] - 2026-11-19
+
+### Changed
+
+- Usage pacing: working chats stop at 95% of the weekly limit, raised from 80% (the lead's rule, 19 Nov 2026: the
+  last 20% of the week went unused). The 5-hour stop stays at 95%. SKILL.md and README.
+
 ## [2.4.4] - 2026-11-19
 
 ### Fixed
