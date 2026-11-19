@@ -95,6 +95,47 @@ checker says OK; the last line reads "Next: ... — waiting on <the lead>".
 Tested: Codex CLI 0.146.0 on 2026-11-18 with gpt-5.6-sol: pass. If Codex says a model "is not supported when using
 Codex with a ChatGPT account", run it with `-m` and a model your account supports.
 
+## Team setup: everything a teammate installs
+
+Four skills work together. Everything below comes from each one's own README: follow that README where this is
+short.
+
+| Skill | Repository (README) | Must have, per its README |
+|---|---|---|
+| zoho-command-center | [this repo](https://github.com/KuyaLoy/zoho-command-center-skill) | the Claude desktop app (Code tab) for the full workflow, other AI tools in one-chat mode; Claude in Chrome; a Zoho Projects portal |
+| handoff | [handoff-skill](https://github.com/KuyaLoy/handoff-skill) | its stop and checker scripts are plain sh and awk ("chats without a shell make the same edits by hand") |
+| convert-to-wordpress | [convert-wordpress-skill](https://github.com/KuyaLoy/convert-wordpress-skill) | Python 3.9+; a local WordPress app (Local, Laragon, Herd, MAMP, XAMPP, WampServer, DDEV, wp-env, or PHP 8.1 to 8.4 with MySQL or MariaDB); Node.js 18+ with Playwright and Chromium; Composer for PHPCS; WP-CLI optional |
+| figma-to-wordpress | [figma-to-wordpress-skill](https://github.com/KuyaLoy/figma-to-wordpress-skill) | a Figma MCP server connected; Python 3 and Node.js 18+; `npm i -D playwright pixelmatch pngjs` and `npx playwright install chromium`; for WordPress builds a local web stack and convert-to-wordpress |
+
+**Where each skill goes.** Claude Code: zoho-command-center, handoff and figma-to-wordpress install as plugins
+(`/plugin marketplace add KuyaLoy/<repo>`, then `/plugin install`, then turn on auto-update once, as each README
+shows); convert-to-wordpress is cloned into `~/.claude/skills/convert-to-wordpress`. Other tools: clone each repo once
+and link its skill folder into the tool's skills folder (handoff's README: "link (don't copy)", so one `git pull`
+updates every tool):
+
+| Tool | Skills folder | Link on Windows (handoff's README) |
+|---|---|---|
+| Codex | `~/.agents/skills` | `New-Item -ItemType Junction -Path <folder>\<skill> -Target <clone>\skills\<skill>` |
+| Antigravity | `~/.gemini/config/skills` | the same; macOS and Linux: `ln -s <clone>/skills/<skill> <folder>/<skill>` |
+| Cursor | `~/.cursor/skills` or `~/.agents/skills` (also reads `~/.claude/skills`) | the same |
+
+convert-to-wordpress has no `skills/` folder: the clone itself is the skill and its folder must be named
+`convert-to-wordpress`. It updates with `scripts/update.py` (or `git pull`); the other clones with
+`git pull --ff-only`.
+
+**What you fill in yourself.** convert-to-wordpress: copy `profile.example.json` to `profile.local.json` (never
+committed) with your defaults: your name, the Bcc list for lead emails, your task tracker, your local stack, your
+host, the path to your ACF PRO zip if you use it, and `level`. Its README: the skill never types passwords, licence
+or API keys; the one exception is your default local admin password, read from that private profile for local sites
+only. Command Center: the settings block below (Set it up).
+handoff: its README's "Make it load every session" block in `~/.claude/CLAUDE.md` (recommended).
+
+**Check each one loads.**
+- zoho-command-center: the test in "Check it works in another AI tool" above.
+- handoff: in a project folder it creates `handoff.md` and `ai-handoff-summary.md` the first time it works there.
+- convert-to-wordpress: `python3 scripts/doctor.py` (Windows: `py -3`) checks your computer and lists what is missing.
+- figma-to-wordpress: "Build this Figma design in WordPress: <Figma link>" makes it ask its intake questions once.
+
 ## Set it up (once)
 
 Add this to your `~/.claude/CLAUDE.md` and fill in your values. The first block tells Claude when to load the skill;

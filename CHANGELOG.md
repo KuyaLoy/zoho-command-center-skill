@@ -5,6 +5,11 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+### Docs
+
+- README: "Team setup: everything a teammate installs": the four skills' requirements, where each goes in Claude
+  Code, Codex, Antigravity and Cursor, what to fill in, and how to check each one loads, taken from their READMEs.
+
 ## [2.3.0] - 2026-11-19
 
 Usage: a lean Command Center, a QA loop that runs between the task and QA chats, and cheaper checks.
