@@ -5,6 +5,18 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.4.4] - 2026-11-19
+
+### Fixed
+
+- The stall rule where every chat sees it (Shared rules): never end a turn waiting for another chat to go idle;
+  check now, else a one-shot check in 2 minutes naming the exact step (load the scheduling tool first if it is
+  deferred), one more, then tell the lead. 2.4.3 had it only in references/command-center.md, which a Command Center
+  that reloaded SKILL.md alone did not re-read, so two chats stalled again.
+- A reload always re-reads the references: "Which role am I?" and the version-check rule say Command Center reads
+  references/command-center.md and tool-map.md again; a reload of SKILL.md alone is not one.
+- Tool map: the one-shot scheduler is loaded first when the tool list defers it.
+
 ## [2.4.3] - 2026-11-19
 
 ### Fixed

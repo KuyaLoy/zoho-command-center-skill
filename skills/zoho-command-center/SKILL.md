@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.4.3
+Version: 2.4.4
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -61,7 +61,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   task number (e.g. "ABC1-T8") or a short name (e.g. "SHIPPING-ERROR"). Follow "Worker rules"; never act as Command
   Center, start other task chats or post in Zoho. QA, helper and review chats (Command Center step 2) follow them too.
 - **Command Center:** anything else in a Command Center project. Read `references/command-center.md` and
-  `references/tool-map.md` now, and again after any reload, compact or new chat; follow them with the rules here.
+  `references/tool-map.md` now, and again after any reload, compact or new chat; follow them with the rules here. A
+  reload of SKILL.md alone is not a reload for Command Center (learned 19 Nov 2026: a rule that lived only in the
+  references was missed and two chats stalled).
 - **A running task keeps its rules:** its brief and plan win over this skill's defaults, so a skill reload or a new
   version mid-task changes nothing for that task. New rules apply from its next task.
 - **A project's own rules win:** rules under the project rules in its handoff.md (quoted and dated) win over this
@@ -72,8 +74,13 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   points of the 5-hour window). Command Center on its first turn after a lead's message and after any reset, and a
   task chat at a new task or a revive: read the "Version:" line of the installed SKILL.md (the file at the skill's
   path on disk) and compare it with the one loaded in this chat. Installed newer: load the zoho-command-center and
-  handoff skills again before the work, and tell the lead in one line "Skills updated to <version>". A running task
+  handoff skills again before the work (Command Center also reads `references/command-center.md` and
+  `references/tool-map.md` again), and tell the lead in one line "Skills updated to <version>". A running task
   keeps its rules ("Which role am I?").
+- **Never end a turn waiting for another chat to go idle** (learned 19 Nov 2026: two chats stalled, each waiting on
+  the other). Check its state now; idle: do the step in this turn; still running: schedule a one-shot check in 2
+  minutes that names the exact step (load the scheduling tool first if the tool list defers it), then one more, then
+  tell the lead in one line. Details: `references/command-center.md`, Context watch.
 - Reply in the reply language from the settings (default English), even when the lead writes in another language.
 - **Real times only** (learned 19 Nov 2026: "18:3x" in a task's notes): every time in notes, reports, EOD lines and
   messages comes from the clock (`date`), never estimated or rounded; if the exact time is unknown, write the date

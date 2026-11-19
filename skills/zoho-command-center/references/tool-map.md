@@ -23,8 +23,8 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | Rename your own chat | `set_session_title` ("self") | skip |
 | Open a chat beside Command Center (only when the lead asks) | `open_session_in` | the lead opens it |
 | The next-step box | `wrap_up` with `ask` and `actions` (only for a new decision) | a last line "Decide: <question> (<option 1> / <option 2>)" |
-| Wait for a chat to go idle | `get_session` now; still running: a `CronCreate` one-shot 2 minutes ahead (recurring false) whose prompt names the exact step; never end a turn only "waiting" | the lead says "check <TASK-ID>" when that chat has stopped |
-| Resume at a set time | `CronCreate` one-shot (recurring false; minute, hour, day and month pinned to the reset) with the resume message; this chat must stay open | tell the lead the time; resume on the lead's next message |
+| Wait for a chat to go idle | `get_session` now; still running: a `CronCreate` one-shot (load it first when deferred) 2 minutes ahead (recurring false) whose prompt names the exact step; never end a turn only "waiting" | the lead says "check <TASK-ID>" when that chat has stopped |
+| Resume at a set time | `CronCreate` one-shot (load it first with the tool search when the tool list defers it; recurring false; minute, hour, day and month pinned to the reset) with the resume message; this chat must stay open | tell the lead the time; resume on the lead's next message |
 | Record a stop | the handoff skill's stop script, `scripts/record-stop.sh` (needs a shell) | the same where the tool runs commands; else by hand |
 | Read Zoho, post comments, change status | Claude in Chrome: page text and element search first, steps batched, a screenshot only to confirm something visual | the tool's browser control with the lead's sign-in; without one, show the lead the comment, tags, transition and Request Review values, and the lead clicks them |
 | Close a task's browser tabs | the browser tools' close-tab action (Chrome, the app's pane, the automation browser) | the lead closes them; name them |
