@@ -5,6 +5,21 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.4.6] - 2026-11-20
+
+### Changed
+
+- A refused reset never waits on the lead (Context watch, Command Center's part; tool map): when clearing a
+  checkpointed chat is refused because it is open or pinned on the lead's screen, Command Center doesn't retry or
+  ask; it starts a continuation chat "<task>-2" with the resume message (the go quoted), updates the board, tells
+  the lead in one line and archives the old chat later. A refused archive waits for step 1's sweep or the close-out.
+  A revive uses the task's newest chat.
+
+### Added
+
+- Ask the lead only for real decisions or blockers (Shared rules, next to No silent idle): the plan go, the comment
+  OK, a sign-in, missing information.
+
 ## [2.4.5] - 2026-11-19
 
 ### Changed

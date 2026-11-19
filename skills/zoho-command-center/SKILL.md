@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.4.5
+Version: 2.4.6
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -111,6 +111,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     Command Center as one message, whoever started the turn (Worker rules), except the turns inside a QA loop
     (findings, FIXED, QA 0), which go to the other chat of the loop; PAUSED, BLOCKED and CHECKPOINT always go to
     Command Center. No FYIs or duplicates.
+  - **Ask the lead only for real decisions or blockers** (the lead's rule, 20 Nov 2026): the plan go, the comment OK,
+    a sign-in, missing information. Anything the chats can settle themselves never waits on the lead.
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
     proves each item, a separate QA chat before every Zoho post (until it finds 0) and Command Center's review. Faster
     means fewer messages and shorter plans, never skipped checks.

@@ -15,7 +15,7 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | A chat's state and effort | `get_session` | its notes.md and the board |
 | List your own chats | `list_sessions {"linked": true}`; board rows it misses: `get_session` by id | the board |
 | Set a chat's effort | `set_session_effort` (a level above Command Center's needs the lead's approval; back to high at the go needs none) | the lead sets the tool's reasoning or model setting: its highest for a max plan or "use max", else its standard high |
-| Clear a chat after its checkpoint | `clear_session` on that idle chat; the lead's "Resume previous session" undoes it | the lead opens a new chat with the resume message |
+| Clear a chat after its checkpoint | `clear_session` on that idle chat (refused because it is open or pinned on the lead's screen: `start_session` a continuation chat "<task>-2" with the resume message instead, no retry, no question); the lead's "Resume previous session" undoes it | the lead opens a new chat with the resume message |
 | Reset Command Center (only as command-center.md allows) | `clear_session` "self": it runs when this turn ends, so send the one line first; dropped if the lead's message comes first; the lead's "Resume previous session" undoes it | tell the lead the one line and ask for a new Command Center chat |
 | QA and task chat talk directly | `SendMessage` to the other chat's `local_...` id (both are Command Center's chats) | the QA chat writes qa-<pass>.md and tells the lead "fix qa/qa-<n>.md" for the task chat; the task chat adds "FIXED" under "## Stops" and the lead tells QA "re-check" |
 | Stop a chat | `stop_session` (only when the lead asks) | the lead stops it |

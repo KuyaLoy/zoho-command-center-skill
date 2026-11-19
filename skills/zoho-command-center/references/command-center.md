@@ -68,14 +68,15 @@ chat. A project can have many Command Center chats over time; they hand off thro
      in `handoff-archive.md`, where the handoff skill moves DONE and ARCHIVED rows); the first that fits:
      1. Only a question (status, where things are, what a chat found): answer from the board and task files. No chat.
      2. The same Zoho link or task ID as a board row (a follow-up, a client reply, a fix after review): always that
-        task's chat, until the lead says otherwise. Open: send it the request. Archived: revive it, clear it, keep it at
-        high, and send "Follow-up for <TASK-ID>. Load the zoho-command-center skill (Worker rules). Read
-        tasks/<TASK-ID>/report.md and notes.md, not the old conversation; re-check the current state; plan this
-        follow-up and wait for the lead's go; send Command Center (parent) a short message at every stop; then:
-        <request>". A revived chat may not bring back its wake notes, so that line keeps its stops reaching you. Its QA
-        chat is revived at step 5 the same way (same chats, never new ones), with "Follow-up QA for <TASK-ID>. Load the
-        zoho-command-center skill (QA chat rules). Read tasks/<TASK-ID>/report.md and qa/; check the follow-up's items
-        and what they touch; task chat: <name> (<local_...>)". Pass numbers go on from the last qa-<pass>.md.
+        task's chat (its newest one, e.g. "<task>-2"), until the lead says otherwise. Open: send it the request.
+        Archived: revive it, clear it, keep it at high, and send "Follow-up for <TASK-ID>. Load the zoho-command-center
+        skill (Worker rules). Read tasks/<TASK-ID>/report.md and notes.md, not the old conversation; re-check the
+        current state; plan this follow-up and wait for the lead's go; send Command Center (parent) a short message at
+        every stop; then: <request>". A revived chat may not bring back its wake notes, so that line keeps its stops
+        reaching you. Its QA chat is revived at step 5 the same way (same chats, never new ones), with "Follow-up QA for
+        <TASK-ID>. Load the zoho-command-center skill (QA chat rules). Read tasks/<TASK-ID>/report.md and qa/; check the
+        follow-up's items and what they touch; task chat: <name> (<local_...>)". Pass numbers go on from the last
+        qa-<pass>.md.
      3. Anything else: a new chat (2-chat limit, else QUEUED), unless the lead says "send it to X".
      Tell the lead in one line where it went, e.g. "Sent to [abc1-t8 chat](#local_...) (same task, revived)", "New
      chat, M, high" or "New chat, L, max for the plan" (that line goes out before the start: the app asks the lead to
@@ -253,8 +254,13 @@ SKILL.md has the thresholds, the safe point and the Worker part.
   Command Center (parent) a short message at every stop." Keep its effort as it was (high for execution). Inside a QA
   loop add "QA loop at pass <n>, other chat: <name> (<local_...>)"; a QA chat gets "You are the QA chat for <TASK-ID>"
   and reads qa/.
-- A clear or an archive is refused mid-turn (wait until idle, as above) and while the lead has the chat open or pinned:
-  say so at once in one line, "Switch away from <chat link> so I can reset (or archive) it", and for a reset send a chat
-  under 75% "Continue, no reset." instead of leaving it waiting. Never leave a checkpointed chat idle without telling
-  the lead.
+- A clear or an archive is refused mid-turn: wait until idle, as above. Refused because the lead has the chat open or
+  pinned (learned 20 Nov 2026: three refused clears, then a stop to ask the lead to switch away):
+  - **A reset never waits on the lead.** Don't retry and don't ask: start a continuation chat for the same task at
+    once, named "<task>-2" (then -3), the same title plus "(cont.)", the same effort and settings, with the resume
+    message above (the lead's go quoted). Update the board row (both chats, the new one live), tell the lead in one
+    line "<TASK-ID> continues in [<task>-2](#local_...)", and archive the old chat later, once it is idle and no
+    longer on screen (step 1's sweep or the close-out).
+  - An archive: leave it for step 1's sweep or the close-out, and say "archive pending" in that one line.
+  Never leave a checkpointed chat idle without telling the lead.
 - Log each reset in handoff.md (date, task, % at reset), and tell the lead in one line with the chat link.
