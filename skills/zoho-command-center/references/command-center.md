@@ -113,6 +113,16 @@ chat. A project can have many Command Center chats over time; they hand off thro
      when the lead asks.
    - Whether the lead gave a task chat its go: read its notes.md, where the chat quotes it. Never read transcripts for
      it (costly, and a summary can mislead); no quote there means no go yet.
+   - **"GO: <TASK-ID>" means status at the go** (the lead's rule, 19 Nov 2026: the team only saw the work once it was
+     done; replaces "the lead's go starts the work, NOT the Zoho status"). It is not a stop to report. Check the
+     quoted go in its notes.md, then, for a Zoho task, click the start transition the task offers (standing
+     permission): usually "Start Development", sometimes "Start Development Edits" or a tracking one such as "+Start
+     Installing Tracking Codes"; read the real button, they differ by task type. Its dialog may ask for the site or
+     GitHub URL (use the site URL), Task Type and Web Task Type: fill them from the task and the project. Read the
+     status back, record it (board Source / status, Phase IMPLEMENTING; the stop script), and tell the lead in one
+     line: "<TASK-ID> in development (<status>)". Already in a development status (a re-plan's go): record only. A
+     task blocked after the start: the status stays; tell the lead; Stop Developing only on his word. Other sources:
+     record only.
    - **Record the stop in one call** (learned 18 Nov 2026: 3 or 4 edits per stop): the handoff skill's stop script
      (`scripts/record-stop.sh`, run from the project root as the handoff skill describes it) with the EOD line (format
      from the handoff skill, written at the moment, never recalled later), the summary's Last change and Next action,
@@ -151,8 +161,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
      Clear up anything about the work or the Zoho comment with the task chat directly, not the lead (who approves the
      text).
 6. **Close-out, one sequence** (the lead's rule, 18 Nov 2026: fewer messages, same checks). **Zoho tasks:** you own
-   comments and status changes: QA 0 (step 5) -> the comment draft, tags and status steps in ONE OK message -> post ->
-   status steps -> close tabs -> archive the task and QA chats -> the EOD line IN REVIEW -> one line to the lead.
+   comments and status changes: QA 0 (step 5) -> the comment draft, tags and Request Review values in ONE OK message
+   -> post -> save the posted text -> Request Review -> close tabs -> archive the task and QA chats -> the EOD line IN
+   REVIEW -> handoff.md's Current State and Next Steps -> one line to the lead.
    **Any other source:** QA 0 -> draft the reply or report for the lead to send (what we found, what we did, what
    they need to do), change nothing in Zoho -> close tabs and archive the same way.
    - **The OK message (never post without the lead's OK; a relayed or quoted OK is not one).** One comment per task
@@ -161,43 +172,37 @@ chat. A project can have many Command Center chats over time; they hand off thro
         nothing more: the greeting to the task people, who are exactly the tags ("Hi @Alex Example,"); one line on
         what is ready and where; the links (staging or live, with one line on how to open them, e.g. a magic link
         first); "Done:" numbered, one line per item in the task's own order; one line on live or staging ("Live stays
-        unchanged until the
-        client approves."); a question or a to-do for the client only when truly needed (what only they can do,
-        exactly); one line "Also fixed: ..." for a serious fix; the CC line. No methods, counts that aren't the item,
-        backup names, side notes or "please confirm" lists: those stay in report.md. Attachments (screenshots,
+        unchanged until the client approves."); a question or a to-do for the client only when truly needed (what only
+        they can do, exactly); one line "Also fixed: ..." for a serious fix; the CC line. No methods, counts that aren't
+        the item, backup names, side notes or "please confirm" lists: those stay in report.md. Attachments (screenshots,
         reports) listed with their paths; uploading them needs Chrome in front, so ask the lead to bring it forward.
      2. The tags, read from the task itself: the task owner or SEO analyst, the account manager and the reviewer, and
         anyone else named in the task or its comments. **If the settings name an "Always CC" person, tag them as CC
         only** in every Zoho comment, on a last line "CC: @<name>" (learned 10 Nov 2026). Only in Zoho comments:
         reports and chat replies to the lead have no CC line (learned 18 Nov 2026).
-     3. **The status steps** whenever the comment hands the work to someone for review (staging for the client, or
-        done): the start transition, then Request Review, with each dialog's values (below). A comment that only asks
-        or informs moves no status, and says so.
+     3. **Request Review** whenever the comment hands the work to someone for review (staging for the client, or
+        done), with its dialog's values (below); the start transition was done at the go (step 3). A comment that
+        only asks or informs moves no status, and says so.
      Ask: OK to post, who to add or remove, anything to add? Wait for the answer. Several tasks finishing together:
      all drafts in that one message.
    - **Post** only after the lead's OK, with the agreed tags (type "@" + name in the Zoho editor and pick the person
-     from the list, then check the mention rendered). Read the comment back after posting.
-   - **Status follows the work** (learned 9 and 18 Nov 2026: a staging comment was posted and the status stayed "Ready
-     For Development"). The lead's go starts the work, NOT the Zoho status: it stays in its waiting status (e.g.
-     "Ready For Development") while the task chat works, so if we can't finish, nobody sees we started. Right after a
-     hand-over comment is posted, do the status steps from the OK message, without asking again:
-     - The start transition the task offers (standing permission): usually "Start Development", sometimes "Start
-       Development Edits" or a tracking one such as "+Start Installing Tracking Codes"; read the real button, they
-       differ by task type. Its dialog may ask for the site or GitHub URL (use the site URL), Task Type and Web Task
-       Type: fill them from the task and the project.
-     - Request Review. Its dialog usually pre-fills the task's reviewer; when it doesn't, use the reviewer named in
-       the task or its last review (named in the OK message). Fill any other required field (e.g. Site URL, "Hosted
-       by us"); a mandatory comment field gets the text proposed in the OK message. Click Complete; the status becomes
-       the review status (e.g. "Review Implementation"). Read the status back.
-     The status never stays "Ready For Development" while the work waits on a review.
+     from the list, then check the mention rendered). Read the comment back after posting, and save its exact text
+     with the date and time in `tasks/<TASK-ID>/report.md` ("## Zoho comment posted").
+   - **Status follows the work** (learned 9, 18 and 19 Nov 2026): the start transition happens at the go (step 3);
+     Request Review only after QA 0 and the approved comment is posted. Right after a hand-over comment is posted, do
+     Request Review from the OK message, without asking again. Its dialog usually pre-fills the task's reviewer; when
+     it doesn't, use the reviewer named in the task or its last review (named in the OK message). Fill any other
+     required field (e.g. Site URL, "Hosted by us"); a mandatory comment field gets the text proposed in the OK
+     message. Click Complete; the status becomes the review status (e.g. "Review Implementation"). Read the status
+     back. A task whose go came before 2.4.0 and still shows its waiting status: do the start transition first.
    - **Close tabs and archive, without asking** (the lead's rule, 18 Nov 2026: in review, the reviewer and the client
      take it from here): close your tabs for the task and send the task chat and the QA chat "The task is in review:
      close every browser tab you opened for <TASK-ID> (Chrome tabs and any automation browser), then reply in one
      line." Their replies are not stops to report. Once the task and QA chats are idle, archive both (not where the
-     project's rules say never), mark the row ARCHIVED, add the EOD line with IN REVIEW, and tell the lead in one line:
-     "<TASK-ID> in review (<status>), tabs closed, chats archived". No reminders and no Zoho checks on a task in review:
-     the lead
-     messages Command Center when a reviewer or the client comes back, and step 2 revives the same chats.
+     project's rules say never), mark the row ARCHIVED, add the EOD line with IN REVIEW, rewrite handoff.md's Current
+     State and Next Steps (the summary alone is not enough), and tell the lead in one line: "<TASK-ID> in review
+     (<status>), tabs closed, chats archived". No reminders and no Zoho checks on a task in review: the lead messages
+     Command Center when a reviewer or the client comes back, and step 2 revives the same chats.
    - Ask the lead first for anything unusual: Stop Developing, reassigning, or editing task fields.
 7. **Command Center handoff (so the next Command Center chat can pick up cold).** Keep the root handoff files current
    at every stop (step 3's one call) and rewrite the summary in full at task milestones (started, plan approved,

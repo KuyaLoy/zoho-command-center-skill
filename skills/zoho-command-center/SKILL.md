@@ -100,6 +100,15 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     helper, then WordPress or the platform, then an installed library); add no option, wrapper or abstraction nobody
     asked for; never cut validation, error handling, security or accessibility; new logic with a branch or loop gets
     one small check.
+  - **Clean code** (the lead's rule, 19 Nov 2026: reusable, simple, best practice, no spaghetti; task, QA and build
+    chats, senior WordPress level): enqueue CSS and JS, never echo `<style>` or `<script>` from shortcodes or
+    templates; use the theme's or builder's globals for colours, fonts and spacing (CSS variables, kit globals,
+    theme.json, ACF options), never hex values or font copies; prefix functions, hooks, meta keys and options with the
+    project's prefix; one shared helper per piece of logic, no near-copies; lists and names that belong in data go in
+    data (ACF, options, a taxonomy), not in code; custom PHP lives in a versioned file (the child theme or an
+    mu-plugin) when the site has one, and a site that only uses a snippets plugin also gets the exact code in
+    `tasks/<TASK-ID>/build/`; generated SEO titles and descriptions use the SEO plugin's variables, not fixed text
+    per page; scripts and builders find elements by selector or ID, never by position ("the third widget").
   - **Helper skills** (added 19 Nov 2026), used by task, QA and build chats when installed; otherwise the current
     checks. They serve the task: no extra scope, steps or approval flow of their own; findings outside the task go
     to "Findings (not touched)".
@@ -150,7 +159,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - **The project folder is the site** (learned 18 Nov 2026: a copy in a sibling folder split the project). A local
   copy, clone or Duplicator install goes in the project folder itself, so the local URL is `<folder>.test`, matching
   the live name (folder "example" -> example.test for example.com). Backups go in `tasks/<TASK-ID>/backup/` (kept off
-  the web, out of git and deploys), never in sibling folders. Only for a redesign: the old site is the sibling
+  the web, out of git and deploys), never in sibling folders; prove a 403 for `tasks/` before a database dump goes
+  there, else keep the dump outside the web root. Only for a redesign: the old site is the sibling
   `<folder>-old` (`<folder>-old.test`), removed after go-live on the lead's OK. Putting the site in the folder is a
   plan step of the task chat, in this order: add the handoff skill's file block to the root `.htaccess` and
   `Require all denied` in `tasks/` and `eod/`; then remove Command Center's whole-folder deny (merge into the site's
@@ -160,6 +170,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - Delete pages, menus, media, options or records only by explicit IDs, after a dry-run list, a count check and a
   database backup, never by a filter. Tag scratch content with one marker (learned 17 Nov 2026: a filtered list
   command ignored its filter and deleted every page; restored from the backup).
+- **Bulk scripts are safe to re-run** (learned 19 Nov 2026, a 209-page task): check by slug or ID before each create;
+  a script never trashes or deletes; duplicates are listed, then trashed by explicit ID under the rule above.
 - Never type passwords or create accounts. The lead does all sign-ins (cPanel, WP admin, Shopify, etc.) in Chrome.
   When a login expires mid-task (Zoho, cPanel, WP admin...): stop at a safe point, tell the lead which service needs
   a new sign-in, and wait.
@@ -223,9 +235,10 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go
   on the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
   relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center
-  reads it there. Follow the plan; if reality differs, stop and report instead of improvising outside scope, and
-  re-plan (below). A staging hand-over: the plan marks go-live as its own phase, planned and approved after the
-  client's OK.
+  reads it there. Then send Command Center one line "GO: <TASK-ID>" (not a stop report) before your first step: it moves
+  the Zoho status to development. Follow the plan; if reality differs, stop and report instead of improvising outside
+  scope, and re-plan (below). A staging hand-over: the plan marks go-live as its own phase, planned and approved after
+  the client's OK.
 - **QA findings** (before any Zoho post; Command Center gives you the QA chat's session id): the QA chat sends its
   findings to you directly. Fix every item in one pass inside the plan and its go, verify each, update report.md, and
   send the QA chat (not Command Center) "FIXED: <TASK-ID> pass <n>" with how each was checked; that turn is not a
@@ -248,20 +261,24 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
     the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT. A serious
     finding gets its one line to the lead and Command Center when found.
   - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan, re-plan
-    right away at your current effort (every size) and report PLAN READY again. A question that changes nothing is
-    answered right away.
+    right away at your current effort (every size) and report PLAN READY again. After the go too (learned 19 Nov
+    2026): an instruction from the lead that changes the method or scope rewrites those plan.md steps in place
+    (never "see notes"), then PLAN READY and a new go; plan.md always matches what is being done. A question that
+    changes nothing is answered right away.
   - Done: send Command Center a handover: "DONE: <task>", path to `tasks/<TASK-ID>/report.md`, files to upload to
     Zoho, what is verified vs not, open items for the client, and anything that changes how the Zoho comment or
     status should be posted (e.g. part of the definition of done still waits on the client).
   - Answer Command Center's follow-up questions about the work directly (review, comment draft); never post in Zoho.
-  - Told the task is in review: close every browser tab you opened for it, reply in one line (not a stop report),
-    and end your turn.
+  - Told the task is in review: close every browser tab you opened for it, log "tabs closed: <ids>" in notes.md,
+    reply in one line (not a stop report), and end your turn.
 - A follow-up after review (a revive): plan it like a new task at its size and wait for the lead's go in this chat;
   the earlier go covered the earlier plan only.
 - **A QA chat** (Command Center step 5; learned 18 Nov 2026: QA found 3 issues after a comment was already posted):
   read-only, never fixes or posts. Check every item of the source doc against the real result (the site, staging or
   live, and the files) and the task chat's report.md; also links, forms, mobile and console errors where the task
-  touches them, with the cheaper checks above. Each pass writes one consolidated list to
+  touches them, with the cheaper checks above. The first pass also reads every file the task added or changed
+  (`build/`, snippets, theme files) against Clean code and security (escaping, sanitising, nonces, capabilities),
+  each finding listed like any other. Each pass writes one consolidated list to
   `tasks/<TASK-ID>/qa/qa-<pass>.md` (item, where, expected, found; a 0 pass says so in one line). Findings go straight
   to the task chat (its session id is in your brief): "QA FINDINGS: <TASK-ID> pass <n>, <count> items: <path>"; end
   your turn and wait for its FIXED; those turns are not stops to report. The first pass covers every item; a

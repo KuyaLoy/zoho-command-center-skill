@@ -5,6 +5,31 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-11-19
+
+Quality of the work, and the Zoho status at the go.
+
+### Changed
+
+- Status at the go (step 3, step 6, Worker Phase 2): after the lead's go on the plan the task chat sends "GO:
+  <TASK-ID>" (not a stop report) before its first step, and Command Center clicks the start transition then, so the
+  team sees the work in progress. Close-out keeps only Request Review, after QA 0 and the posted comment. A task
+  blocked after the start keeps its status; Stop Developing only on the lead's word. Replaces "the lead's go starts
+  the work, NOT the Zoho status".
+- Re-plan after the go (Worker rules): a method or scope change from the lead rewrites those plan.md steps in place
+  (never "see notes"), then PLAN READY and a new go; plan.md always matches the work.
+
+### Added
+
+- Clean code (Shared rules): enqueue CSS and JS; theme or builder globals, never hex or font copies; the project's
+  prefix; one shared helper per piece of logic; data in data, not code; custom PHP in a versioned file (or a copy in
+  `build/` for snippet-only sites); SEO plugin variables for generated titles; selectors or IDs, never positions.
+- Bulk scripts are safe to re-run: check by slug or ID before each create; never trash or delete in a script;
+  duplicates trashed by explicit ID.
+- QA reviews code: the first pass reads every added or changed file against Clean code and security.
+- Close-out records: a 403 for `tasks/` before a database dump goes there; the posted Zoho comment saved in
+  report.md; "tabs closed: <ids>" in the task chat's notes; handoff.md's Current State and Next Steps rewritten.
+
 ## [2.3.3] - 2026-11-19
 
 ### Changed

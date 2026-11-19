@@ -20,9 +20,9 @@ tools:
   task chat, which fixes them and tells QA; QA checks again until it finds nothing. Command Center only hears that QA
   started and that it passed. Task and QA chats prove each item with the cheapest reliable check (curl, wp-cli, a
   script) and use the browser only where it is needed.
-- **Gates you control:** nothing changes before your go, no Zoho comment is posted before you OK the exact text, tags
-  and status steps, and the Zoho status only moves after the work is done and verified (then it always moves to
-  review, so it never sits in "Ready For Development" while waiting on a reviewer).
+- **Gates you control:** nothing changes before your go, and no Zoho comment is posted before you OK the exact text,
+  tags and Request Review values. The Zoho status moves to development at your go, so the team sees the work, and to
+  review only after QA finds nothing and the approved comment is posted.
 - **Context watch and pacing:** from 50% context a task chat finishes the page it is on, then checkpoints to disk and
   resets (75% is the hard cap). That is long before auto-compact, so no chat loses track mid-work. Command Center keeps
   the handoff files current at every stop and resets itself to save usage only when it is safe (about 200K tokens or a
