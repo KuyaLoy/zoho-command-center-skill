@@ -65,6 +65,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 
 ## Shared rules (both roles)
 - Reply in the reply language from the settings (default English), even when the lead writes in another language.
+- **Real times only** (learned 19 Nov 2026: "18:3x" in a task's notes): every time in notes, reports, EOD lines and
+  messages comes from the clock (`date`), never estimated or rounded; if the exact time is unknown, write the date
+  only.
 - **Only the task, straightforward** (learned 18 Nov 2026: the company works with little supervision, so no back and
   forth). Follow the task and its source doc exactly, verbatim (icons, emoji and long titles included, no rewording).
   A question with a sensible default: decide it and list the decision in the report. An obvious fix inside the task

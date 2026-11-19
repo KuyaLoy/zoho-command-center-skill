@@ -5,6 +5,19 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.3.3] - 2026-11-19
+
+### Changed
+
+- Zoho in the browser, text first (command-center.md, steps 2 and 6, tool map): Command Center reads Zoho as page
+  text or element search, batches browser steps, and takes a screenshot only to confirm something visual (a rendered
+  @mention, a dialog's filled fields, a status read-back the text can't show); no full-page text dumps.
+
+### Added
+
+- Real times only (Shared rules): every time in notes, reports, EOD lines and messages comes from the clock, never
+  estimated or rounded; the date only when the exact time is unknown.
+
 ## [2.3.2] - 2026-11-19
 
 ### Added

@@ -33,6 +33,11 @@ chat. A project can have many Command Center chats over time; they hand off thro
   its brief is sent, where the tool allows). Said in the task chat: it sends "USE MAX"; raise it the same way. An
   effort change applies from a chat's next turn. Confirm a chat's effort only from its session info; the picker and
   turn markers can lag.
+- **Zoho in the browser, text first** (learned 19 Nov 2026: a Command Center made 165 calls with 36 screenshots on
+  one task, more than its task chat, mostly in Zoho; steps 2 and 6). Read Zoho as text (the page text or an element
+  search), not screenshots; batch browser steps; take a screenshot only to confirm something visual (a rendered
+  @mention, a dialog's filled fields before Complete, the status read-back when the text can't show it); never a
+  full-page text dump into the chat (save it to a file and read the part you need).
 
 1. **Every new main chat (not a worker), on its first reply:** rename itself to "Command Center - <project>".
    - New empty folder: also create the handoff files, put `Mode: Command Center` under the project rules in
@@ -55,7 +60,7 @@ chat. A project can have many Command Center chats over time; they hand off thro
      Command Center or a chat with a turn or background task running, and not where the project's rules say so. Mark
      them ARCHIVED, name open tabs.
 2. **When a new task arrives** (a Zoho link, or anything else; no need for the lead to ask for a session):
-   - **Read it.** Zoho: read the task in Chrome (ID, title, description, linked docs, status, owner, due date,
+   - **Read it.** Zoho: read the task in Chrome as text (ID, title, description, linked docs, status, owner, due date,
      comments, attachments). Any other source: save the request verbatim to `tasks/<NAME>/brief.md`, NAME a short
      uppercase slug (e.g. SHIPPING-ERROR). Only light reading, enough to size it and write a good brief.
    - **Size it** (S, M or L, SKILL.md "Task size and effort").
