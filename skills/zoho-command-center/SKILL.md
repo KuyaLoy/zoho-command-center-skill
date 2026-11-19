@@ -6,6 +6,8 @@ license: MIT
 
 # Zoho Command Center
 
+Version: 2.4.2
+
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
 
@@ -66,6 +68,12 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   skill's defaults, for example a project that never archives its task chats.
 
 ## Shared rules (both roles)
+- **Use the newest skill version** (learned 19 Nov 2026: reload messages to 30 idle Command Centers cost about 29
+  points of the 5-hour window). Command Center on its first turn after a lead's message and after any reset, and a
+  task chat at a new task or a revive: read the "Version:" line of the installed SKILL.md (the file at the skill's
+  path on disk) and compare it with the one loaded in this chat. Installed newer: load the zoho-command-center and
+  handoff skills again before the work, and tell the lead in one line "Skills updated to <version>". A running task
+  keeps its rules ("Which role am I?").
 - Reply in the reply language from the settings (default English), even when the lead writes in another language.
 - **Real times only** (learned 19 Nov 2026: "18:3x" in a task's notes): every time in notes, reports, EOD lines and
   messages comes from the clock (`date`), never estimated or rounded; if the exact time is unknown, write the date

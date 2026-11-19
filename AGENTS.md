@@ -26,9 +26,10 @@ in the tool map.
   - a private-name scan of the repo and its history finds nothing, commit author and committer names and emails
     included (keep the word list outside the repo; commits use the account's noreply address).
 - Release: a merge to main that changes the skill is a release, so main is always a released version.
-  1. In the pull request: raise the version in `.claude-plugin/plugin.json` (only there; Semantic Versioning: fix =
-     patch, new rule = minor, changed workflow = major) and add its `## [x.y.z] - YYYY-MM-DD` section to CHANGELOG.md
-     (move any Unreleased lines into it). The `check` workflow fails a pull request that changes the skill without both.
+  1. In the pull request: raise the version in `.claude-plugin/plugin.json` and the "Version:" line at the top of
+     SKILL.md (the same number; Semantic Versioning: fix = patch, new rule = minor, changed workflow = major) and add
+     its `## [x.y.z] - YYYY-MM-DD` section to CHANGELOG.md (move any Unreleased lines into it). The `check` workflow
+     fails a pull request that changes the skill without them.
   2. Run the private-name scan, then merge by fast-forwarding main to the pull request's commits
      (`git push origin <branch>:main`). A squash or merge button stamps a new commit with the GitHub account's email.
   3. The `release` workflow tags `zoho-command-center--v<version>` and publishes the GitHub Release with that

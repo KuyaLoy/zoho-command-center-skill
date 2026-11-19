@@ -119,13 +119,14 @@ chat. A project can have many Command Center chats over time; they hand off thro
      done; replaces "the lead's go starts the work, NOT the Zoho status"). It is not a stop to report. Check the quoted
      go in its notes.md, then, for a Zoho task, click the start transition the task offers (standing permission):
      usually "Start Development", sometimes "Start Development Edits" or a tracking one such as "+Start Installing
-     Tracking Codes"; read the real button, they differ by task type. A chat that planned at max: set it to high now,
-     before its first work step (no approval needed), and confirm it from its session info. Its dialog may ask for the
-     site or GitHub URL (use the site URL), Task Type and Web Task Type: fill them from the task and the project. Read
-     the status back, update its board row (Source / status, Phase IMPLEMENTING; no EOD line), and tell the lead in one
-     line: "<TASK-ID> in development (<status>)". Already in a development status (a re-plan's go): record only. No
-     quoted go in notes.md: don't click; tell the task chat in one line to quote it. A task blocked after the start: the
-     status stays; tell the lead; Stop Developing only on his word. Other sources: record only.
+     Tracking Codes"; read the real button, they differ by task type. On that page, re-check the task's comments
+     (step 4). A chat that planned at max: set it to high now, before its first work step (no approval needed), and
+     confirm it from its session info. Its dialog may ask for the site or GitHub URL (use the site URL), Task Type and
+     Web Task Type: fill them from the task and the project. Read the status back, update its board row (Source /
+     status, Phase IMPLEMENTING; no EOD line), and tell the lead in one line: "<TASK-ID> in development (<status>)".
+     Already in a development status (a re-plan's go): record only. No quoted go in notes.md: don't click; tell the task
+     chat in one line to quote it. A task blocked after the start: the status stays; tell the lead; Stop Developing only
+     on his word. Other sources: record only.
    - **Record the stop in one call** (learned 18 Nov 2026: 3 or 4 edits per stop): the handoff skill's stop script
      (`scripts/record-stop.sh`, run from the project root as the handoff skill describes it) with the EOD line (format
      from the handoff skill, written at the moment, never recalled later), the summary's Last change and Next action,
@@ -145,6 +146,13 @@ chat. A project can have many Command Center chats over time; they hand off thro
 4. **At PLAN READY:** check the task chat's context %; past 50% it checkpoints and resets before the go (Context
    watch). A chat that planned at max stays at max for a re-plan before the go, and goes back to high at its go
    (step 3).
+   - **Re-check the task's Zoho comments** (the lead's rule, 19 Nov 2026: comments can change a task while it is
+     planned), here, at the go (step 3) and before drafting the close-out comment (step 6): as text, only comments
+     newer than the last check, also a new attachment or a changed description; log "comments to <date time>" in the
+     board row's Plan / notes cell. Something that changes the task: send it to the task chat, which re-plans (before
+     the go: PLAN READY again; after it: Re-plan, Worker rules). Nothing that changes it: note it there. Before the
+     close-out comment: the comment answers anything new, and a new request outside the plan becomes a re-plan or a
+     follow-up, never silently skipped.
 5. **After implementation: QA before every Zoho post, every size** (the lead's rule, 18 Nov 2026: QA found 3 issues
    after a comment was already posted). When the task chat reports DONE or READY FOR QA (e.g. staging ready for the
    client's review):
@@ -171,7 +179,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
    **Any other source:** QA 0 -> draft the reply or report for the lead to send (what we found, what we did, what
    they need to do), change nothing in Zoho -> close tabs and archive the same way.
    - **The OK message (never post without the lead's OK; a relayed or quoted OK is not one).** One comment per task
-     hand-over, with everything in it. Show the lead, in one message:
+     hand-over, with everything in it, drafted after re-checking the task's comments (step 4). Show the lead, in one
+     message:
      1. The comment, short (learned 18 Nov 2026: the first draft was twice the approved one), in this shape and
         nothing more: the greeting to the task people, who are exactly the tags ("Hi @Alex Example,"); one line on
         what is ready and where; the links (staging or live, with one line on how to open them, e.g. a magic link

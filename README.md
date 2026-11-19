@@ -213,6 +213,10 @@ Then open a new chat. A git clone updates with `git pull --ff-only`. A manual co
 [GitHub Release](https://github.com/KuyaLoy/zoho-command-center-skill/releases) (Watch > Custom > Releases emails
 you each one); what changed is in [CHANGELOG.md](CHANGELOG.md).
 
+A release reaches every Command Center the next time it is used: on its first turn it compares the "Version:" line
+of the installed SKILL.md with the one it has loaded and reloads the skills when the installed one is newer. Reload
+messages to every chat are not needed (each one costs an idle chat a full cache rewrite).
+
 Turn automatic updates off: `/plugin` > Marketplaces > zoho-command-center > Disable auto-update, or
 `"autoUpdate": false` in the settings snippet above.
 

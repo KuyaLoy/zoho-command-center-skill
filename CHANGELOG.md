@@ -5,6 +5,24 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.4.2] - 2026-11-19
+
+### Added
+
+- Command Center re-checks the task's Zoho comments at PLAN READY, at the go and before drafting the close-out
+  comment (step 4, with steps 3 and 6): as text, only newer comments, plus new attachments or a changed
+  description, logged as "comments to <date time>" in the board row. A change goes to the task chat as a re-plan; the
+  close-out comment answers anything new; a new request outside the plan is never silently skipped.
+- Use the newest skill version (Shared rules): a "Version:" line at the top of SKILL.md; Command Center on its first
+  turn (and after a reset) and task chats at a new task or a revive compare it with the installed file and reload
+  the zoho-command-center and handoff skills when the installed one is newer. The release guard checks the line
+  matches plugin.json (AGENTS.md release step).
+
+### Docs
+
+- README Update: a release reaches every Command Center the next time it is used; reload messages to every chat are
+  not needed.
+
 ## [2.4.1] - 2026-11-19
 
 ### Changed

@@ -20,6 +20,11 @@ if [ "$new" = "$old" ] || [ "$top" != "$new" ]; then
   echo "Changed: $changed"
   exit 1
 fi
+skillver=$(sed -n 's/^Version: *//p' skills/zoho-command-center/SKILL.md | head -n 1)
+if [ "$skillver" != "$new" ]; then
+  echo "::error::The \"Version:\" line in SKILL.md ($skillver) must match plugin.json ($new)."
+  exit 1
+fi
 if ! grep -q "^## \[$new\]" CHANGELOG.md; then
   echo "::error::CHANGELOG.md needs a \"## [$new] - YYYY-MM-DD\" section for this release."
   exit 1

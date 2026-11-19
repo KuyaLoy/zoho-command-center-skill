@@ -1,6 +1,6 @@
 {
   "name": "zoho-command-center",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "PM/TL workflow for Zoho Projects tasks and any other task: one Command Center chat gives each task its own chat (one task, one chat), with approval gates, a quiet close-out and context resets. Runs in full in the Claude desktop app; other AI tools run it in one chat.",
   "author": { "name": "KuyaLoy", "url": "https://github.com/KuyaLoy" },
   "homepage": "https://github.com/KuyaLoy/zoho-command-center-skill",
