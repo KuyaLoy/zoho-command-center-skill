@@ -84,7 +84,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - **New chat:** start a task chat (tool map: the settings it needs) at high, or at max for a plan that needs it
      (every L, an unclear or risky M) or when the lead said "use max"; confirm it from its session info, and if it came
      up lower, raise it (it applies from its next turn), name = task ID in lowercase (e.g. "abc1-t8"), title =
-     "<TASK-ID> <task title>", and a background of at least 80 characters (project, site, goal, constraints).
+     "▶ RUNNING | <TASK-ID> <task title>" (the state prefix, SKILL.md "State at the front of the title"; the chat
+     keeps it current from then on), and a background of at least 80 characters (project, site, goal, constraints).
    - **Leads portal:** a build, a new or changed lead form, or a go-live, with "Leads portal" in the settings: read
      `leads-portal.md` (next to this file) and put the way for this site's stack in the brief.
    - **All rules at the plan** (learned 20 Nov 2026: the form plugin, placeholders and three skill updates arrived
@@ -126,6 +127,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
      boundary in one line.
    - **RUNNING is working, not stalled** (SKILL.md "RUNNING, not stopped"): a task chat idle with a RUNNING line is
      waiting on its own work. Before calling it stopped, check that work (its process, `get_session`, its page).
+   - **Read the title prefix as the chat's state** (SKILL.md "State at the front of the title"): ▶ RUNNING,
+     ⏸ WAITING on <who>, ✋ BLOCKED, ✓ DONE. A stale prefix on a chat you started (it says RUNNING but the chat
+     stopped, or the reverse): fix it with that chat's title, once.
    - **Context check:** check that chat's context % here, at its stops, and at PLAN READY (step 4), nowhere else
      (learned 18 Nov 2026: task chats check themselves at each step). Put the % in the board's Phase column.
    - When the next step is the lead's go or answer in that chat, the last line is "Next: give your go / answer in

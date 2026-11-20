@@ -21,6 +21,7 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | Stop a chat | `stop_session` (only when the lead asks) | the lead stops it |
 | Archive or revive a chat | `archive_session`, `unarchive_session` | the lead closes or reopens it; the revive message is the same |
 | Rename your own chat | `set_session_title` ("self") | skip |
+| The state prefix in a title | `set_session_title` ("self"; Command Center: a chat it started) with "▶ RUNNING \| ", "⏸ WAITING on <who> \| ", "✋ BLOCKED \| " or "✓ DONE \| " before the title, once per state change | skip (the RUNNING line and the stop types carry the state) |
 | Open a chat beside Command Center (only when the lead asks) | `open_session_in` | the lead opens it |
 | The next-step box | `wrap_up` with `ask` and `actions` (only for a new decision) | a last line "Decide: <question> (<option 1> / <option 2>)" |
 | The recap (sidebar status) | `wrap_up`'s `recap`: its first sentence is the sidebar status, so a turn ending while its own work runs opens it with the RUNNING line (SKILL.md "RUNNING, not stopped") | the first line of the last message |

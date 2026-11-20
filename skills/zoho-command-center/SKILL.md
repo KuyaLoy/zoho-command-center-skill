@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.5.2
+Version: 2.5.3
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -14,7 +14,7 @@ BugHerd, Slack, the lead's own idea). A Command Center project has two roles: fi
 **Files.** This file holds the shared rules and the Worker rules. Command Center's steps 1 to 7 are in
 `references/command-center.md`. Steps say what to do in plain words; `references/tool-map.md` gives each action's
 Claude desktop tool and what to do in other AI tools (one-chat mode); `references/leads-portal.md` is read for builds,
-lead forms and go-lives. All sit next to this file.
+lead forms and go-lives; `references/helper-skills.md` lists the helper skills. All sit next to this file.
 
 ## Settings
 Read the lead's settings from the "Zoho Command Center settings" block in the user's CLAUDE.md. It is normally already
@@ -120,6 +120,12 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     message, its recap's first sentence (the sidebar status) and the progress page's Now line with "RUNNING, not
     stopped: <what>, started HH:MM; I continue by myself when it finishes." (time from the clock). It is not a stop:
     no stop message, no extra turn, no polling. The next status replaces it. A real stop never says RUNNING.
+  - **State at the front of the title** (learned 20 Nov 2026: the sidebar shows only titles): a chat keeps its state
+    as a prefix of its own title (tool map), one call when the state changes, the rest of the title unchanged:
+    "▶ RUNNING | <title>" while it or its own background work runs; "⏸ WAITING on <who> | <title>" (the lead,
+    Command Center or the client); "✋ BLOCKED | <title>"; "✓ DONE | <title>" at done and in review. Never for
+    anything else, never more than once per state change (no polling, no extra turns). Command Center's own title
+    stays as it is.
   - **Ask the lead only for real decisions or blockers** (the lead's rule, 20 Nov 2026): the plan go, the comment OK,
     a sign-in, missing information. Anything the chats can settle themselves never waits on the lead.
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
@@ -141,22 +147,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     not fixed text per page; scripts and builders find elements by selector or ID, never by position ("the third
     widget"). Self-check before DONE (search for `<style`, `<script`, hex values and unprefixed names); fixes that bring
     code up to these rules are always inside the plan and its go.
-  - **Helper skills** (added 19 Nov 2026), used by task, QA and build chats when installed; otherwise the current
-    checks. They serve the task: no extra scope, steps or approval flow of their own; findings outside the task go
-    to "Findings (not touched)".
-
-    | Helper | When |
-    |---|---|
-    | web-quality-audit | the QA chat's pass on the staging or live pages the task touched, for M and L tasks and every go-live (Lighthouse: performance, accessibility, SEO, best practices); not for S text edits |
-    | performance, core-web-vitals | tasks about speed, a PageSpeed score, LCP, CLS or INP |
-    | accessibility | tasks that add or change forms, menus, new pages or interactive parts |
-    | seo | tasks on titles, meta, schema, sitemaps or redirects, and every go-live |
-    | best-practices | security headers, mixed content and console errors, in QA on every go-live |
-    | wp-plugin-development | any custom PHP (plugin or theme functions): its nonce, capability, sanitising and escaping rules |
-    | wp-wpcli-and-ops | every WP-CLI job: search-replace, database export or import, local copies, migrations, cache flush |
-    | wp-performance | backend slowness: slow admin, slow queries, autoloaded options, cron |
-    | wp-phpstan | L tasks with new custom PHP, when PHPStan is available |
-    | Chrome DevTools MCP | performance traces, LCP or layout-shift debugging, computed CSS; Playwright stays for clicks, forms and screenshots |
+  - **Helper skills** (added 19 Nov 2026): task, QA and build chats use them when installed, for the task only (no
+    extra scope or steps); `references/helper-skills.md` says which one for what.
 - **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026). The lead
   talks to each task chat directly (instructions, follow-ups, questions, plan approval, the go); task chats ask the
   lead there. Command Center doesn't re-ask their questions or go requests or copy their plans; it routes and starts
@@ -295,7 +287,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   - Every stop (No silent idle), the lead's own turns included, as one message of at most 4 lines: "<TYPE>: <TASK-ID>
     <why it stopped>. Decisions: <defaults taken, or none>. Next: <step> — waiting on <who>". TYPE is PLAN READY (with
     the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT (never RUNNING: not a
-    stop, so no message; How we talk). A serious
+    stop, so no message; How we talk). Each stop also sets your title prefix (How we talk: "State at the front of
+    the title"). A serious
     finding gets its one line to the lead and Command Center when found.
   - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan, re-plan right
     away at your current effort (every size) and report PLAN READY again. After the go too (learned 19 Nov 2026): an

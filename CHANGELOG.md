@@ -5,6 +5,23 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.5.3] - 2026-11-20
+
+The chat's state in its title, as the sidebar shows only titles.
+
+### Added
+
+- **State at the front of the title** (SKILL.md, How we talk; Worker stops): a chat keeps its state as a prefix of
+  its own title, "▶ RUNNING", "⏸ WAITING on <who>", "✋ BLOCKED" or "✓ DONE", set once per state change; never for
+  anything else, no polling or extra turns. Command Center's own title stays as it is.
+- Command Center step 2 starts each task chat with "▶ RUNNING | " in its title; step 3 reads the prefix as the
+  chat's state and may fix a stale one on a chat it started. Tool map: a state prefix row (other tools skip it).
+
+### Changed
+
+- The helper skills table moved unchanged from SKILL.md to `references/helper-skills.md` (SKILL.md keeps a two-line
+  pointer), to stay under the line cap.
+
 ## [2.5.2] - 2026-11-20
 
 A visible sign that a chat is still working.

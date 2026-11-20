@@ -131,7 +131,8 @@ or API keys; the one exception is your default local admin password, read from t
 only. Command Center: the settings block below (Set it up).
 handoff: its README's "Make it load every session" block in `~/.claude/CLAUDE.md` (recommended).
 
-**Recommended extras (the Helper skills in SKILL.md).** Free and open source; the skill uses them when installed:
+**Recommended extras (the helper skills in `references/helper-skills.md`).** Free and open source; the skill uses
+them when installed:
 [addyosmani/web-quality-skills](https://github.com/addyosmani/web-quality-skills) (web-quality-audit, performance,
 core-web-vitals, accessibility, seo, best-practices) and
 [WordPress/agent-skills](https://github.com/WordPress/agent-skills) (only wp-plugin-development, wp-performance,
@@ -246,6 +247,7 @@ skills/zoho-command-center/SKILL.md the shared rules and the task chat (Worker) 
 skills/zoho-command-center/references/command-center.md  Command Center's steps 1 to 7
 skills/zoho-command-center/references/tool-map.md  each action's tool, and one-chat mode for other AI tools
 skills/zoho-command-center/references/leads-portal.md  the leads portal: when it is required, which way per stack, proof
+skills/zoho-command-center/references/helper-skills.md  the helper skills: which one for what
 skills/zoho-command-center/references/builds.md  retired: builds already running with builder and QA chats
 CHANGELOG.md                       what changed in each version
 AGENTS.md                          rules for changing the skill
