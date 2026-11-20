@@ -5,6 +5,19 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.5.2] - 2026-11-20
+
+A visible sign that a chat is still working.
+
+### Added
+
+- **RUNNING, not stopped** (SKILL.md, How we talk): a turn that ends while the chat's own work keeps running (a
+  background command, a subagent, a check) opens its last message, its recap's first sentence and the progress
+  page's Now line with "RUNNING, not stopped: <what>, started HH:MM; I continue by myself when it finishes." It is
+  not a stop (no stop message, no extra turn, no polling), and a real stop never uses it. The Worker stop types say so.
+- Command Center step 3: a task chat idle with a RUNNING line is working, not stalled; check its work before calling
+  it stopped. Tool map: a recap row (its first sentence is the sidebar status).
+
 ## [2.5.1] - 2026-11-20
 
 From a build retro: no idle nights, every rule at the plan, live status, QA that converges.

@@ -23,6 +23,7 @@ Antigravity, OpenCode, Cline, Devin Desktop and others), where Command Center ru
 | Rename your own chat | `set_session_title` ("self") | skip |
 | Open a chat beside Command Center (only when the lead asks) | `open_session_in` | the lead opens it |
 | The next-step box | `wrap_up` with `ask` and `actions` (only for a new decision) | a last line "Decide: <question> (<option 1> / <option 2>)" |
+| The recap (sidebar status) | `wrap_up`'s `recap`: its first sentence is the sidebar status, so a turn ending while its own work runs opens it with the RUNNING line (SKILL.md "RUNNING, not stopped") | the first line of the last message |
 | What is on the lead's screen | `get_window_layout` (read-only: the main pane, split panes and pop-out windows); `open_session_in` acts only while this chat is on screen | ask the lead |
 | Wait for a chat to go idle | `get_session` now; still running: a `CronCreate` one-shot (load it first when deferred) 2 minutes ahead (recurring false) whose prompt names the exact step; never end a turn only "waiting" | the lead says "check <TASK-ID>" when that chat has stopped |
 | Resume at a set time | `CronCreate` one-shot (load it first with the tool search when the tool list defers it; recurring false; minute, hour, day and month pinned to the reset) with the resume message; this chat must stay open, and idle at that time: a timer fires only between turns, so never leave a turn blocked on a call that waits for the lead | tell the lead the time; resume on the lead's next message |

@@ -124,6 +124,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
      it to the task chat with the boundary where it applies, its next site or phase end, never inside a QA run (it
      waits until QA 0), e.g. "Apply <skill> <version> after the first site's phase end, not before." Tell the lead which
      boundary in one line.
+   - **RUNNING is working, not stalled** (SKILL.md "RUNNING, not stopped"): a task chat idle with a RUNNING line is
+     waiting on its own work. Before calling it stopped, check that work (its process, `get_session`, its page).
    - **Context check:** check that chat's context % here, at its stops, and at PLAN READY (step 4), nowhere else
      (learned 18 Nov 2026: task chats check themselves at each step). Put the % in the board's Phase column.
    - When the next step is the lead's go or answer in that chat, the last line is "Next: give your go / answer in

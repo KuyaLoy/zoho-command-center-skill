@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.5.1
+Version: 2.5.2
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -115,6 +115,11 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     Command Center as one message, whoever started the turn (Worker rules), except the turns inside a QA loop
     (findings, FIXED, QA 0), which go to the other chat of the loop; PAUSED, BLOCKED and CHECKPOINT always go to
     Command Center. No FYIs or duplicates.
+  - **RUNNING, not stopped** (learned 20 Nov 2026: a chat that ended its turn while its check ran looked stopped): a
+    turn that ends while the chat's own work keeps running (a background command, a subagent, a check) opens its last
+    message, its recap's first sentence (the sidebar status) and the progress page's Now line with "RUNNING, not
+    stopped: <what>, started HH:MM; I continue by myself when it finishes." (time from the clock). It is not a stop:
+    no stop message, no extra turn, no polling. The next status replaces it. A real stop never says RUNNING.
   - **Ask the lead only for real decisions or blockers** (the lead's rule, 20 Nov 2026): the plan go, the comment OK,
     a sign-in, missing information. Anything the chats can settle themselves never waits on the lead.
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
@@ -289,7 +294,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - **Talk to Command Center directly at each milestone** (learned 11 Nov 2026), without the lead having to ask:
   - Every stop (No silent idle), the lead's own turns included, as one message of at most 4 lines: "<TYPE>: <TASK-ID>
     <why it stopped>. Decisions: <defaults taken, or none>. Next: <step> — waiting on <who>". TYPE is PLAN READY (with
-    the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT. A serious
+    the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT (never RUNNING: not a
+    stop, so no message; How we talk). A serious
     finding gets its one line to the lead and Command Center when found.
   - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan, re-plan right
     away at your current effort (every size) and report PLAN READY again. After the go too (learned 19 Nov 2026): an
