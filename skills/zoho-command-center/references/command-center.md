@@ -276,11 +276,11 @@ SKILL.md has the thresholds, the safe point and the Worker part.
   and reads qa/.
 - A clear or an archive is refused mid-turn: wait until idle, as above. Refused because the lead has the chat open or
   pinned (learned 20 Nov 2026: three refused clears, then a stop to ask the lead to switch away):
-  - **A reset never waits on the lead.** Don't retry and don't ask: the task goes on in a continuation chat, named
-    "<task>-2" (then -3), the same title plus "(cont.)", the same effort and settings, with the resume message above
-    (the lead's go quoted). Update the board row (both chats, the new one live), tell the lead in one line
-    "<TASK-ID> continues in [<task>-2](#local_...)", and archive the old chat later, once it is idle and no longer on
-    screen (step 1's sweep or the close-out).
+  - **A refused reset goes on in a new chat; never ask the lead to switch away or click.** Don't retry: the task goes
+    on in a continuation chat, named "<task>-2" (then -3), the same title plus "(cont.)", the same effort and settings,
+    with the resume message above (the lead's go quoted), started as the next bullet says. Update the board row (both
+    chats, the new one live), tell the lead in one line "<TASK-ID> continues in [<task>-2](#local_...)", and archive
+    the old chat later, once it is idle and no longer on screen (step 1's sweep or the close-out).
   - **Start it only in a turn the lead typed** (learned 20 Nov 2026: at 01:25 a refused clear in a turn started by a
     chat's CHECKPOINT; the start waited 7 hours for the lead's click, the whole turn was blocked and its timers never
     fired). The app starts a chat at once only in a turn the lead typed; in any other turn (a chat's message, a wake
