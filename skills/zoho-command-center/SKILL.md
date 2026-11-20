@@ -6,14 +6,15 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.4.6
+Version: 2.5.0
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
 
 **Files.** This file holds the shared rules and the Worker rules. Command Center's steps 1 to 7 are in
 `references/command-center.md`. Steps say what to do in plain words; `references/tool-map.md` gives each action's
-Claude desktop tool and what to do in other AI tools (one-chat mode). Both sit next to this file.
+Claude desktop tool and what to do in other AI tools (one-chat mode); `references/leads-portal.md` is read for builds,
+lead forms and go-lives. All sit next to this file.
 
 ## Settings
 Read the lead's settings from the "Zoho Command Center settings" block in the user's CLAUDE.md. It is normally already
@@ -23,6 +24,8 @@ in your context; if not (for example a chat started before the block existed), r
 - **Zoho portal:** the portal URL. **Reply language:** the language of every reply.
 - **Always CC** (optional): one person tagged as CC only, on a last line "CC: @<name>", in every Zoho comment (the
   Zoho report) only. Reports and chat replies to the lead are the report only, with no CC line (learned 18 Nov 2026).
+- **Leads portal** (optional): the admin URL of the company's leads portal. Set: every live site with a lead form
+  sends its leads there (`references/leads-portal.md`). The URL lives only in the settings.
 No settings block: the user is the lead, replies in English, no CC; ask once for the portal URL when first needed.
 
 ## Task size and effort

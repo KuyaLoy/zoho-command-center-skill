@@ -85,6 +85,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
      (every L, an unclear or risky M) or when the lead said "use max"; confirm it from its session info, and if it came
      up lower, raise it (it applies from its next turn), name = task ID in lowercase (e.g. "abc1-t8"), title =
      "<TASK-ID> <task title>", and a background of at least 80 characters (project, site, goal, constraints).
+   - **Leads portal:** a build, a new or changed lead form, or a go-live, with "Leads portal" in the settings: read
+     `leads-portal.md` (next to this file) and put the way for this site's stack in the brief.
    - **Brief** (its first message): the task verbatim plus links, its source, size, the site or repo; head-start
      facts marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
      "Plan by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in
@@ -170,6 +172,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
      (step 3). A disputed finding, or one outside the plan, makes the task chat re-plan; the lead decides there, and
      the task chat then tells QA to go on. A task chat's wake note for a turn inside the loop (it got the QA link,
      sent FIXED or got QA 0): no reply, no report, no records. Board phase: "QA" until QA 0.
+   - A go-live with the leads portal: the review checks its proof (`leads-portal.md`: the GET check and one TEST lead
+     per form in the portal) before the close-out comment.
    - QA 0: read the last qa-<pass>.md; the OK message (step 6) opens with "QA 0 after <n> passes, <m> items fixed"
      and what is verified vs not; no separate report. Then go straight to the close-out (step 6).
      Clear up anything about the work or the Zoho comment with the task chat directly, not the lead (who approves the

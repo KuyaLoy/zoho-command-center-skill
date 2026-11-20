@@ -177,6 +177,8 @@ the second gives the skill your details.
 - Reply language: English
 - Always CC: @<name> (optional: CC only, last line "CC: @<name>" in Zoho comments only; reports and chat replies to
   you have none)
+- Leads portal: <admin URL> (optional: the company's leads portal; every live site with a lead form then sends its
+  leads there)
 ```
 
 Don't want every empty folder to become a Command Center? Drop "when the project folder is empty" and start one by
@@ -243,6 +245,7 @@ client document before your go, never posts in Zoho without your OK on the exact
 skills/zoho-command-center/SKILL.md the shared rules and the task chat (Worker) rules
 skills/zoho-command-center/references/command-center.md  Command Center's steps 1 to 7
 skills/zoho-command-center/references/tool-map.md  each action's tool, and one-chat mode for other AI tools
+skills/zoho-command-center/references/leads-portal.md  the leads portal: when it is required, which way per stack, proof
 skills/zoho-command-center/references/builds.md  retired: builds already running with builder and QA chats
 CHANGELOG.md                       what changed in each version
 AGENTS.md                          rules for changing the skill

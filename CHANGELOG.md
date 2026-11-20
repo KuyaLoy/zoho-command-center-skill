@@ -5,6 +5,22 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-11-20
+
+The leads portal in every go-live.
+
+### Added
+
+- A "Leads portal" setting (optional; the admin URL lives only in the settings).
+- `references/leads-portal.md`: the company's leads portal keeps every lead even when the site's email fails. Required
+  on every live site with a lead form, for every new build and every go-live (existing live sites as their own task;
+  the lead can exclude a project). Command Center picks the way by stack: the convert-to-wordpress leads sender for
+  kit-built WordPress sites, the same sender as a must-use plugin for other WordPress sites, the portal's PHP or
+  Next.js example, a finding for platforms without our server code. The lead is sent whether the email worked or
+  not; the endpoint and key only on live, pasted by the developer, never in git, notes or reports; proof at go-live
+  is the GET check and one TEST lead per form in the portal.
+- Step 2 puts the way in the brief; step 5's review checks the proof before the close-out comment.
+
 ## [2.4.6] - 2026-11-20
 
 ### Changed
