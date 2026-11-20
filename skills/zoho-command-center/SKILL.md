@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.5.0
+Version: 2.5.1
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -69,7 +69,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   reload of SKILL.md alone is not a reload for Command Center (learned 19 Nov 2026: a rule that lived only in the
   references was missed and two chats stalled).
 - **A running task keeps its rules:** its brief and plan win over this skill's defaults, so a skill reload or a new
-  version mid-task changes nothing for that task. New rules apply from its next task.
+  version mid-task changes nothing for that task. New rules apply from its next task, or, on the lead's word, from the
+  boundary Command Center names (a site or phase end, never inside a QA run; command-center.md step 3).
 - **A project's own rules win:** rules under the project rules in its handoff.md (quoted and dated) win over this
   skill's defaults, for example a project that never archives its task chats.
 
@@ -245,6 +246,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   First let your subagents reach a safe point (list their unfinished work). Facts only: unsure means "unverified".
 - Also bring `notes.md` up to date, then send Command Center: "CHECKPOINT: <TASK-ID> at <n>%, checkpoint written,
   safe to clear." and end your turn. Don't start new work after that line.
+- Command Center answers "Continue, no reset" (it could not reset you): go on from your checkpoint in this chat and
+  checkpoint again at your next page end (at 75% at once).
 
 ## Worker rules (task chat)
 - **In the Claude desktop app:** `get_usage` ("self") gives your context % and the usage limits; a message to

@@ -5,6 +5,32 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.5.1] - 2026-11-20
+
+From a build retro: no idle nights, every rule at the plan, live status, QA that converges.
+
+### Fixed
+
+- A refused reset left a task chat idle for 7 hours overnight. Cause (from the transcript): the continuation chat was
+  started in a turn a chat's CHECKPOINT had started, not the lead; the app waits for the lead's click there, so the
+  start blocked the whole turn until morning and the turn's timers never fired. Now the continuation chat starts only
+  in a turn the lead typed; in any other turn the chat gets "Continue, no reset" (under 75%) and its next CHECKPOINT
+  tries the clear again; at 75% it waits at its checkpoint for the lead's next turn. A usage stop still wins.
+- When the lead leaves with work running, Command Center does any due reset in that same turn and asks him to leave
+  Command Center on screen with no task chat open, so clears work overnight. Tool map: the window layout row, and
+  a set-time resume needs this chat idle (a timer fires only between turns).
+
+### Added
+
+- Step 2: all rules at the plan: the brief carries every rule the task needs (forms, placeholders, the build skill's
+  live checklist, the leads portal), so nothing arrives mid-build.
+- Step 3: status from the task's own progress page or tracker; a page older than the chat's current step is a stop
+  to fix, one line to the task chat. A skill update for a running task, on the lead's word, applies at the boundary
+  Command Center names (its next site or phase end), never inside a QA run.
+- Step 5: QA converges as the build skill says (one full run, then the fixed items and changed code); the review
+  never asks for an extra full run.
+- Worker rules: what to do on "Continue, no reset".
+
 ## [2.5.0] - 2026-11-20
 
 The leads portal in every go-live.

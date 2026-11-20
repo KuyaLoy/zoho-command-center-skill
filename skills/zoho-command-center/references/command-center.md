@@ -87,6 +87,10 @@ chat. A project can have many Command Center chats over time; they hand off thro
      "<TASK-ID> <task title>", and a background of at least 80 characters (project, site, goal, constraints).
    - **Leads portal:** a build, a new or changed lead form, or a go-live, with "Leads portal" in the settings: read
      `leads-portal.md` (next to this file) and put the way for this site's stack in the brief.
+   - **All rules at the plan** (learned 20 Nov 2026: the form plugin, placeholders and three skill updates arrived
+     mid-build, and each one reopened finished work): the brief carries every rule the task needs from its start, so
+     the plan decides them before the go. For a build or a site change: the forms (plugin and where leads go),
+     placeholders for missing content, the build skill's live checklist, and the leads portal line below.
    - **Brief** (its first message): the task verbatim plus links, its source, size, the site or repo; head-start
      facts marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
      "Plan by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in
@@ -111,6 +115,15 @@ chat. A project can have many Command Center chats over time; they hand off thro
      stop message for the same stop are one; reply once, and don't reply to the chat. Task chats keep wake notes on
      (wake-note test, 19 Nov 2026: 4 of 29 wake notes had no stop message behind them, as the app holds some, e.g.
      from turns the lead drove); QA chats start without them (step 2).
+   - **Status from the task's own page** (learned 20 Nov 2026: a build's progress page was 4 hours stale): a task
+     with a progress page or tracker (a build skill's page, a tracker its plan names; live where that skill makes it
+     live): read it for status at its stops and when the lead asks. It shows an earlier step than the chat's current
+     one: that is a stop to fix; send the task chat one line, "Progress page stale (shows <step>, you are at <step>):
+     update it now."
+   - **A skill update for a running task** (only on the lead's word; SKILL.md "A running task keeps its rules"): send
+     it to the task chat with the boundary where it applies, its next site or phase end, never inside a QA run (it
+     waits until QA 0), e.g. "Apply <skill> <version> after the first site's phase end, not before." Tell the lead which
+     boundary in one line.
    - **Context check:** check that chat's context % here, at its stops, and at PLAN READY (step 4), nowhere else
      (learned 18 Nov 2026: task chats check themselves at each step). Put the % in the board's Phase column.
    - When the next step is the lead's go or answer in that chat, the last line is "Next: give your go / answer in
@@ -172,6 +185,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
      (step 3). A disputed finding, or one outside the plan, makes the task chat re-plan; the lead decides there, and
      the task chat then tells QA to go on. A task chat's wake note for a turn inside the loop (it got the QA link,
      sent FIXED or got QA 0): no reply, no report, no records. Board phase: "QA" until QA 0.
+   - **QA converges as the build skill says** (learned 20 Nov 2026: 4 full runs over about 4 hours; the last ones
+     found only minor items in code already reviewed): one full run, then the fixed items and the changed code only.
+     The review never asks for an extra full run; blockers and majors are always fixed at once.
    - A go-live with the leads portal: the review checks its proof (`leads-portal.md`: the GET check and one TEST lead
      per form in the portal) before the close-out comment.
    - QA 0: read the last qa-<pass>.md; the OK message (step 6) opens with "QA 0 after <n> passes, <m> items fixed"
@@ -260,11 +276,22 @@ SKILL.md has the thresholds, the safe point and the Worker part.
   and reads qa/.
 - A clear or an archive is refused mid-turn: wait until idle, as above. Refused because the lead has the chat open or
   pinned (learned 20 Nov 2026: three refused clears, then a stop to ask the lead to switch away):
-  - **A reset never waits on the lead.** Don't retry and don't ask: start a continuation chat for the same task at
-    once, named "<task>-2" (then -3), the same title plus "(cont.)", the same effort and settings, with the resume
-    message above (the lead's go quoted). Update the board row (both chats, the new one live), tell the lead in one
-    line "<TASK-ID> continues in [<task>-2](#local_...)", and archive the old chat later, once it is idle and no
-    longer on screen (step 1's sweep or the close-out).
+  - **A reset never waits on the lead.** Don't retry and don't ask: the task goes on in a continuation chat, named
+    "<task>-2" (then -3), the same title plus "(cont.)", the same effort and settings, with the resume message above
+    (the lead's go quoted). Update the board row (both chats, the new one live), tell the lead in one line
+    "<TASK-ID> continues in [<task>-2](#local_...)", and archive the old chat later, once it is idle and no longer on
+    screen (step 1's sweep or the close-out).
+  - **Start it only in a turn the lead typed** (learned 20 Nov 2026: at 01:25 a refused clear in a turn started by a
+    chat's CHECKPOINT; the start waited 7 hours for the lead's click, the whole turn was blocked and its timers never
+    fired). The app starts a chat at once only in a turn the lead typed; in any other turn (a chat's message, a wake
+    note, a timer) it waits for his click or refuses. In any other turn, don't start it: a chat under 75% gets
+    "Continue, no reset" (it goes on from its checkpoint and checkpoints again at its next page end), and its next
+    CHECKPOINT tries the clear again; at 75% it stays at its checkpoint and the continuation chat starts first thing
+    in the lead's next turn. A usage stop still wins: then the resume time is set and kept (step 3).
+  - **When the lead leaves with work running** (he says he stops for the night or the day): in that same turn, do any
+    reset that is due (a CHECKPOINT sent: clear it, or start the continuation chat now, while it is his turn), check
+    his screen (tool map: the window layout), and ask him in one line to leave this chat on screen with no task chat
+    open beside it or in its own window, so the clears work while he is away.
   - An archive: leave it for step 1's sweep or the close-out, and say "archive pending" in that one line.
   Never leave a checkpointed chat idle without telling the lead.
 - Log each reset in handoff.md (date, task, % at reset), and tell the lead in one line with the chat link.
