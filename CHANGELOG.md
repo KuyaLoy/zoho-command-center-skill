@@ -5,6 +5,20 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-11-23
+
+Vocalise early: what a site lacks is raised at the plan, not at the end.
+
+### Added
+
+- **Vocalise early** (SKILL.md, next to "Do only what was assigned"): a task that builds or changes a website
+  assesses form attribution, SEO, site speed, testing and tracking at the plan. Its plan and the top of PLAN READY
+  carry "Recommended additions", one line per area with size ("nothing to add" is valid); the lead decides, and none
+  is built without the lead's OK. Form attribution on the lead forms a build makes is the build skill's default.
+  Anything else that changes the work is said in one line as soon as it is known, never first at done.
+- Worker Phase 1: the plan and PLAN READY carry the Recommended additions.
+- Command Center step 2: the brief asks for them; step 5: the review checks they were raised at the plan.
+
 ## [2.5.3] - 2026-11-20
 
 The chat's state in its title, as the sidebar shows only titles.

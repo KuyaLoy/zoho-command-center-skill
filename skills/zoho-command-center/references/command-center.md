@@ -96,9 +96,11 @@ chat. A project can have many Command Center chats over time; they hand off thro
      facts marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
      "Plan by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in
      Zoho or to the client) until the lead says go on the plan in this chat; an answer is not a go" (S read-only work:
-     "do it and report"); "Send Command Center (parent) a short message at every stop, your
-     lead-driven turns too"; "Follow the Context watch rules: check your context % each step; reset at a page end
-     from 50%, at 75% at once". Don't copy the shared rules into the brief: the task chat reads them in the skill.
+     "do it and report"); a task that builds or changes a website: "Put the Recommended additions (SKILL.md Vocalise
+     early: form attribution, SEO, site speed, testing, tracking) in the plan and at the top of PLAN READY"; "Send
+     Command Center (parent) a short message at every stop, your lead-driven turns too"; "Follow the Context watch
+     rules: check your context % each step; reset at a page end from 50%, at 75% at once". Don't copy the shared
+     rules into the brief: the task chat reads them in the skill.
      Several task chats on the same site or repo: give each its own local ports and temp folders, name the files they
      share, forbid whole-database restores, and tell them to announce live uploads to each other.
    - **QA, helper or review chats:** the QA chat of every task before each Zoho post (step 5), and any other check
@@ -194,6 +196,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - **QA converges as the build skill says** (learned 20 Nov 2026: 4 full runs over about 4 hours; the last ones
      found only minor items in code already reviewed): one full run, then the fixed items and the changed code only.
      The review never asks for an extra full run; blockers and majors are always fixed at once.
+   - **Raised at the plan** (SKILL.md Vocalise early): a task that built or changed a website had its Recommended
+     additions in plan.md before the go; the approved ones are done and the rest are in the report. Anything that
+     changed the work and came up first at done: name it in the review.
    - A go-live with the leads portal: the review checks its proof (`leads-portal.md`: the GET check and one TEST lead
      per form in the portal) before the close-out comment.
    - QA 0: read the last qa-<pass>.md; the OK message (step 6) opens with "QA 0 after <n> passes, <m> items fixed"

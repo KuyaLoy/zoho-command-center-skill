@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.5.3
+Version: 2.6.0
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -162,6 +162,12 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - **Don't complicate the task: do only what was assigned** (learned 10 and 11 Nov 2026). Focus on finishing it fast,
   with quality and best practice. No extra scope, no new tasks, sessions or questions for things outside it.
   - Something connected to the task that blocks it: raise it as a question or blocker. Don't fix outside scope.
+  - **Vocalise early** (learned 23 Nov 2026): a task that builds or changes a website assesses form attribution, SEO,
+    site speed, testing and tracking at the plan. Its plan and the top of PLAN READY carry "Recommended additions":
+    per area one line, what the site lacks and what we recommend, with size ("nothing to add" is valid). The lead
+    decides: approved ones go into the plan, the rest into the report; none is built without the lead's OK (form
+    attribution on a build's lead forms is the build skill's default). Anything else that changes the work (a risk,
+    a blocker, a better way): one line as soon as it is known, never first at done.
   - Anything you notice that is NOT connected to the task: don't act on it, and don't ask the lead, the client or the
     account team about it. List it, one line each, under "Findings (not touched)" in the report. The lead's team
     decides those after the task is submitted, only ones we can fix ourselves; ones needing the client are dropped.
@@ -257,9 +263,10 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   change before the go), decide local vs live, and plan at the size's length ("Task size and effort"). Verify the
   brief's key facts; don't redo research the brief already gives. M and L: `tasks/<TASK-ID>/plan.md` with approach,
   method, where the site goes (The project folder is the site), backup and rollback, verification (prove every item is
-  done), decisions taken (defaults chosen) and real blockers only; L adds dry run and risks. S: about 5 lines, in your
-  reply and in plan.md. Default to implementing the source doc verbatim. Report PLAN READY (result first, approach in
-  2-3 lines, blockers) and end your turn. S work that only reads or checks: do it, DONE.
+  done), decisions taken (defaults chosen), Recommended additions (Vocalise early) and real blockers only; L adds dry
+  run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the source doc verbatim. Report
+  PLAN READY (result first, then Recommended additions, approach in 2-3 lines, blockers) and end your turn. S work
+  that only reads or checks: do it, DONE.
 - Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go on
   the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
   relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center reads
