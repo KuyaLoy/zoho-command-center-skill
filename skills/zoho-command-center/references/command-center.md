@@ -45,9 +45,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
      under the project rules in handoff.md, add `## Open requests` and a `## Task chats` board (format below), and save
      a project memory recording this mode. If a local web server serves the folder (for example a Laragon, XAMPP or MAMP
      web root), block it from the web (Apache: a `.htaccess` with `Require all denied`) and check that a request returns
-     403. When a task puts the site in the folder (SKILL.md: the project folder is the site), that whole-folder block
-     goes: the handoff skill's file block plus `Require all denied` in `tasks/` and `eod/` take over, each checked for
-     403. In a git repo, keep `tasks/`, `eod/` and the handoff files out of commits (`.git/info/exclude`) unless the
+     403. When a task puts the site in the folder (code-quality.md: the project folder is the site), that whole-folder
+     block goes: the handoff skill's file block plus `Require all denied` in `tasks/` and `eod/` take over, each checked
+     for 403. In a git repo, keep `tasks/`, `eod/` and the handoff files out of commits (`.git/info/exclude`) unless the
      lead says otherwise.
    - Existing Command Center project: read `ai-handoff-summary.md`, then `## Open requests` and the `## Task chats`
      board in handoff.md. Its holder line names another tool or chat: write nothing and follow Switching tools. Check
@@ -94,6 +94,10 @@ chat. A project can have many Command Center chats over time; they hand off thro
      mid-build, and each one reopened finished work): the brief carries every rule the task needs from its start, so
      the plan decides them before the go. For a build or a site change: the forms (plugin and where leads go),
      placeholders for missing content, the build skill's live checklist, and the leads portal line below.
+   - **Antigravity and Codex: subagent mode** (the lead's rule, 24 Nov 2026): the task runs as a subagent of this
+     Command Center, not a new chat (tool map, Subagent mode): its plan comes back here, you show it with choices, the
+     lead's go is typed here and you quote it to the subagent; QA is its own subagent. The brief below is the same; the
+     board names the subagent and its state. A separate task chat only when the lead asks for one.
    - **Brief** (its first message): the task verbatim plus links, its source, size, the site or repo; head-start
      facts marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
      "Plan by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in
@@ -274,7 +278,7 @@ chat. A project can have many Command Center chats over time; they hand off thro
    ## Task chats
    | Task | Source / status | Site or repo | Chat (tool: name / id) | Size | Phase | Waiting on | Plan / notes |
    |---|---|---|---|---|---|---|---|
-   | ABC1-T8 Metadata | Zoho: Ready For Development | example.com | Claude: abc1-t8 / local_... (moved to Codex), Codex: abc1-t8-2, Claude: abc1-t8-qa / local_... | M | PLAN READY / IMPLEMENTING / QA / IN REVIEW / ARCHIVED | lead go/no-go | tasks/ABC1-T8/plan.md |
+   | ABC1-T8 Metadata | Zoho: Ready For Development | example.com | Claude: abc1-t8 / local_... (moved to Codex), Codex: zcc-task-worker / <id> (subagent), Claude: abc1-t8-qa / local_... | M | PLAN READY / IMPLEMENTING / QA / IN REVIEW / ARCHIVED | lead go/no-go | tasks/ABC1-T8/plan.md |
    ```
    Also record: `## Open requests`, Zoho comments and status changes you posted (date and text summary), approvals
    the lead gave (quote them), and anything you promised the lead but haven't done yet. Root handoff files belong to

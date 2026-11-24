@@ -7,13 +7,18 @@ Code in a terminal, Cursor, OpenCode, Cline, Devin Desktop and others), where Co
 
 | Action | Claude desktop app | Antigravity (Antigravity mode, below) | Codex terminal (Codex mode, below) | Codex desktop app (Codex mode, below) | Other AI tools (one-chat mode) |
 |---|---|---|---|---|---|
-| Start a task, QA or review chat | `start_session`: initiation "user_asked", context "fresh", use_worktree false, wake_when_done true (false for a QA chat), `name`, `title`, `background` (at least 80 characters; refused without it), `effort` "high" (or "max" for a plan that needs it). A read-only QA chat may set `model` to a Sonnet model id | Task chat: CS `CreateConversation` with `title` "▶ RUNNING \| <TASK-ID> <task title>" (with no `prompt`: "⏸ WAITING on <lead> \| ..." until it runs), `tags` ["<TASK-ID>"], `projectId` $ANTIGRAVITY_PROJECT_ID and `prompt` the first prompt (below), no `model` (it keeps the lead's current model; another only when the lead names it); keep its `id` on the board. QA: the `wp-qa` agent as Command Center's subagent (`invoke_subagent`), only once `tasks/<TASK-ID>/qa/brief.md` exists | Task chat: write `tasks/<TASK-ID>/brief.md`; the lead opens a separate Codex session in the project folder (the desktop app, or `codex`) with "$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules". QA: its own read-only session, never a subagent (an agent file cannot set its own sandbox): `codex exec -s read-only -C <project> -o tasks/<TASK-ID>/qa/qa-<pass>.md "$zoho-command-center Read tasks/<TASK-ID>/qa/brief.md and follow its QA chat rules"`, only once qa/brief.md exists | Task chat: the app creates a thread only on the lead's explicit request, so when the briefs are ready ask once with `request_user_input` ("Create the task chats now?" Create / Not yet; or the lead already said so). Then per task `create_thread` with the first prompt "$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules" and `set_thread_title` "⏸ WAITING on <lead> \| <TASK-ID> <task title>" until its first turn runs (the thread sets RUNNING itself). QA: as in the terminal (`codex exec -s read-only ...`) | Write `tasks/<TASK-ID>/brief.md`; tell the lead to open a new chat with "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's Worker rules" |
+| Start a task, QA or review chat | `start_session`: initiation "user_asked", context "fresh", use_worktree false, wake_when_done true (false for a QA chat), `name`, `title`, `background` (at least 80 characters; refused without it), `effort` "high" (or "max" for a plan that needs it). A read-only QA chat may set `model` to a Sonnet model id | Default: the task runs as a subagent (rows below, Subagent mode). Only when the lead asks for a separate task chat: CS `CreateConversation` with `title` "▶ RUNNING \| <TASK-ID> <task title>" (with no `prompt`: "⏸ WAITING on <lead> \| ..." until it runs), `tags` ["<TASK-ID>"], `projectId` $ANTIGRAVITY_PROJECT_ID and `prompt` the first prompt (below), no `model` (it keeps the lead's current model; another only when the lead names it); keep its `id` on the board. QA: the `wp-qa` subagent (row below) | Default: the task runs as a subagent (rows below, Subagent mode). Only when the lead asks for a separate task chat: write `tasks/<TASK-ID>/brief.md`; the lead opens a separate Codex session in the project folder (the desktop app, or `codex`) with "$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules". QA: the `zcc-reviewer` subagent (row below); a sandboxed read-only QA session only on the lead's word (a subagent keeps the parent's sandbox): `codex exec -s read-only -C <project> -o tasks/<TASK-ID>/qa/qa-<pass>.md "$zoho-command-center Read tasks/<TASK-ID>/qa/brief.md and follow its QA chat rules"`, only once qa/brief.md exists | Default: the task runs as a subagent (rows below, Subagent mode). Only when the lead asks for a separate task chat: the app creates a thread only on the lead's explicit request, so when the briefs are ready ask once with `request_user_input` ("Create the task chats now?" Create / Not yet; or the lead already said so). Then per task `create_thread` with the first prompt "$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules" and `set_thread_title` "⏸ WAITING on <lead> \| <TASK-ID> <task title>" until its first turn runs (the thread sets RUNNING itself). QA: the `zcc-reviewer` subagent, as in the terminal | Write `tasks/<TASK-ID>/brief.md`; tell the lead to open a new chat with "Read tasks/<TASK-ID>/brief.md and follow zoho-command-center's Worker rules" |
+| Run a task as a subagent (default in Antigravity and Codex; Subagent mode) | not used: task chats (row above) | `invoke_subagent` with the `task-worker` agent and the brief's path | `spawn_agent` with the `zcc-task-worker` agent and the brief's path | the same as the terminal | not used |
+| A subagent's plan and the lead's go | not used | its PLAN READY comes back to Command Center: show the short plan with numbered options; the lead types the go in Command Center's chat; quote it verbatim to the same subagent (`send_message`) and log it in notes.md | the same, with `request_user_input` choices where the session has them; quote the go with `send_message` or `followup_task` | the same as the terminal | not used |
+| Follow-ups, re-plans and QA rounds to a subagent | not used | `send_message` to the same subagent (it keeps its context) | `send_message` or `followup_task`; `wait_agent` to wait, `list_agents` for state, `interrupt_agent` to stop one | the same as the terminal | not used |
+| A subagent's state on the board | not used | the Chat cell names it (`Antigravity: task-worker / <id> (subagent)`), the Phase cell its state: planning, waiting on the lead's go, working, QA, done | the same (`Codex: zcc-task-worker / <id> (subagent)`) | the same as the terminal | not used |
+| The QA subagent (it runs every check itself) | not used: its own QA chat (step 2) | `invoke_subagent` with `wp-qa`, only after qa/brief.md exists; read-only by its tools, the sandbox and the rule | `spawn_agent` with `zcc-reviewer`, only after qa/brief.md exists; read-only by the rule alone (it keeps the parent's sandbox) | the same as the terminal | not used: its own QA chat |
 | Send a chat a message | `SendMessage` to its `local_...` id (or `send_message`) | a top-level task conversation has no message call: add a dated "## Follow-up" to its brief.md and tell the lead to say "read your brief's follow-up" in it. A subagent (the QA agent, for its re-check rounds): `send_message` | add a dated "## Follow-up" to its brief.md; tell the lead to say "read your brief's follow-up" in that session | `send_message_to_thread` | Add a dated "## Follow-up" to its brief.md; tell the lead to say "read your brief's follow-up" in that chat |
 | A worker messages Command Center | `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id | its stop line under "## Stops" at the top of notes.md, and its title prefix; the lead says "check <TASK-ID>" | its stop line under "## Stops" at the top of notes.md; the lead says "check <TASK-ID>" | its stop line under "## Stops" in notes.md; Command Center follows its threads with `wait_threads` and `read_thread` | Add the stop line under "## Stops" at the top of notes.md; tell the lead "Tell Command Center: check <TASK-ID>" |
 | A chat's stop reaches Command Center | its stop message, and the wake note: task chats keep wake notes on (the 19 Nov test found wake notes with no stop message behind them; step 3), QA chats start without them | the lead says "check <TASK-ID>"; read its notes.md, and its state with CS `GetConversation` (`runState`, title prefix) | the lead says "check <TASK-ID>"; read its notes.md | `wait_threads` returns when a thread ends its turn; read it (`read_thread`) and its notes.md | the lead says "check <TASK-ID>"; read its notes.md |
 | A chat's context % | `get_usage` with its `local_...` id ("self" for your own) | no meter in the App: a checkpoint at every phase end (rule 10); a long phase gets a fresh conversation | each session reads its own context left (Codex shows it) and checkpoints at a page end from 50%, at 75% at once, and at every phase end | as in the terminal: each thread checkpoints from its own context left and at every phase end | each chat reads its own tool's context meter and checkpoints itself |
 | Usage limits (5-hour, weekly), any chat | `get_usage` (its plan part) | the App's quota, or ask the lead at each start; keep the 2-chat limit | `/status` in the session, or ask the lead at each start; keep the 2-chat limit | the app's usage view, or ask the lead at each start; keep the 2-chat limit | the tool's usage page, or ask the lead at each start; keep the 2-chat limit |
-| Keep usage low (small plans) | the 2-chat limit and the size table (SKILL.md) | suggest a cheaper model or low effort for a small task in its brief (the lead picks); one task chat at a time on a small plan; heavy visual QA in a tool with a larger plan | the same; the session-start hook injects only the summary's essentials; open only the sections you need (SKILL.md, Files) | the same as the terminal | one chat at a time on a small plan |
+| Keep usage low (small plans) | the 2-chat limit and the size table (SKILL.md) | subagents, not new conversations (each new one pays the full start); a subagent starts light: its agent prompt, the Worker rules section and the brief; suggest a cheaper model or low effort for a small task in its brief (the lead picks); one task chat at a time on a small plan; heavy visual QA in a tool with a larger plan | subagents, not new sessions; the same light start; the session-start hook injects only the summary's essentials; open only the sections you need (SKILL.md, Files) | the same as the terminal | one chat at a time on a small plan |
 | A chat's state and effort | `get_session` | CS `GetConversation`: `runState` (IDLE, RUNNING) and the title prefix; its notes.md | its notes.md (the stop lines) and the board | `read_thread`, the title prefix and its notes.md | its notes.md and the board |
 | List your own chats | `list_sessions {"linked": true}`; board rows it misses: `get_session` by id | CS `ListConversations` with `projectId` and `tags` ["<TASK-ID>"]; the board | the board (`codex resume` lists the lead's sessions) | `list_threads`; the board | the board |
 | Set a chat's effort | `set_session_effort` (a level above Command Center's needs the lead's approval; back to high at the go needs none) | no effort setting: every conversation keeps the lead's current model; a plan that needs more depth gets it from the brief (read the source in full, plan at the L length), and a different model only when the lead names it | the lead sets the model and reasoning effort in the session (`/model`); keep the lead's model | the lead's chosen model and effort (default); high only for an L task or live or irreversible work, said in one line | the lead sets the tool's reasoning or model setting: its highest for a max plan or "use max", else its standard high |
@@ -72,15 +77,15 @@ conversation did everything. This mode makes those rules mechanical.
   "http://$ANTIGRAVITY_LS_ADDRESS/product.v1.ConversationService/<Method>" -H "Content-Type: application/json"
   -H "Connect-Protocol-Version: 1" -H "x-antigravity-csrf-token: $ANTIGRAVITY_CSRF_TOKEN" -d '<json>'`. When the
   terminal sandbox refuses it, rerun only that call outside the sandbox (the app may ask the lead).
-- **Task chats are top-level conversations** that Command Center creates, so the lead sees, opens and steers each one
-  as in the Claude app. First prompt: "/zoho-command-center Open the zoho-command-center skill (Worker rules) and
+- **Task work runs as subagents** of Command Center by default (Subagent mode, below). Only when the lead asks for a
+  separate task chat: a top-level conversation Command Center creates, which the lead sees, opens and steers as in
+  the Claude app. First prompt: "/zoho-command-center Open the zoho-command-center skill (Worker rules) and
   handoff now, then read tasks/<TASK-ID>/brief.md and follow it." The brief names the build skill to open before each
   phase. Each task conversation keeps its title prefix current, like `set_session_title` in the Claude app.
 - **QA** is the `wp-qa` agent: read-only by its rules plus a sandboxed shell (`commandExecutionPolicy` "sandbox") and
   no file-editing tools; the tool list alone is not the guard, as `run_command` can still write. Command Center
-  starts it as its
-  subagent only after it wrote `qa/brief.md`; its result is written to qa/qa-<pass>.md verbatim, and step 5's loop
-  runs through the lead as in one-chat mode.
+  starts it as its subagent only after it wrote `qa/brief.md`, writes its result to qa/qa-<pass>.md verbatim, and runs
+  step 5's loop through the same subagents (`send_message`).
 - **Context:** the App shows no context meter, so every phase end is a checkpoint (checkpoint.md, notes.md, the
   handoff files); "<task>-2" resumes from it.
 - **Zoho** is read and written only through the task's own link, by the built-in `browser` subagent.
@@ -94,8 +99,10 @@ conversation did everything. This mode makes those rules mechanical.
   and what a subagent costs against the lead's quota.
 
 ## Codex mode
-In a terminal, Codex has no session tools for Command Center, so task chats are sessions the lead opens, as in
-one-chat mode, with the skill forced and the rules made mechanical (added 24 Nov 2026). The Codex desktop app has
+Task work runs as subagents of Command Center by default, in the terminal and the desktop app (Subagent mode, below;
+multi-agent tools `spawn_agent`, `send_message`, `followup_task`, `wait_agent`, `list_agents`, `interrupt_agent`).
+Separate task chats only when the lead asks: in a terminal, sessions the lead opens, as in one-chat mode, with the
+skill forced and the rules made mechanical (added 24 Nov 2026). The Codex desktop app has
 thread tools (`create_thread`, `set_thread_title`, `send_message_to_thread`, `wait_threads`, `list_threads`,
 `read_thread`, `set_thread_archived`) and `request_user_input` for choices, but creates a thread only when the lead
 explicitly asks: Command Center asks once with choices when the briefs are ready, then creates, titles and follows the
@@ -103,18 +110,17 @@ task threads itself (learned 24 Nov 2026: the lead had to type every request). I
 a takeover without being asked. The setup, hooks and rules below are the same for both.
 - **Setup, once per machine** (on the lead's OK): `python codex/install.py --dry-run`, then without `--dry-run`, from
   this repo's clone (README, "Use it in Codex"). It adds a marked block with the hard rules to `~/.codex/AGENTS.md`
-  (all AGENTS.md files together are read up to 32 KiB), the `task-worker` and `reviewer` agents
+  (all AGENTS.md files together are read up to 32 KiB), the `zcc-task-worker` and `zcc-reviewer` agents
   (`~/.codex/agents/`), and three hooks in `~/.codex/hooks.json`: the handoff brief at session start, a write that
   puts a secret into a .md file denied, and the evidence gate at Stop. Codex runs a hook only after the lead trusts it
   once in `/hooks` (again after it changes).
 - **Force the skill** with `$zoho-command-center` (and `$convert-to-wordpress`, `$figma-to-wordpress`, `$handoff`):
   Codex opens a skill by itself only when it judges it relevant. Skills are read from `~/.agents/skills`.
-- **Task chats** are separate sessions the lead opens in the project folder; Command Center writes the brief and keeps
-  the board, and stops come through notes.md ("## Stops") and the lead's "check <TASK-ID>". Subagents (the agents
-  above) only when the lead asks for one.
-- **QA** is its own read-only session, never a subagent: a subagent keeps its parent's sandbox, and an agent file
-  cannot set its own. Command Center (or the lead) runs each pass with `codex exec -s read-only`, and `-o` saves the
-  final report to qa/qa-<pass>.md; the loop then runs through the files as in one-chat mode.
+- **Task work** runs as `zcc-task-worker` subagents (Subagent mode); a separate session only when the lead asks, the
+  lead opening it in the project folder, with stops through notes.md ("## Stops") and the lead's "check <TASK-ID>".
+- **QA** is the `zcc-reviewer` subagent, read-only by the rule alone: a subagent keeps its parent's sandbox, and an
+  agent file cannot set its own. A sandboxed read-only QA only on the lead's word: `codex exec -s read-only`, with `-o`
+  saving the final report to qa/qa-<pass>.md.
 - **Evidence gate:** the same Stop hook as in Antigravity (it answers "block", and Codex prompts the session again
   with the reason). One push back per turn, so it never loops.
 - **Hooks are a second line** (the rules are the first): before relying on them, run `python shared/hook_selftest.py`
@@ -142,3 +148,22 @@ private profile folder. So each provider follows its own column above, with thes
   prefix goes in the thread's name (T3's rename). Run every thread in the project checkout, never "New worktree": a T3
   worktree has no local handoff files, `tasks/` or parent-folder CLAUDE.md.
 - Stay on T3's stable release (not the nightly builds).
+
+## Subagent mode (Antigravity and Codex, the default)
+The lead's rule, 24 Nov 2026: where a tool makes separate task chats badly or at a high usage cost, task work runs as
+subagents of the one Command Center. In Antigravity, conversations created for task chats came out empty and
+mis-titled; in Codex, a Command Center and two task chats used a small plan's limit in about 20 minutes.
+- **Brief, then a subagent:** Command Center writes `tasks/<TASK-ID>/brief.md` and starts the task as a subagent
+  (Antigravity: `task-worker`; Codex: `zcc-task-worker`) with the brief's path. It starts light: its agent prompt, the
+  Worker rules section and the brief, on the lead's model and effort; suggest a cheaper model for a small task in the
+  brief.
+- **Plan, then the go, in Command Center's chat:** the subagent plans by reading only and returns PLAN READY with the
+  short plan inline. Command Center shows it with choices where the tool has them (Codex `request_user_input`;
+  Antigravity numbered options) and waits. The lead types the go in Command Center's chat; Command Center quotes it
+  verbatim to the same subagent and logs it in notes.md (hard rule 7). Follow-ups, re-plans and QA rounds go the same
+  way.
+- **QA** is its own subagent (`wp-qa`, `zcc-reviewer`) that runs every check itself (hard rule 11); Command Center
+  briefs it and reads its report. In Codex its read-only state rests on the rule.
+- **The board** lists each task's subagent (tool, agent, id) and its state; Command Center keeps its own title prefix.
+- **A separate task chat** only when the lead asks for one (Antigravity `CreateConversation`, Codex `create_thread`),
+  titled "⏸ WAITING on <lead> | ..." until it runs; the columns' "Start a task" row says how.

@@ -85,7 +85,7 @@ class FilesTest(unittest.TestCase):
         self.assertTrue(block.startswith("<!-- zcc-managed:start"))
         self.assertTrue(block.rstrip().endswith("<!-- zcc-managed:end -->"))
         self.assertLess(len(block.encode("utf-8")), 8 * 1024)
-        for word in ("$zoho-command-center", "checks.md", "codex -s read-only"):
+        for word in ("$zoho-command-center", "checks.md", "zcc-reviewer"):
             self.assertIn(word, block)
 
 

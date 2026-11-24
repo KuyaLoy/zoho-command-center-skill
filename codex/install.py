@@ -6,8 +6,8 @@
 
 What it installs (each piece carries the marker "zcc-managed"):
     AGENTS.md                      a marked block with the hard rules (the rest of the file is kept)
-    agents/zcc-task-worker.toml    the task worker (name "task-worker")
-    agents/zcc-reviewer.toml       the read-only reviewer (name "reviewer")
+    agents/zcc-task-worker.toml    the task worker subagent (name "zcc-task-worker")
+    agents/zcc-reviewer.toml       the QA subagent, read-only by its rule (name "zcc-reviewer")
     hooks/zcc/*.py and three groups in hooks.json
         SessionStart (handoff brief), PreToolUse (no secrets in .md), Stop (the evidence gate)
 

@@ -63,7 +63,7 @@ class ShortRulesTest(unittest.TestCase):
             text = load(os.path.join(REPO, rel))
             numbers = [int(n) for n in re.findall(r"^(\d+)\. ", text, re.M)]
             self.assertEqual(numbers, list(range(1, 12)), rel)
-            self.assertLess(len(text.encode("utf-8")), 2100, rel)
+            self.assertLess(len(text.encode("utf-8")), 2300, rel)  # 2.10.0: rules 7, 9 and 11 cover subagent mode
             for word in ("checks.md", "Checks required:", "Active Command Center", "## Stops", "qa/brief.md",
                          "open the skill section you need"):
                 self.assertIn(word, text, (rel, word))

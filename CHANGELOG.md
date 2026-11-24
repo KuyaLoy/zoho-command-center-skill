@@ -5,7 +5,37 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
-## [2.9.3] - 2026-11-24
+## [2.10.0] - 2026-11-24
+
+One Command Center with subagents in Antigravity and Codex, the same hard rules in every tool, and a lighter start
+(this release also carries the unreleased 2.9.3 work). The lead's rule, 24 Nov 2026: where a tool makes separate task
+chats badly or at a high usage cost, task work runs as subagents of the one Command Center, and the rules are the same
+in every tool.
+
+### Added
+
+- **Subagent mode, the default in Antigravity and Codex** (tool map "Subagent mode", new rows in the Antigravity and
+  both Codex columns; command-center.md step 2; SKILL.md "Subagent mode"): Command Center briefs a task and starts it
+  as a subagent (`task-worker`, `zcc-task-worker`); the subagent plans by reading only and returns PLAN READY; Command
+  Center shows the plan with choices; the lead types the go in Command Center's chat and it is quoted verbatim to the
+  subagent and logged in notes.md; follow-ups, re-plans and QA rounds go the same way. QA is its own subagent
+  (`wp-qa`, `zcc-reviewer`) that runs every check itself; in Codex its read-only state rests on the rule (a subagent
+  keeps the parent's sandbox). The board names each subagent and its state. A separate task chat only when the lead
+  asks for one, titled "⏸ WAITING on <lead> | ..." until it runs.
+- **One source for the hard rules** (`shared/hard-rules.md` and `shared/hard_rules.py --write`): it writes the
+  Antigravity rule file (and so the GEMINI.md block), the Codex AGENTS.md block and a new "Hard rules" section in
+  SKILL.md, so Claude carries the same 11 rules. Rule 7 per mode: the go is typed in the task chat (Claude) or in the
+  Command Center chat for a subagent (Antigravity, Codex), quoted to the subagent. Rule 9 covers subagents (state on
+  the board); rule 11 names each tool's QA. A test checks all four copies match.
+- Agents for subagent mode: `task-worker` returns PLAN READY and works only after the quoted go; the Codex agents are
+  now named `zcc-task-worker` and `zcc-reviewer`, and the reviewer runs every check itself.
+
+### Moved
+
+- The Lean code, Clean code, Bulk scripts and "The project folder is the site" rules moved unchanged from SKILL.md to
+  `references/code-quality.md` (SKILL.md keeps pointers), to make room for the Hard rules section under the line cap.
+
+### From 2.9.3 (never released on its own)
 
 A lighter start (learned 24 Nov 2026: a Command Center and two task chats used three quarters of a small Codex plan's
 5-hour limit in under 20 minutes). Every rule stays; chats load less, and later.

@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.9.3
+Version: 2.10.0
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -14,7 +14,8 @@ BugHerd, Slack, the lead's own idea). A Command Center project has two roles: fi
 **Files** (beside this one): open only the section you need (learned 24 Nov 2026: loading whole files cost usage).
 `references/command-center.md`: Command Center's steps "1." to "7.", "Switching tools", "Context watch" (open the step
 you run; task chats never need it). `references/tool-map.md`: your tool's column and mode section only. Also
-`references/leads-portal.md` (builds, lead forms) and `references/helper-skills.md`.
+`references/leads-portal.md` (builds, lead forms) `references/helper-skills.md` and `references/code-quality.md` (before
+code).
 
 ## Settings
 Read the lead's settings from the "Zoho Command Center settings" block in the user's CLAUDE.md. It is normally already
@@ -74,6 +75,30 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - **A project's own rules win:** rules under the project rules in its handoff.md (quoted and dated) win over this
   skill's defaults, for example a project that never archives its task chats.
 
+## Hard rules (every tool, every turn)
+Always on in the Antigravity and Codex setups too (one source in the repo: `shared/hard-rules.md`).
+1. Before each phase, open the skill section you need (`zoho-command-center`: Worker rules or the Command Center step
+   you run; the build skill's phase; `handoff` at start and stops) and name it in one line.
+2. No check reported without its output: each one under "## <check>" in `tasks/<TASK-ID>/checks.md` (command and
+   output), all named in the report's "Checks:" line, every "Checks required:" one included. Not run: "not checked".
+3. Copy kit files (prefix swap only) and source text verbatim, never retyped or re-cased; a needed change goes in
+   notes.md with why.
+4. No guessed defaults: brief, profile or skill, else ask the lead once.
+5. No secrets in .md files, logs or reports; no consent or approval flag nobody gave.
+6. Zoho only at the task's own link (never profile or account pages); comments and status only on the lead's OK, by the
+   "Active Command Center" in handoff.md (it alone writes the root files).
+7. No change anywhere before the lead types the go on the plan: in the task chat (Claude), or in the Command Center chat
+   for a subagent (Antigravity, Codex), quoted to the subagent. An answer is not a go.
+8. Only the task; the rest under "Findings (not touched)". A hacked site or malware: tell the lead, fix it in the plan,
+   backup first.
+9. Your state at the front of your title where the tool has one, else on your message's first line (▶ RUNNING, ⏸ WAITING
+   on <who>, ✋ BLOCKED, ✓ DONE); a subagent reports it to Command Center, which keeps it on the board. Each stop under
+   "## Stops" in notes.md.
+10. Checkpoint at every phase end (checkpoint.md, notes.md, the handoff files).
+11. QA runs in its own QA chat, only after `tasks/<TASK-ID>/qa/brief.md` exists, never edits files, and runs every check
+    itself; Command Center never runs QA checks, it briefs and reads the report.
+Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, before any Zoho step.
+
 ## Shared rules (both roles)
 - **Use the newest skill version** (learned 19 Nov 2026: reload messages to 30 idle Command Centers cost about 29 points
   of the 5-hour window). Command Center on its first turn after a lead's message and after any reset, and a task chat at
@@ -129,28 +154,16 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
     proves each item, a separate QA chat before every Zoho post (until it finds 0) and Command Center's review. Faster
     means fewer messages and shorter plans, never skipped checks.
-  - **Lean code** (learned 19 Nov 2026): before writing code, use what already exists (the site's theme, plugin or
-    helper, then WordPress or the platform, then an installed library); add no option, wrapper or abstraction nobody
-    asked for; never cut validation, error handling, security or accessibility; new logic with a branch or loop gets
-    one small check.
-  - **Clean code** (the lead's rule, 19 Nov 2026: reusable, simple, best practice, no spaghetti; task, QA and build
-    chats, senior WordPress level): enqueue CSS and JS, never echo `<style>` or `<script>` from shortcodes or templates;
-    use the theme's or builder's globals for colours, fonts and spacing (CSS variables, kit globals, theme.json, ACF
-    options), never hex values or font copies; prefix functions, hooks, meta keys, options, shortcode tags, script and
-    style handles, CSS classes and post types with the project's prefix (plan.md names it); a value with no global yet
-    gets one added in the theme (a decision in the report); one shared helper per piece of logic, no near-copies; lists
-    and names that belong in data go in data (ACF, options, a taxonomy), not in code; custom PHP lives in a versioned
-    file (the child theme or an mu-plugin) when the site has one, and a site that only uses a snippets plugin also gets
-    the exact code in `tasks/<TASK-ID>/build/`; generated SEO titles and descriptions use the SEO plugin's variables,
-    not fixed text per page; scripts and builders find elements by selector or ID, never by position ("the third
-    widget"). Self-check before DONE (search for `<style`, `<script`, hex values and unprefixed names); fixes that bring
-    code up to these rules are always inside the plan and its go.
+  - **Lean and clean code, safe bulk scripts** (19 Nov 2026): before writing code or a bulk script, open
+    `references/code-quality.md` and follow it; fixes that bring code up to it are inside the plan and its go.
   - **Helper skills** (added 19 Nov 2026): task, QA and build chats use them when installed, for the task only (no
     extra scope or steps); `references/helper-skills.md` says which one for what.
 - **Task talk happens in the task chat; Zoho and reporting happen in Command Center** (learned 10 Nov 2026). The lead
   talks to each task chat directly (instructions, follow-ups, questions, plan approval, the go); task chats ask the
   lead there. Command Center doesn't re-ask their questions or go requests or copy their plans; it routes and starts
   task chats, keeps the board, reviews finished work, owns Zoho comments and status, and reports.
+  - **Subagent mode** (Antigravity and Codex, the lead's rule, 24 Nov 2026): a task runs as a subagent of the one
+    Command Center; its plan comes back there and the lead's go is typed there and quoted to it (tool map).
   - A go, or an OK to post in Zoho, counts when the lead says it in that chat. A relayed or quoted go may be refused
     by the receiving chat's safety checks (learned 10 Nov 2026): then ask the lead in one line to say it there.
   - A button reply or "gave go" in Command Center is never a go for a task or a phase; an "approved" typed there
@@ -184,24 +197,11 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   installs, no change to files, databases, Zoho, live sites or client docs, nothing sent to the client. An answer, a
   route choice or a preference is not a go: update plan.md (a dated line in notes.md), report PLAN READY and wait for
   an explicit go on that plan. Backups, live ones too, are plan steps run after the go.
-- **The project folder is the site** (learned 18 Nov 2026: a copy in a sibling folder split the project). A local
-  copy, clone or Duplicator install goes in the project folder itself, so the local URL is `<folder>.test`, matching
-  the live name (folder "example" -> example.test for example.com). Backups go in `tasks/<TASK-ID>/backup/` (kept off
-  the web, out of git and deploys), never in sibling folders; prove a 403 for `tasks/` before a database dump goes
-  there, else keep the dump outside the web root. Only for a redesign: the old site is the sibling
-  `<folder>-old` (`<folder>-old.test`), removed after go-live on the lead's OK. Putting the site in the folder is a
-  plan step of the task chat, in this order: add the handoff skill's file block to the root `.htaccess` and
-  `Require all denied` in `tasks/` and `eod/`; then remove Command Center's whole-folder deny (merge into the site's
-  `.htaccess`, never replace it); check 403 for the handoff files, `tasks/` and `eod/` and 200 for the home page,
-  again after the install and after a permalink save. Site packages and deploys exclude `tasks/`, `eod/` and the
-  handoff files (the plan names the filter; check the package).
+- **The project folder is the site** (learned 18 Nov 2026): a local copy goes in the project folder itself
+  (`<folder>.test`), backups in `tasks/<TASK-ID>/backup/`; the full rule and its steps: `references/code-quality.md`.
 - Delete pages, menus, media, options or records only by explicit IDs, after a dry-run list, a count check and a
   database backup, never by a filter. Tag scratch content with one marker (learned 17 Nov 2026: a filtered list
   command ignored its filter and deleted every page; restored from the backup).
-- **Bulk scripts are safe to re-run** (learned 19 Nov 2026, a 209-page task): items a script creates carry a source key
-  (a meta field) and it checks that key, slug or ID before each create; a script never trashes or deletes. Duplicates:
-  keep the one that menus or links use, else the lowest ID; check what links to the others, then trash them by explicit
-  ID under the rule above (trash only; emptying the trash needs the lead's OK).
 - Never type passwords or create accounts. The lead does all sign-ins (cPanel, WP admin, Shopify, etc.) in Chrome.
   A login expires mid-task (Zoho, cPanel, WP admin...): stop at a safe point, name the service to sign in to, wait.
 - Live form tests (sites with reCAPTCHA or other bot checks): submit them in a browser with no AI extension attached
@@ -259,12 +259,12 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   said "use max"; if you run below that, say so in one line at the top of your report): investigate by reading only (No
   change before the go), decide local vs live, and plan at the size's length ("Task size and effort"). Verify the
   brief's key facts; don't redo research the brief already gives. M and L: `tasks/<TASK-ID>/plan.md` with approach,
-  method, where the site goes (The project folder is the site), backup and rollback, verification (prove every item is
-  done), decisions taken (defaults chosen), Recommended additions (Vocalise early) and real blockers only; L adds dry
-  run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the source doc verbatim. Report
-  PLAN READY in this chat with the plan itself (result first, the short plan inline and plan.md's path, Recommended
-  additions, blockers) and ask for the go here, with choices where the tool has them; then end your turn. S work that
-  only reads or checks: do it, DONE.
+  method, where the site goes (code-quality.md: the project folder is the site), backup and rollback, verification
+  (prove every item is done), decisions taken (defaults chosen), Recommended additions (Vocalise early) and real
+  blockers only; L adds dry run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the
+  source doc verbatim. Report PLAN READY in this chat with the plan itself (result first, the short plan inline and
+  plan.md's path, Recommended additions, blockers) and ask for the go here, with choices where the tool has them; then
+  end your turn. S work that only reads or checks: do it, DONE.
 - Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go on
   the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
   relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center reads

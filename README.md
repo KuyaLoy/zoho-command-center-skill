@@ -127,17 +127,17 @@ python <clone>\antigravity\install.py
 ```
 
 `--uninstall` removes only what it installed. Then open the project in Antigravity and start the main conversation
-with `/zoho-command-center`: Command Center creates each task chat as its own conversation (titled
-"▶ RUNNING | <TASK-ID> <title>"), and the task chat keeps that prefix current (WAITING, BLOCKED, DONE). The
-Antigravity column of `references/tool-map.md` lists every action there.
+with `/zoho-command-center`: each task runs as a `task-worker` subagent of that one Command Center (subagent mode,
+below); a separate task conversation only when you ask for one. The Antigravity column of `references/tool-map.md`
+lists every action there.
 
 ## Use it in Codex
 
 Codex also opens a skill by itself only when it judges it relevant. The `codex/` folder sets the same rules up there:
 
 - `AGENTS-block.md`: the hard rules, added as a marked block to `~/.codex/AGENTS.md` (the rest of that file stays).
-- `agents/zcc-task-worker.toml` and `agents/zcc-reviewer.toml`: the `task-worker` and read-only `reviewer` agents, for
-  when you ask for a subagent. A task normally runs in its own session.
+- `agents/zcc-task-worker.toml` and `agents/zcc-reviewer.toml`: the `zcc-task-worker` subagent that does each task
+  and the `zcc-reviewer` QA subagent (read-only by its rule: a subagent keeps the parent's sandbox).
 - The same three hooks, in `~/.codex/hooks.json`.
 
 ```powershell
@@ -147,10 +147,10 @@ python <clone>\codex\install.py
 
 Then run `codex`, open `/hooks` and trust the three "zcc:" hooks: Codex runs a hook only after you trust it, and asks
 again when it changes. `--uninstall` removes only what it installed. Start the main session in the project with
-`$zoho-command-center`; open each task chat as its own session with
-`$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules`. QA runs as its own read-only
-session (`codex exec -s read-only ... -o tasks/<TASK-ID>/qa/qa-<n>.md`), never as a subagent, as an agent cannot set
-its own sandbox. The Codex columns of `references/tool-map.md` list every action there.
+`$zoho-command-center`: each task runs as a subagent of it (subagent mode, below). A separate task session only when
+you want one (`$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules`); a sandboxed read-only
+QA only on your word (`codex exec -s read-only ... -o tasks/<TASK-ID>/qa/qa-<n>.md`). The Codex columns of
+`references/tool-map.md` list every action there.
 
 In the **Codex desktop app**, Command Center does more itself: the app creates a thread only when you ask, so when the
 briefs are ready it asks you once with choices ("Create the task chats now?"), then creates each task thread with its
@@ -158,6 +158,16 @@ first prompt, titles it ("⏸ WAITING on <you> | ..." until it runs), follows it
 its own thread "Command Center - <project>". Each task's plan is shown and approved in its own thread, with choices;
 an "approved" in Command Center approves only the briefs. Task chats use the effort you chose for the app; high only
 for an L task or live or irreversible work, and the chat says so.
+
+## Subagent mode: one Command Center (Antigravity and Codex)
+
+In Antigravity and Codex, separate task chats came out empty, mis-titled or used a small plan's limit fast, so task work
+runs as subagents of the one Command Center: it briefs each task and starts it as a subagent (`task-worker` /
+`zcc-task-worker`); the plan comes back to Command Center, which shows it to you with choices; you type the go in
+Command Center's chat and it quotes your words to the subagent; QA is its own subagent (`wp-qa` / `zcc-reviewer`) that
+runs every check itself. The board lists each subagent and its state. A separate task chat only when you ask for one.
+The 11 hard rules are the same in every tool, from one source (`shared/hard-rules.md`, written into all copies by
+`python shared/hard_rules.py --write`).
 
 ## Use it in T3 Code
 

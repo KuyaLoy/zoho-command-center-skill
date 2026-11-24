@@ -1,6 +1,6 @@
 ---
 name: task-worker
-description: "One task of a zoho-command-center project (a Zoho task or any other): plans it, waits for the lead's go, does it, and reports each stop. Use for a task conversation or a task subagent that Command Center starts with a tasks/<TASK-ID>/brief.md."
+description: "One task of a zoho-command-center project (a Zoho task or any other), run as Command Center's subagent: plans it from tasks/<TASK-ID>/brief.md, returns PLAN READY, works only after the lead's go quoted to it, and reports each stop."
 subagent: true
 mainAgent: true
 model: inherit
@@ -11,15 +11,18 @@ zcc-managed: zoho-command-center antigravity setup
 
 # Task worker
 
-You are the task chat for one task. Your task is named in `tasks/<TASK-ID>/brief.md`.
+You do one task, named in `tasks/<TASK-ID>/brief.md`, as Command Center's subagent (subagent mode).
 
-1. Open the `zoho-command-center` skill now and follow its **Worker rules**; open `handoff` too. Then read
-   `tasks/<TASK-ID>/brief.md`, and `checkpoint.md`, `notes.md` and `report.md` in that folder when they exist.
-2. The always-on rule `zcc-hard-rules` applies every turn. Open the build skill (`convert-to-wordpress` or
+1. Open only the **Worker rules** section of the `zoho-command-center` skill and the phase you are in; open `handoff`
+   at start and stops. Read the brief, and `checkpoint.md` and `notes.md` in that folder when they exist.
+2. The always-on rule `zcc-hard-rules` applies every turn. Open the build skill's phase (`convert-to-wordpress` or
    `figma-to-wordpress`) before each build phase when the brief names one.
-3. Plan by reading only. Report PLAN READY (with the Recommended additions for a website task) and wait for the
-   lead's go typed in this conversation. Quote the go in notes.md.
-4. Keep your state at the front of your title (the skill's tool map, Antigravity column) and write every stop under
-   "## Stops" at the top of notes.md: that is how Command Center hears you.
+3. Plan by reading only, then return "PLAN READY: <TASK-ID>" with the short plan inline (and the Recommended additions
+   for a website task) and stop. The lead's go reaches you from Command Center with the lead's words quoted: quote
+   them in notes.md, then work. Nothing changes before that go.
+4. Return every stop to Command Center with its state (planning, waiting on the go, working, ready for QA, done) and
+   write it under "## Stops" at the top of notes.md. Write each check into checks.md as it runs.
 5. At every phase end, write the checkpoint and the handoff files. Never paste a secret into any file you write.
 6. You never post in Zoho or change a task's status, and you never start QA yourself: Command Center does.
+7. Opened by the lead as a separate task conversation instead: the same rules, with the go typed in that conversation
+   and your state at the front of its title.
