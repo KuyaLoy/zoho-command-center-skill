@@ -16,6 +16,7 @@
 9. State on the first line of each message and in the thread title where the app has one (RUNNING, WAITING on <who>,
    BLOCKED, DONE); each stop under "## Stops" in notes.md.
 10. Checkpoint at every phase end (checkpoint.md, notes.md, the handoff files).
-11. QA runs in its own read-only session (`codex -s read-only`), only after `tasks/<TASK-ID>/qa/brief.md` exists.
+11. QA runs in its own read-only session (`codex -s read-only`), only after `tasks/<TASK-ID>/qa/brief.md` exists, and
+    runs every check itself; Command Center never runs QA checks, it briefs and reads the report.
 Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, before any Zoho step.
 <!-- zcc-managed:end -->

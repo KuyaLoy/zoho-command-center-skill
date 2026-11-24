@@ -69,6 +69,23 @@ class ShortRulesTest(unittest.TestCase):
                 self.assertIn(word, text, (rel, word))
 
 
+class QaRunsItsOwnChecksTest(unittest.TestCase):
+    def test_rule_11_says_command_center_never_runs_qa_checks(self):
+        for rel in ShortRulesTest.FILES:
+            text = load(os.path.join(REPO, rel))
+            rule = " ".join(re.search(r"^11\. (.+?)(?=^\S)", text, re.M | re.S).group(1).split())
+            self.assertIn("runs every check itself; Command Center never runs QA checks", rule, rel)
+
+    def test_step_5_and_the_qa_brief_say_how(self):
+        text = " ".join(load(os.path.join(REPO, "skills", "zoho-command-center", "references",
+                                          "command-center.md")).split())
+        for words in ("full-page screenshots", "one scroll has triggered the reveals", "LCP above 2.5 s",
+                      "Command Center never runs QA checks", "you brief and read its report"):
+            self.assertIn(words, text)
+        qa = " ".join(load(os.path.join(REPO, "antigravity", "agents", "wp-qa.md")).split())
+        self.assertIn("You run every check yourself", qa)
+
+
 class LoadOnDemandTest(unittest.TestCase):
     def test_skill_says_what_to_open(self):
         skill = " ".join(load(os.path.join(REPO, "skills", "zoho-command-center", "SKILL.md")).split())

@@ -24,6 +24,12 @@ A lighter start (learned 24 Nov 2026: a Command Center and two task chats used t
 
 ### Added
 
+- **QA runs its own checks** (learned 24 Nov 2026: Command Center took the screenshots and ran Lighthouse itself, QA
+  only reviewed them; the shots showed the top of each page and a preloader, and an LCP of 4 to 5 s passed as
+  "0 defects"). Rule 11 in both rule files: QA runs every check itself; Command Center never runs QA checks, it
+  briefs and reads the report. Step 5 and the QA brief: full-page screenshots after the loading state has finished
+  and one scroll has triggered the reveals; the speed check measures the source or preview as the baseline, and an
+  LCP above 2.5 s or clearly worse than the baseline is a finding. The `wp-qa` agent says the same.
 - Tool map: a "Keep usage low (small plans)" row for every tool. README: "Keep usage low".
 - Tests: the hook's output cap and kept lines, the rule files' size and all 11 rules, the load-on-demand wording.
 

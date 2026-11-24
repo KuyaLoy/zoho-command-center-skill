@@ -115,8 +115,11 @@ chat. A project can have many Command Center chats over time; they hand off thro
      folders), report.md's path, and "Load the zoho-command-center skill and follow its QA chat rules", plus the task
      chat's name and session id, and a "Checks required:" line that always names the visual check (screenshots at the
      widths compared) and the speed check (learned 24 Nov 2026: a QA report claimed a pixel match with no screenshots
-     and left that check out of its list). Start it without wake notes (it reports QA 0 itself). It shares the task's
-     board row (both chats in the Chat cell).
+     and left that check out of its list). The brief also says how: full-page screenshots, taken only after the page's
+     loading state has finished and one scroll has triggered the reveals; the speed check runs the same measure on the
+     source or preview as the baseline, and an LCP above 2.5 s or clearly worse than the baseline is a finding. QA runs
+     every check itself; you brief and read its report, never run its checks. Start it without wake notes (it reports QA
+     0 itself). It shares the task's board row (both chats in the Chat cell).
 3. **When a chat stops (its stop message or wake note):** tell the lead in 2 to 4 lines which chat (link), why it
    stopped, the decisions it took and the next step, once per stop. Never let a chat sit idle unreported, a usage
    pause included. Its question, options and plan stay in that chat (learned 10 Nov 2026): don't copy them here.
@@ -202,6 +205,12 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - **QA converges as the build skill says** (learned 20 Nov 2026: 4 full runs over about 4 hours; the last ones
      found only minor items in code already reviewed): one full run, then the fixed items and the changed code only.
      The review never asks for an extra full run; blockers and majors are always fixed at once.
+   - **QA runs its own checks** (learned 24 Nov 2026: Command Center took the screenshots and ran Lighthouse itself, QA
+     only reviewed them; the shots showed the top of each page and a preloader, and an LCP of 4 to 5 s went in as
+     "0 defects"). Command Center never runs QA checks: it writes the QA brief and reads the report. Visual: full-page
+     screenshots after the loading state has finished and one scroll has triggered the reveals. Speed: the same
+     measure on the source or preview as the baseline; an LCP above 2.5 s, or clearly worse than the baseline, is a
+     finding.
    - **Raised at the plan** (SKILL.md Vocalise early): a task that built or changed a website had its Recommended
      additions in plan.md before the go; the approved ones are done and the rest are in the report. Anything that
      changed the work and came up first at done: name it in the review.

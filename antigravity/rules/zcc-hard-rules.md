@@ -22,5 +22,6 @@ zcc-managed: zoho-command-center antigravity setup
 9. State at the front of your title (▶ RUNNING, ⏸ WAITING on <who>, ✋ BLOCKED, ✓ DONE); each stop under "## Stops"
    in notes.md.
 10. Checkpoint at every phase end (checkpoint.md, notes.md, the handoff files).
-11. QA (`wp-qa`) starts only after `tasks/<TASK-ID>/qa/brief.md` exists and never edits files.
+11. QA (`wp-qa`) starts only after `tasks/<TASK-ID>/qa/brief.md` exists, never edits files, and runs every check
+    itself; Command Center never runs QA checks, it briefs and reads the report.
 Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, before any Zoho step.
