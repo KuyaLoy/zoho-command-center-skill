@@ -16,7 +16,6 @@ hooks. It never overwrites or deletes a file it did not install; hooks.json and 
 """
 import argparse
 import os
-import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -25,7 +24,6 @@ import setup_lib as lib  # noqa: E402
 
 MARKER = lib.MARKER
 AGENTS_LIMIT = 32 * 1024  # project_doc_max_bytes default: Codex stops reading AGENTS.md files past it
-BLOCK = re.compile(r"<!-- zcc-managed:start.*?<!-- zcc-managed:end -->\n?", re.S)
 FILES = {
     os.path.join(HERE, "agents", "zcc-task-worker.toml"): "agents/zcc-task-worker.toml",
     os.path.join(HERE, "agents", "zcc-reviewer.toml"): "agents/zcc-reviewer.toml",
@@ -72,10 +70,7 @@ def merged_hooks(hooks, py, codex_home):
 
 
 def agents_md(current, block):
-    rest = BLOCK.sub("", current)
-    if block is None:
-        return rest
-    return (rest.rstrip("\n") + "\n\n" if rest.strip() else "") + block
+    return lib.with_block(current, block)
 
 
 def install(home, dry, py):

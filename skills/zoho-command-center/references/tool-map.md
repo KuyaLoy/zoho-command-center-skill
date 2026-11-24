@@ -115,3 +115,24 @@ the lead opens, as in one-chat mode, with the skill forced and the rules made me
   (README) to see that SessionStart, PreToolUse and Stop fire on this machine.
 - Not verified yet (check on the first task): `-s read-only` with this machine's Windows sandbox setting, the hook
   field `additionalContextLimit`, and the session names `codex archive` and `codex resume` take.
+
+## T3 Code
+T3 Code (added 24 Nov 2026) is a desktop app that runs the real tools as its providers: Claude through the Claude Agent
+SDK with the lead's login, Codex through `codex app-server` (its own `~/.codex`), Antigravity through `agy acp` with a
+private profile folder. So each provider follows its own column above, with these limits:
+| Provider in T3 | Skills | Always-on rules | Hooks | Custom agents |
+|---|---|---|---|---|
+| Claude | yes (`~/.claude/skills`, plugins) | `~/.claude/CLAUDE.md` | yes | n/a |
+| Codex | yes (`~/.agents/skills`) | `~/.codex/AGENTS.md` (the zcc block) | only hooks already trusted in Codex `/hooks`; new or changed ones are skipped silently | yes |
+| Antigravity | yes (`~/.gemini/config/skills`) | `~/.gemini/GEMINI.md` and `~/.gemini/AGENTS.md` only: the install writes the hard rules there as a marked block | no (hooks.json is not passed) | no |
+- **Rules carry it in Antigravity:** inside T3 its hooks (handoff brief, secrets guard, evidence gate) and the
+  `task-worker` and `wp-qa` agents do not run; the hard rules in GEMINI.md still load. Rule 2 (checks with their
+  output in checks.md) is the evidence gate there, and Command Center's review checks it.
+- **Codex hooks:** after installing or updating the Codex setup, open `codex` once and trust the "zcc:" hooks in
+  `/hooks` before using Codex in T3.
+- **T3 adds its own instructions** on top of ours and they cannot be turned off; where they differ, the skill's rules
+  and the lead's word win, and a chat that is unsure asks the lead.
+- **Task chats are T3 threads**, one per task, started with the same first prompt as the provider's column; the status
+  prefix goes in the thread's name (T3's rename). Run every thread in the project checkout, never "New worktree": a T3
+  worktree has no local handoff files, `tasks/` or parent-folder CLAUDE.md.
+- Stay on T3's stable release (not the nightly builds).

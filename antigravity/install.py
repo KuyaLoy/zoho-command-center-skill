@@ -9,12 +9,15 @@ What it installs (each file carries the marker "zcc-managed"):
     agents/task-worker.md, agents/wp-qa.md       the task worker and the read-only QA agent
     hooks/zcc/*.py and three entries in hooks.json
         SessionStart (handoff brief), PreToolUse (no secrets in .md), Stop (the evidence gate)
+    ~/.gemini/GEMINI.md: the same hard rules as a marked block (the rest of the file is kept), because T3 Code runs
+        Antigravity with a private profile that loads GEMINI.md but not config/rules, hooks or agents
 
 It never overwrites or deletes a file it did not install: a file at one of its paths without the marker stops the
 install before anything changes. hooks.json keeps every other hook; a backup (hooks.json.bak) is written first.
 """
 import argparse
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -31,6 +34,14 @@ FILES = {
 FILES.update({os.path.join(lib.HOOKS, f): "hooks/zcc/" + f for f in lib.HOOK_FILES})
 WRITE_TOOLS = "write_file|edit_file|write_to_file|replace_file_content|multi_replace_file_content"
 HOOK_KEYS = ("zcc-session-start", "zcc-secrets-guard", "zcc-evidence-gate")
+RULES = os.path.join(HERE, "rules", "zcc-hard-rules.md")
+
+
+def gemini_block():
+    """The hard rules (the rule file without its frontmatter) as a marked block for ~/.gemini/GEMINI.md."""
+    body = re.sub(r"\A---\n.*?\n---\n", "", lib.read(RULES), flags=re.S).strip("\n")
+    return ("<!-- zcc-managed:start (zoho-command-center Antigravity setup; the install script replaces this block) "
+            "-->\n%s\n<!-- zcc-managed:end -->\n" % body)
 
 
 def hook_entries(py):
@@ -65,6 +76,10 @@ def install(config, dry, py):
     print("%-9s %s (entries %s; hooks run with: %s)" % (state, os.path.normpath(hooks_path), ", ".join(HOOK_KEYS), py))
     if state != "unchanged":
         lib.save_json(hooks_path, new_hooks, dry)
+    size = lib.update_block(os.path.join(os.path.dirname(config), "GEMINI.md"), gemini_block(), dry,
+                            "the zcc-managed block with the hard rules, for T3 Code")
+    if size > RULE_LIMIT:
+        print("WARNING: GEMINI.md is over %d bytes: Antigravity cuts it there." % RULE_LIMIT)
     print("Dry run: nothing changed." if dry else "Done. Restart Antigravity (or open a new conversation) to load it.")
     return 0
 
@@ -80,6 +95,9 @@ def uninstall(config, dry):
     if any(k in hooks for k in HOOK_KEYS):
         print("update    %s (remove entries %s)" % (os.path.normpath(hooks_path), ", ".join(HOOK_KEYS)))
         lib.save_json(hooks_path, {k: v for k, v in hooks.items() if k not in HOOK_KEYS}, dry)
+    gemini = os.path.join(os.path.dirname(config), "GEMINI.md")
+    if os.path.exists(gemini):
+        lib.update_block(gemini, None, dry, "remove the zcc-managed block")
     print("Dry run: nothing changed." if dry else "Done.")
     return 0
 

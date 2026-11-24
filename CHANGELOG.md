@@ -5,6 +5,25 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.9.1] - 2026-11-24
+
+T3 Code support: the rules reach every provider T3 Code runs.
+
+### Added
+
+- The Antigravity install also writes the hard rules as a marked block into `~/.gemini/GEMINI.md`, built from the rule
+  file: T3 Code runs Antigravity with a private profile that loads GEMINI.md but not `config/rules`, hooks or agents.
+  The rest of GEMINI.md stays, a backup is written first, a second run changes nothing, and `--uninstall` removes only
+  the block.
+- Tool map: a "T3 Code" section (skills, rules, hooks and agents per provider; Codex hooks must be trusted in Codex
+  first; T3's own instructions; task chats as T3 threads renamed for the status prefix, run in the project checkout,
+  never "New worktree"; T3 stable). README: "Use it in T3 Code".
+- Tests for the GEMINI.md block (add, idempotent, uninstall, other text kept, same rules as the rule file).
+
+### Changed
+
+- The marked-block code is shared by the Codex and Antigravity installs (`shared/setup_lib.py`).
+
 ## [2.9.0] - 2026-11-24
 
 Switching tools: one project's Command Center can move between the Claude desktop app, Antigravity and Codex (a lost

@@ -46,6 +46,7 @@ It came out of daily use on more than 20 client projects; the rules carry the le
   chat as a conversation and keeps its state in the title.
 - **Codex**: Codex mode, with the setup below (Use it in Codex): task chats are sessions you open with
   `$zoho-command-center`, and QA runs as its own read-only session.
+- **T3 Code**: runs those tools as its providers (Use it in T3 Code below).
 - **Other AI tools** (Claude Code in a terminal, Codex, Cursor, OpenCode, Cline, Devin Desktop and others
   that read Agent Skills): one-chat mode. Each task keeps its folder, you open task chats with one line, and stops go
   into the task's notes. `references/tool-map.md` lists each action and what to do there.
@@ -149,6 +150,22 @@ again when it changes. `--uninstall` removes only what it installed. Start the m
 `$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules`. QA runs as its own read-only
 session (`codex exec -s read-only ... -o tasks/<TASK-ID>/qa/qa-<n>.md`), never as a subagent, as an agent cannot set
 its own sandbox. The Codex column of `references/tool-map.md` lists every action there.
+
+## Use it in T3 Code
+
+T3 Code runs Claude, Codex and Antigravity themselves, so each follows its own setup above, with these limits:
+
+- **Antigravity in T3** uses a private profile: it loads `~/.gemini/GEMINI.md` but not `config/rules`, the hooks or
+  the custom agents. The Antigravity install therefore also writes the hard rules as a marked block into
+  `~/.gemini/GEMINI.md` (your own text there stays; `--uninstall` removes only the block). Inside T3 the rules carry
+  it; the hooks and agents work only in Antigravity itself.
+- **Codex in T3** runs only hooks you already trusted in Codex: after each install or update, open `codex` and trust
+  the "zcc:" hooks in `/hooks` before using T3.
+- **Claude in T3** loads your `~/.claude/CLAUDE.md`, skills and plugins as usual.
+- One T3 thread per task, run in the project checkout, never "New worktree" (a T3 worktree has no local handoff files
+  or task folders). Rename the thread for its status prefix. Stay on T3's stable release.
+
+The "T3 Code" section of `references/tool-map.md` has the per-tool table.
 
 ## The evidence gate and the hook self-test
 

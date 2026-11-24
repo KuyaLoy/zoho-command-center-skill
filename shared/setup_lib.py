@@ -5,6 +5,7 @@ else's: the install stops before any change, and an uninstall leaves it alone.
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -87,6 +88,36 @@ def remove_files(paths, dry):
     for d in sorted({os.path.dirname(os.path.normpath(p)) for p in paths}, reverse=True):
         if not dry and os.path.isdir(d) and not os.listdir(d) and os.path.basename(d) in ("zcc", "zcc-selftest"):
             os.rmdir(d)
+
+
+BLOCK = re.compile(r"<!-- zcc-managed:start.*?<!-- zcc-managed:end -->\n?", re.S)
+
+
+def with_block(current, block):
+    """current text with its marked zcc-managed block replaced by block (None: removed); other text kept."""
+    rest = BLOCK.sub("", current)
+    if block is None:
+        return rest
+    return (rest.rstrip("\n") + "\n\n" if rest.strip() else "") + block
+
+
+def update_block(path, block, dry, label):
+    """Write (or with block None remove) the marked block in a text file; returns the new size in bytes."""
+    current = read(path) if os.path.exists(path) else ""
+    new = with_block(current, block)
+    if new == current:
+        state = "unchanged"
+    elif block is None:
+        state = "update"
+    else:
+        state = "update" if current else "add"
+    if block is not None or new != current:
+        print("%-9s %s (%s)" % (state, os.path.normpath(path), label))
+    if state != "unchanged" and not dry:
+        if current:
+            write(path + ".bak", current)
+        write(path, new)
+    return len(new.encode("utf-8"))
 
 
 def load_json(path):
