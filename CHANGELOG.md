@@ -5,6 +5,30 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.9.3] - 2026-11-24
+
+A lighter start (learned 24 Nov 2026: a Command Center and two task chats used three quarters of a small Codex plan's
+5-hour limit in under 20 minutes). Every rule stays; chats load less, and later.
+
+### Changed
+
+- **Session-start hook** (both tools): injects only the summary's Status line, "## Now", "## Next action" and any
+  "Waiting on" line, at most 1,500 characters, with the full summary's path; Codex `additionalContextLimit` 2000.
+- **Load on demand** (SKILL.md "Files"): each role opens only the section it needs; task chats never open
+  command-center.md; Command Center opens the step it runs; the tool map only for its own tool's column and mode.
+- **Takeover reads light** (Switching tools): the summary, the holder line, the board and each open task's
+  "## Stops" and checkpoint; handoff.md history only for what a check needs.
+- **Shorter always-on rules:** the Antigravity rule file (and so the GEMINI.md block) and the Codex AGENTS.md block
+  say the same 11 rules in about half the words (3,870 to 1,832 bytes; 2,656 to 1,811); rule 1: open the skill
+  section you need.
+
+### Added
+
+- Tool map: a "Keep usage low (small plans)" row for every tool. README: "Keep usage low".
+- Tests: the hook's output cap and kept lines, the rule files' size and all 11 rules, the load-on-demand wording.
+
+Re-run both install scripts: the hooks and the rule files changed.
+
 ## [2.9.2] - 2026-11-24
 
 Codex desktop app and polish from the lead's first runs in Codex and Antigravity.

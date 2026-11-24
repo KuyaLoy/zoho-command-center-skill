@@ -282,7 +282,9 @@ one works at a time.
 - **Handing over** (the old tool still works and the lead says the work moves): write a checkpoint of every open task
   and of `## Open requests`, log "handed over to <tool>" with the lead's words quoted, and stop writing.
 - **Taking over** (the lead says "take over as Command Center" in the new tool, or the holder's tool is gone):
-  1. Read the handoff files, then every open task folder (brief, plan, notes with its "## Stops", checkpoint, report).
+  1. Read light (learned 24 Nov 2026: reading everything at a takeover cost a quarter of a small plan's usage):
+     ai-handoff-summary.md, the holder line, the board, and each open task's notes.md "## Stops" and checkpoint.md.
+     Open handoff.md's history or other task files only for what a check needs.
   2. Re-check each task's real state instead of trusting the summary: its files, the site, the Zoho task page by its
      own link (read only).
   3. Write the holder line with this tool, and log "taken over from <tool>" with the lead's words quoted.

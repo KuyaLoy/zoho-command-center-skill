@@ -112,8 +112,8 @@ skills. The `antigravity/` folder makes the rules mechanical:
 - `agents/task-worker.md` (the task chat, with its skills attached) and `agents/wp-qa.md` (QA). QA is read-only by
   its rules plus a sandboxed shell, not by its tool list alone: it has no file-editing tools, but its shell could
   still write. Both keep your current model.
-- Three hooks (from `shared/hooks/`): the project's `ai-handoff-summary.md` is injected at the start of each
-  conversation, a write that puts a password, key or token into a .md file is denied, and the evidence gate (below)
+- Three hooks (from `shared/hooks/`): the essentials of the project's `ai-handoff-summary.md` (Status, Now, Next
+  action, Waiting on; about 1,500 characters) are injected at the start of each conversation, a write that puts a password, key or token into a .md file is denied, and the evidence gate (below)
   sends a report back once when a check it names has no command output in the task's `checks.md`.
 
 Install from the clone (link the skills first, as "Where each skill goes" below shows). It needs Python 3, writes
@@ -173,6 +173,13 @@ T3 Code runs Claude, Codex and Antigravity themselves, so each follows its own s
   or task folders). Rename the thread for its status prefix. Stay on T3's stable release.
 
 The "T3 Code" section of `references/tool-map.md` has the per-tool table.
+
+## Keep usage low (Codex and Antigravity)
+
+A new chat loads only what it needs: the session-start hook injects the summary's essentials, not the whole file;
+each role opens only its own sections (SKILL.md "Files"); a takeover reads the summary, the board and each open
+task's stops and checkpoint; the always-on rules are about 1.8 KB. On a small plan, suggest a cheaper model or low
+effort for small tasks (you pick), keep one task chat at a time, and run heavy visual QA in a tool with a larger plan.
 
 ## The evidence gate and the hook self-test
 

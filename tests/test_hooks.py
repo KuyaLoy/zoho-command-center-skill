@@ -67,7 +67,7 @@ class SessionStartTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             self.assertEqual(hook("zcc_session_start.py", "antigravity", {"workspacePaths": [d]}), {})
             self.assertIsNone(hook("zcc_session_start.py", "codex", {"cwd": d}))
-            save(os.path.join(d, "ai-handoff-summary.md"), "# Summary\nNext: plan T1")
+            save(os.path.join(d, "ai-handoff-summary.md"), "# Summary\nStatus: ACTIVE\n\n## Next action\n- Next: plan T1\n")
             r = hook("zcc_session_start.py", "antigravity", {"workspacePaths": [d]})
             self.assertIn("Next: plan T1", r["injectSteps"][0]["systemMessage"]["systemMessage"])
             r = hook("zcc_session_start.py", "codex", {"cwd": d, "hook_event_name": "SessionStart"})

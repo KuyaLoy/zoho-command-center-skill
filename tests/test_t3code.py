@@ -32,7 +32,7 @@ class GeminiBlockTest(unittest.TestCase):
         text = load(self.gemini)
         self.assertTrue(text.startswith(POINTER.rstrip("\n")))
         self.assertEqual(text.count("<!-- zcc-managed:start"), 1)
-        self.assertIn("Open the skill before each phase", text)
+        self.assertIn("open the skill section you need", text)
         self.assertIn("Active Command Center", text)
         self.assertNotIn("trigger: always_on", text)  # the frontmatter stays in the rule file only
         self.assertLess(len(text.encode("utf-8")), ag.RULE_LIMIT)

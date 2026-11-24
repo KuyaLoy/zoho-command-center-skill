@@ -5,44 +5,22 @@ description: Hard rules for the zoho-command-center workflow in Antigravity (Com
 zcc-managed: zoho-command-center antigravity setup
 ---
 
-# Hard rules: zoho-command-center in Antigravity
-
-These rules are written out here on purpose: follow them as they stand, every turn. They come from a build where
-each of them was broken once and caught only by an outside check.
-
-1. **Open the skill before each phase.** Skills here load only when opened, so open them yourself, never "if
-   relevant": `zoho-command-center` at the start of every conversation in a Command Center project (Command Center
-   rules in the main conversation, Worker rules in a task conversation), the task's build skill
-   (`convert-to-wordpress` or `figma-to-wordpress`) before each build phase, and `handoff` at the start and at
-   every stop. Say in one line which skill and which section you opened.
-2. **No check is reported without its output.** Every "done", "passed", "0 findings", "matches" or "seeded" comes with
-   the command you ran and its output pasted (the tail when long). Write each check into `tasks/<TASK-ID>/checks.md` as
-   it runs ("## <check>", then a code block with the command and its output) and name them in a "Checks:" line of DONE,
-   PART DONE and READY FOR QA, every check the brief's "Checks required:" line names included: the evidence gate hook
-   sends back a report without them. No output: say "not checked". A lenient check (ignored case, line breaks or extra
-   lines) is not a pass.
-3. **Copy exactly.** Kit files are copied as they are, with only the prefix swapped; source text (copy, titles,
-   labels) is copied verbatim, never retyped or re-cased. A change a site really needs is listed in the task's
+# zoho-command-center hard rules (every turn)
+1. Before each phase, open the skill section you need (zoho-command-center: Worker rules or the Command Center step you
+   run; the build skill's phase; handoff at start and stops) and name it in one line.
+2. No check reported without its output: each one under "## <check>" in `tasks/<TASK-ID>/checks.md` (command and
+   output), all named in the report's "Checks:" line, every "Checks required:" one included. Not run: "not checked".
+3. Copy kit files (prefix swap only) and source text verbatim, never retyped or re-cased; a needed change goes in
    notes.md with why.
-4. **No guessed defaults.** Admin email, users, site URL, protocol, plugin keys and any other setting come from the
-   brief, the project's profile or the skill. Not there: ask the lead once; never invent one.
-5. **No secrets in files, no consent on anyone's behalf.** Never write a password, key or token into a .md file,
-   a log, notes or a report (name where it is kept instead). Never set a consent, approval or "confirmed" flag the
-   client or a user did not give.
-6. **Zoho only by the task link.** Open Zoho only at the task's own URL from the brief. Never open the lead's
-   profile, account, settings or other pages. Comments and status changes only on the lead's OK, as the skill says,
-   and only by the Command Center named in handoff.md's "Active Command Center" line (it alone writes the root files).
-7. **Plan first, then the go.** No change anywhere (no download to work from, no install, nothing live, no client
-   contact) until the lead types the go on the plan in that conversation. An answer is not a go.
-8. **Do only the task.** No extra scope; what you notice outside the task goes under "Findings (not touched)". A
-   serious problem (a hacked site, malware) is told to the lead at once and fixed inside the plan, backup first.
-9. **State in the title.** A task conversation keeps its state at the front of its title ("▶ RUNNING | ",
-   "⏸ WAITING on <who> | ", "✋ BLOCKED | ", "✓ DONE | "), once per state change (the skill's tool map, Antigravity
-   column), and writes every stop as a line under "## Stops" at the top of its notes.md.
-10. **Checkpoint at every phase end.** This app has no context meter: at the end of each phase write the checkpoint
-    and the handoff files, so a new conversation can resume from them.
-11. **QA only after its brief.** The QA agent (`wp-qa`) starts only once `tasks/<TASK-ID>/qa/brief.md` exists, and
-    it never edits files.
-
-The lead's settings (lead, portal, reply language, CC) are in the "Zoho Command Center settings" block of
-`~/.claude/CLAUDE.md`: read it before any Zoho step.
+4. No guessed defaults: brief, profile or skill, else ask the lead once.
+5. No secrets in .md files, logs or reports; no consent or approval flag nobody gave.
+6. Zoho only at the task's own link (never profile or account pages); comments and status only on the lead's OK, by
+   the "Active Command Center" in handoff.md (it alone writes the root files).
+7. No change anywhere before the lead types the go on the plan in that chat; an answer is not a go.
+8. Only the task; the rest under "Findings (not touched)". A hacked site or malware: tell the lead, fix it in the plan,
+   backup first.
+9. State at the front of your title (▶ RUNNING, ⏸ WAITING on <who>, ✋ BLOCKED, ✓ DONE); each stop under "## Stops"
+   in notes.md.
+10. Checkpoint at every phase end (checkpoint.md, notes.md, the handoff files).
+11. QA (`wp-qa`) starts only after `tasks/<TASK-ID>/qa/brief.md` exists and never edits files.
+Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, before any Zoho step.

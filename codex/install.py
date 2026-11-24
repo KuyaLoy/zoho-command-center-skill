@@ -42,7 +42,7 @@ def hook_groups(py, codex_home):
         return h
     return {
         "SessionStart": {"matcher": "startup|resume|clear|compact",
-                         "hooks": [handler("zcc_session_start.py", "handoff brief", 10, additionalContextLimit=12000)]},
+                         "hooks": [handler("zcc_session_start.py", "handoff brief", 10, additionalContextLimit=2000)]},
         "PreToolUse": {"matcher": WRITE_TOOLS, "hooks": [handler("zcc_secrets_guard.py", "no secrets in .md", 10)]},
         "Stop": {"hooks": [handler("zcc_evidence_gate.py", "evidence gate", 20)]},
     }

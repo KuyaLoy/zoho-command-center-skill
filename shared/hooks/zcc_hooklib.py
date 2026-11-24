@@ -8,7 +8,7 @@ import os
 import re
 import sys
 
-SUMMARY_LIMIT = 12000
+SUMMARY_LIMIT = 1500  # characters of the summary a session start injects (2.9.3: usage)
 
 # ---------------------------------------------------------------- input and output
 
@@ -52,16 +52,34 @@ def find_summary(payload):
     return None
 
 
+def summary_essentials(text):
+    """Only what a new chat needs first: the Status line, "## Now", "## Next action" and any "Waiting on" line."""
+    keep, section = [], None
+    for line in text.splitlines():
+        if line.startswith("## "):
+            section = line[3:].strip().lower()
+            if section in ("now", "next action"):
+                keep.append(line)
+            continue
+        if section in ("now", "next action"):
+            if line.strip():
+                keep.append(line)
+        elif re.match(r"^\W*(status|waiting on)\b", line, re.I):
+            keep.append(line)
+    out = "\n".join(keep)
+    if len(out) > SUMMARY_LIMIT:
+        out = out[:SUMMARY_LIMIT].rsplit("\n", 1)[0] + "\n[cut: read the file for the rest]"
+    return out
+
+
 def session_start_message(payload):
     path = find_summary(payload)
     if not path:
         return None
     with open(path, encoding="utf-8", errors="replace") as f:
-        text = f.read()
-    if len(text) > SUMMARY_LIMIT:
-        text = text[:SUMMARY_LIMIT] + "\n[cut at %d characters: read the file for the rest]" % SUMMARY_LIMIT
-    return ("Start of session (zoho-command-center hook). This project's handoff brief, %s, is below: read it first, "
-            "then open the zoho-command-center skill (and handoff) before anything else.\n\n%s" % (path, text))
+        text = summary_essentials(f.read())
+    return ("zoho-command-center: open the skill section your role needs (SKILL.md, Files). Handoff essentials "
+            "below; full summary: %s (open it only when you need more).\n\n%s" % (path, text))
 
 
 def session_start_answer(tool, msg):

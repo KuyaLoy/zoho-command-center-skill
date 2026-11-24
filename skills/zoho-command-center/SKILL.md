@@ -6,15 +6,15 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.9.2
+Version: 2.9.3
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
 
-**Files.** This file holds the shared rules and the Worker rules. Command Center's steps 1 to 7 are in
-`references/command-center.md`. Steps say what to do in plain words; `references/tool-map.md` gives each action's
-Claude desktop tool, its Antigravity and Codex ways and one-chat mode; `references/leads-portal.md` is for builds,
-lead forms and go-lives; `references/helper-skills.md` lists the helper skills. All sit next to this file.
+**Files** (beside this one): open only the section you need (learned 24 Nov 2026: loading whole files cost usage).
+`references/command-center.md`: Command Center's steps "1." to "7.", "Switching tools", "Context watch" (open the step
+you run; task chats never need it). `references/tool-map.md`: your tool's column and mode section only. Also
+`references/leads-portal.md` (builds, lead forms) and `references/helper-skills.md`.
 
 ## Settings
 Read the lead's settings from the "Zoho Command Center settings" block in the user's CLAUDE.md. It is normally already
@@ -64,11 +64,10 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - **Worker (task chat):** your opening brief (or the latest brief from Command Center) names your one task: a Zoho
   task number (e.g. "ABC1-T8") or a short name (e.g. "SHIPPING-ERROR"). Follow "Worker rules"; never act as Command
   Center, start other task chats or post in Zoho. QA, helper and review chats (Command Center step 2) follow them too.
-- **Command Center:** anything else in a Command Center project. Read `references/command-center.md` and
-  `references/tool-map.md` now, and again after any reload, compact or new chat; follow them with the rules here. A
-  reload of SKILL.md alone is not a reload for Command Center (learned 19 Nov 2026: two chats stalled on a rule that
-  lived only in the references). One Command Center works at a time, in Claude, Antigravity or Codex: the one named in
-  handoff.md's "Active Command Center" line (command-center.md, Switching tools).
+- **Command Center:** anything else in a Command Center project. Open the command-center.md step you run and your tool's
+  part of the tool map (Files), at start and after any reload, compact or new chat (a reload of SKILL.md alone is not
+  one for Command Center); follow them too. One Command Center works at a time, in Claude, Antigravity or Codex: the one
+  named in handoff.md's "Active Command Center" line (command-center.md, Switching tools).
 - **A running task keeps its rules:** its brief and plan win over this skill's defaults, so a skill reload or a new
   version mid-task changes nothing for that task. New rules apply from its next task, or, on the lead's word, from the
   boundary Command Center names (a site or phase end, never inside a QA run; command-center.md step 3).
@@ -250,10 +249,11 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   checkpoint again at your next page end (at 75% at once).
 
 ## Worker rules (task chat)
-- **In the Claude desktop app:** `get_usage` ("self") gives your context % and the usage limits; a message to
-  Command Center is `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id. In any
-  other tool, read `references/tool-map.md` once at start (Antigravity, Codex or one-chat mode: "message Command
-  Center" means a line under "## Stops" in notes.md, as it does when handoff.md names a Command Center in another tool).
+- **In the Claude desktop app:** `get_usage` ("self") gives your context % and the usage limits; a message to Command
+  Center is `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id. In any other tool,
+  read your tool's column of `references/tool-map.md` once at start (Antigravity, Codex or one-chat mode: "message
+  Command Center" means a line under "## Stops" in notes.md, as it does when handoff.md names a Command Center in
+  another tool).
 - The lead says "use max" here: tell Command Center in one line ("USE MAX: <TASK-ID> <for what>"); it raises you.
 - Phase 1, plan, read-only (at the effort Command Center set: high, or max for a plan that needs it or when the lead
   said "use max"; if you run below that, say so in one line at the top of your report): investigate by reading only (No
