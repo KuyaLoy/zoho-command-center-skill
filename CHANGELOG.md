@@ -5,6 +5,32 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.8.0] - 2026-11-24
+
+Codex mode and the evidence gate.
+
+### Added
+
+- **Codex column in the tool map** and a "Codex mode" section: task chats are separate sessions the lead opens with
+  `$zoho-command-center` (Command Center writes the brief and keeps the board; stops through notes.md); QA is its own
+  read-only session (`codex exec -s read-only`, `-o` saves the report to qa/qa-<pass>.md), never a subagent; skills
+  forced with `$name`; AGENTS.md files read up to 32 KiB.
+- **Codex setup** (`codex/`): a marked AGENTS.md block with the hard rules, the `task-worker` and read-only
+  `reviewer` agents (TOML), three hooks in hooks.json, and `codex/install.py` (dry run, idempotent, touches only its
+  own marked pieces, backups, `--uninstall`). Codex runs each hook only after the lead trusts it in `/hooks`.
+- **Evidence gate** in both tools: a Stop hook sends a DONE, PART DONE, READY FOR QA or QA report back once when a
+  check named in its "Checks:" line has no command output in `tasks/<TASK-ID>/checks.md` (Antigravity: continue;
+  Codex: block). SKILL.md Worker rules: "Cheaper checks, with proof" (checks.md and the Checks line).
+- **Hook self-test** (`shared/hook_selftest.py`): installs a log-only hook, reports whether SessionStart, PreToolUse
+  and Stop fired in Antigravity and Codex on this machine, and removes it.
+- Check workflow: the Agent Skills spec check (`.github/scripts/skill-spec.py`) and all setup tests (`tests/`).
+
+### Changed
+
+- The hooks moved to `shared/hooks/` and take `--tool antigravity|codex`; the Antigravity install adds the evidence
+  gate. README: "Use it in Codex", "The evidence gate and the hook self-test".
+- SKILL.md: description, Files line and Worker line name Codex mode; three lines tightened to keep it at 329 lines.
+
 ## [2.7.0] - 2026-11-24
 
 Antigravity mode, from a build run in Antigravity where the chat skipped the skills, guessed defaults, reported

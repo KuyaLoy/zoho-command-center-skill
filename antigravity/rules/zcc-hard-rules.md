@@ -16,8 +16,10 @@ each of them was broken once and caught only by an outside check.
    (`convert-to-wordpress` or `figma-to-wordpress`) before each build phase, and `handoff` at the start and at
    every stop. Say in one line which skill and which section you opened.
 2. **No check is reported without its output.** Every "done", "passed", "0 findings", "matches" or "seeded" comes
-   with the command you ran and its output pasted (the tail when long). No output: say "not checked". A lenient
-   check (ignored case, line breaks or extra lines) is not a pass.
+   with the command you ran and its output pasted (the tail when long). Write each check into
+   `tasks/<TASK-ID>/checks.md` as it runs ("## <check>", then a code block with the command and its output) and name
+   them in a "Checks:" line of DONE, PART DONE and READY FOR QA: the evidence gate hook sends back a report without
+   them. No output: say "not checked". A lenient check (ignored case, line breaks or extra lines) is not a pass.
 3. **Copy exactly.** Kit files are copied as they are, with only the prefix swapped; source text (copy, titles,
    labels) is copied verbatim, never retyped or re-cased. A change a site really needs is listed in the task's
    notes.md with why.

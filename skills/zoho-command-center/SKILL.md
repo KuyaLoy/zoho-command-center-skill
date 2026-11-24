@@ -1,19 +1,19 @@
 ---
 name: zoho-command-center
-description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app, and in Antigravity with its setup (task chats as conversations); in other AI tools the lead opens each chat by hand (one-chat mode).'
+description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app, and in Antigravity and Codex with their setups (Antigravity: task chats as conversations; Codex: sessions the lead opens); in other AI tools the lead opens each chat by hand (one-chat mode).'
 license: MIT
 ---
 
 # Zoho Command Center
 
-Version: 2.7.0
+Version: 2.8.0
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
 
 **Files.** This file holds the shared rules and the Worker rules. Command Center's steps 1 to 7 are in
 `references/command-center.md`. Steps say what to do in plain words; `references/tool-map.md` gives each action's
-Claude desktop tool, its Antigravity way and other tools' (one-chat mode); `references/leads-portal.md` is for builds,
+Claude desktop tool, its Antigravity and Codex ways and one-chat mode; `references/leads-portal.md` is for builds,
 lead forms and go-lives; `references/helper-skills.md` lists the helper skills. All sit next to this file.
 
 ## Settings
@@ -124,8 +124,7 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     as a prefix of its own title (tool map), one call when the state changes, the rest of the title unchanged:
     "▶ RUNNING | <title>" while it or its own background work runs; "⏸ WAITING on <who> | <title>" (the lead,
     Command Center or the client); "✋ BLOCKED | <title>"; "✓ DONE | <title>" at done and in review. Never for
-    anything else, never more than once per state change (no polling, no extra turns). Command Center's own title
-    stays as it is.
+    anything else, once per state change (no polling, no extra turns); Command Center's own title stays as it is.
   - **Ask the lead only for real decisions or blockers** (the lead's rule, 20 Nov 2026): the plan go, the comment OK,
     a sign-in, missing information. Anything the chats can settle themselves never waits on the lead.
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
@@ -175,8 +174,7 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     in one line when you find it and add the fix to the plan (backup first; the task's go covers it; the task itself
     still gets done). The fix waits for the go like every step. Report it under "Serious finding (fixed)": what was
     found, what was removed, how it was checked.
-  - Work the lead calls "our initiative": do it as its own step, keep it out of the task's Zoho comment and status,
-    and report it as "INITIATIVE DONE".
+  - Work the lead calls "our initiative": its own step, out of the task's Zoho comment and status; "INITIATIVE DONE".
 - What we can fix on our side for the task, we fix and prove working. What only the client or another team can do
   (their DNS such as SPF/DKIM/DMARC, servers or logins we don't have) goes back to the task creator and the client in
   the Zoho comment or the reply draft, with exactly what they need to do. Don't chase it further (learned 9 Nov 2026).
@@ -255,8 +253,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 ## Worker rules (task chat)
 - **In the Claude desktop app:** `get_usage` ("self") gives your context % and the usage limits; a message to
   Command Center is `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id. In any
-  other tool, read `references/tool-map.md` once at start (Antigravity or one-chat mode: "message Command Center"
-  means a line under "## Stops" in notes.md).
+  other tool, read `references/tool-map.md` once at start (Antigravity, Codex or one-chat mode: "message Command
+  Center" means a line under "## Stops" in notes.md).
 - The lead says "use max" here: tell Command Center in one line ("USE MAX: <TASK-ID> <for what>"); it raises you.
 - Phase 1, plan, read-only (at the effort Command Center set: high, or max for a plan that needs it or when the lead
   said "use max"; if you run below that, say so in one line at the top of your report): investigate by reading only (No
@@ -280,10 +278,13 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   stop to report, and neither are the turns that get the QA link or QA 0. QA re-checks; repeat until it sends QA 0.
   An item you dispute, or one that needs more than the plan: tell the QA chat "paused", report PLAN READY to Command
   Center naming it and why; the lead decides here; then tell the QA chat to go on.
-- **Cheaper checks** (learned 19 Nov 2026: task chats made 80 to 200 calls, mostly browser steps and screenshots).
-  Prove each item with the cheapest reliable check: curl, wp-cli, a script or a DOM query first; a browser only for
-  what needs one (logged-in screens, visual checks, forms), with its steps batched; screenshots only as visual proof;
-  never a full-page text dump into the chat (save it to a file and read the part you need).
+- **Cheaper checks, with proof** (learned 19 Nov 2026: task chats made 80 to 200 calls, mostly browser steps and
+  screenshots; 24 Nov: checks reported that were never run). Prove each item with the cheapest reliable check: curl,
+  wp-cli, a script or a DOM query first; a browser only for what needs one (logged-in screens, visual checks, forms),
+  with its steps batched; screenshots only as visual proof; never a full-page text dump into the chat (save it to a
+  file and read the part you need). Write each check into `tasks/<TASK-ID>/checks.md` as it runs ("## <check>", then
+  a code block with the command and its output), and name them in a "Checks:" line of DONE, PART DONE and READY FOR
+  QA; the evidence gate (tool map) sends back a report whose checks have no output there.
 - A new task from Command Center: finish or park the current one first (DONE, or only waiting on the lead), then start
   Phase 1 for the new task in its own folder `tasks/<NEW-ID>/`. Put the task ID in every milestone message. After a
   revive or a reset: read report.md and notes.md (and checkpoint.md) first, and re-check the current state.
@@ -295,8 +296,7 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
     <why it stopped>. Decisions: <defaults taken, or none>. Next: <step> — waiting on <who>". TYPE is PLAN READY (with
     the plan's path), WAITING, PART DONE, PAUSED, READY FOR QA, DONE, BLOCKED or CHECKPOINT (never RUNNING: not a
     stop, so no message; How we talk). Each stop also sets your title prefix (How we talk: "State at the front of
-    the title"). A serious
-    finding gets its one line to the lead and Command Center when found.
+    the title"). A serious finding gets its one line to the lead and Command Center when found.
   - Re-plan: if the lead answers your plan with changes instead of a go, or reality differs from the plan, re-plan right
     away at your current effort (every size) and report PLAN READY again. After the go too (learned 19 Nov 2026): an
     instruction from the lead that changes the method or scope rewrites those plan.md steps in place (never "see

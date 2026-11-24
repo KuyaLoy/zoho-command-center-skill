@@ -44,6 +44,8 @@ It came out of daily use on more than 20 client projects; the rules carry the le
   session tools (start a chat, set its effort, read its context %, clear it).
 - **Antigravity**: Antigravity mode, with the setup below (Use it in Antigravity): Command Center creates each task
   chat as a conversation and keeps its state in the title.
+- **Codex**: Codex mode, with the setup below (Use it in Codex): task chats are sessions you open with
+  `$zoho-command-center`, and QA runs as its own read-only session.
 - **Other AI tools** (Claude Code in a terminal, Codex, Cursor, OpenCode, Cline, Devin Desktop and others
   that read Agent Skills): one-chat mode. Each task keeps its folder, you open task chats with one line, and stops go
   into the task's notes. `references/tool-map.md` lists each action and what to do there.
@@ -109,8 +111,9 @@ skills. The `antigravity/` folder makes the rules mechanical:
 - `agents/task-worker.md` (the task chat, with its skills attached) and `agents/wp-qa.md` (QA). QA is read-only by
   its rules plus a sandboxed shell, not by its tool list alone: it has no file-editing tools, but its shell could
   still write. Both keep your current model.
-- Two hooks: the project's `ai-handoff-summary.md` is injected at the start of each conversation, and a write that
-  puts a password, key or token into a .md file is denied.
+- Three hooks (from `shared/hooks/`): the project's `ai-handoff-summary.md` is injected at the start of each
+  conversation, a write that puts a password, key or token into a .md file is denied, and the evidence gate (below)
+  sends a report back once when a check it names has no command output in the task's `checks.md`.
 
 Install from the clone (link the skills first, as "Where each skill goes" below shows). It needs Python 3, writes
 only its own files into `~/.gemini/config/`, keeps every other rule, agent and hook, stops before any change if a
@@ -124,8 +127,48 @@ python <clone>\antigravity\install.py
 `--uninstall` removes only what it installed. Then open the project in Antigravity and start the main conversation
 with `/zoho-command-center`: Command Center creates each task chat as its own conversation (titled
 "▶ RUNNING | <TASK-ID> <title>"), and the task chat keeps that prefix current (WAITING, BLOCKED, DONE). The
-Antigravity column of `references/tool-map.md` lists every action there. Tests:
-`python -m unittest discover -s antigravity/tests`.
+Antigravity column of `references/tool-map.md` lists every action there.
+
+## Use it in Codex
+
+Codex also opens a skill by itself only when it judges it relevant. The `codex/` folder sets the same rules up there:
+
+- `AGENTS-block.md`: the hard rules, added as a marked block to `~/.codex/AGENTS.md` (the rest of that file stays).
+- `agents/zcc-task-worker.toml` and `agents/zcc-reviewer.toml`: the `task-worker` and read-only `reviewer` agents, for
+  when you ask for a subagent. A task normally runs in its own session.
+- The same three hooks, in `~/.codex/hooks.json`.
+
+```powershell
+python <clone>\codex\install.py --dry-run
+python <clone>\codex\install.py
+```
+
+Then run `codex`, open `/hooks` and trust the three "zcc:" hooks: Codex runs a hook only after you trust it, and asks
+again when it changes. `--uninstall` removes only what it installed. Start the main session in the project with
+`$zoho-command-center`; open each task chat as its own session with
+`$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules`. QA runs as its own read-only
+session (`codex exec -s read-only ... -o tasks/<TASK-ID>/qa/qa-<n>.md`), never as a subagent, as an agent cannot set
+its own sandbox. The Codex column of `references/tool-map.md` lists every action there.
+
+## The evidence gate and the hook self-test
+
+Every DONE, PART DONE, READY FOR QA and QA report lists its checks in a "Checks:" line, and each check is a
+"## <check>" section of `tasks/<TASK-ID>/checks.md` with a code block holding the command and its output. The Stop
+hook sends a report back once (Antigravity: continue; Codex: block) when a named check has no output there; it never
+loops.
+
+Hooks are a second line; the always-on rules are the first. A forum report says some Antigravity hooks never fire on
+Windows 11, so check them on your machine before relying on them:
+
+```powershell
+python <clone>\shared\hook_selftest.py install --tool antigravity
+python <clone>\shared\hook_selftest.py report
+python <clone>\shared\hook_selftest.py remove --tool antigravity --clear-log
+```
+
+`install` adds a log-only hook and says what to do in the tool (one message that runs a command); `report` shows
+whether SessionStart, PreToolUse and Stop fired; `remove` takes it out. Use `--tool codex` for Codex (trust the
+"zcc-selftest" hooks in `/hooks` first). Tests for all of this: `python -m unittest discover -s tests`.
 
 ## Team setup: everything a teammate installs
 
@@ -281,7 +324,12 @@ skills/zoho-command-center/references/leads-portal.md  the leads portal: when it
 skills/zoho-command-center/references/helper-skills.md  the helper skills: which one for what
 skills/zoho-command-center/references/builds.md  retired: builds already running with builder and QA chats
 antigravity/install.py             installs the Antigravity setup (rules, agents, hooks) into ~/.gemini/config
-antigravity/rules, agents, hooks   the files it installs; antigravity/tests: their tests
+antigravity/rules, agents          the files it installs
+codex/install.py                   installs the Codex setup (AGENTS.md block, agents, hooks) into ~/.codex
+codex/AGENTS-block.md, agents      the files it installs
+shared/hooks/                      the hooks both install (handoff brief, secrets guard, evidence gate)
+shared/hook_selftest.py            shows whether hooks fire on this machine
+tests/                             tests for the setups and hooks (run by the check workflow)
 CHANGELOG.md                       what changed in each version
 AGENTS.md                          rules for changing the skill
 ```
