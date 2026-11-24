@@ -5,6 +5,31 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-11-24
+
+Antigravity mode, from a build run in Antigravity where the chat skipped the skills, guessed defaults, reported
+checks it had not run and opened the wrong Zoho page.
+
+### Added
+
+- **Antigravity column in the tool map** (references/tool-map.md) and an "Antigravity mode" section: Command Center
+  creates each task chat as a top-level conversation (ConversationService `CreateConversation`, task ID tag, first
+  prompt that opens the skills and the brief), reads its state with `GetConversation`, archives it with
+  `UpdateConversation`; every chat keeps the same title prefixes as in the Claude app ("▶ RUNNING | ",
+  "⏸ WAITING on <who> | ", "✋ BLOCKED | ", "✓ DONE | "); QA is the read-only `wp-qa` agent, started by Command
+  Center only after `qa/brief.md` exists; a checkpoint at every phase end (the App has no context meter); Zoho only
+  by the task link.
+- **Antigravity setup** (`antigravity/`): an always-on rule file with the hard rules written out, the `task-worker`
+  and `wp-qa` custom agents, a SessionStart hook (injects ai-handoff-summary.md) and a PreToolUse hook (denies a
+  write that puts a password, key or token into a .md file). `antigravity/install.py` installs them into
+  `~/.gemini/config/` (dry run, idempotent, never touches a file it did not install, backs up hooks.json,
+  `--uninstall`). Tests in `antigravity/tests`, run by the check workflow.
+- README: "Use it in Antigravity".
+
+### Changed
+
+- SKILL.md: the description and the Files line name Antigravity mode next to one-chat mode.
+
 ## [2.6.0] - 2026-11-23
 
 Vocalise early: what a site lacks is raised at the plan, not at the end.

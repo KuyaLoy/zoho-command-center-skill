@@ -42,7 +42,9 @@ It came out of daily use on more than 20 client projects; the rules carry the le
 
 - The **Claude desktop app, Code tab**, for the full workflow: Command Center starts and steers chats with the app's
   session tools (start a chat, set its effort, read its context %, clear it).
-- **Other AI tools** (Claude Code in a terminal, Codex, Cursor, Antigravity, OpenCode, Cline, Devin Desktop and others
+- **Antigravity**: Antigravity mode, with the setup below (Use it in Antigravity): Command Center creates each task
+  chat as a conversation and keeps its state in the title.
+- **Other AI tools** (Claude Code in a terminal, Codex, Cursor, OpenCode, Cline, Devin Desktop and others
   that read Agent Skills): one-chat mode. Each task keeps its folder, you open task chats with one line, and stops go
   into the task's notes. `references/tool-map.md` lists each action and what to do there.
 - **Claude in Chrome**, for reading Zoho tasks and posting comments.
@@ -95,6 +97,34 @@ checker says OK; the last line reads "Next: ... — waiting on <the lead>".
 
 Tested: Codex CLI 0.146.0 on 2026-11-18 with gpt-5.6-sol: pass. If Codex says a model "is not supported when using
 Codex with a ChatGPT account", run it with `-m` and a model your account supports.
+
+## Use it in Antigravity
+
+Antigravity opens a skill only when the model judges it relevant, so on its own a task chat there can skip the
+skills. The `antigravity/` folder makes the rules mechanical:
+
+- `rules/zcc-hard-rules.md`: the hard rules written out, always on (open the skill before each phase, no check
+  reported without its output, copy kit files and source text exactly, no guessed defaults, no secrets in files and
+  no consent set for anyone, Zoho only by the task link, plan first, state in the title, phase-end checkpoints).
+- `agents/task-worker.md` (the task chat, with its skills attached) and `agents/wp-qa.md` (QA with no file-editing
+  tools).
+- Two hooks: the project's `ai-handoff-summary.md` is injected at the start of each conversation, and a write that
+  puts a password, key or token into a .md file is denied.
+
+Install from the clone (link the skills first, as "Where each skill goes" below shows). It needs Python 3, writes
+only its own files into `~/.gemini/config/`, keeps every other rule, agent and hook, stops before any change if a
+file at its paths is not its own, and is safe to run again after each `git pull`:
+
+```powershell
+python <clone>\antigravity\install.py --dry-run
+python <clone>\antigravity\install.py
+```
+
+`--uninstall` removes only what it installed. Then open the project in Antigravity and start the main conversation
+with `/zoho-command-center`: Command Center creates each task chat as its own conversation (titled
+"▶ RUNNING | <TASK-ID> <title>"), and the task chat keeps that prefix current (WAITING, BLOCKED, DONE). The
+Antigravity column of `references/tool-map.md` lists every action there. Tests:
+`python -m unittest discover -s antigravity/tests`.
 
 ## Team setup: everything a teammate installs
 
@@ -245,10 +275,12 @@ client document before your go, never posts in Zoho without your OK on the exact
 .claude-plugin/marketplace.json    this repo as a one-plugin marketplace
 skills/zoho-command-center/SKILL.md the shared rules and the task chat (Worker) rules
 skills/zoho-command-center/references/command-center.md  Command Center's steps 1 to 7
-skills/zoho-command-center/references/tool-map.md  each action's tool, and one-chat mode for other AI tools
+skills/zoho-command-center/references/tool-map.md  each action's tool: Claude app, Antigravity, one-chat mode
 skills/zoho-command-center/references/leads-portal.md  the leads portal: when it is required, which way per stack, proof
 skills/zoho-command-center/references/helper-skills.md  the helper skills: which one for what
 skills/zoho-command-center/references/builds.md  retired: builds already running with builder and QA chats
+antigravity/install.py             installs the Antigravity setup (rules, agents, hooks) into ~/.gemini/config
+antigravity/rules, agents, hooks   the files it installs; antigravity/tests: their tests
 CHANGELOG.md                       what changed in each version
 AGENTS.md                          rules for changing the skill
 ```

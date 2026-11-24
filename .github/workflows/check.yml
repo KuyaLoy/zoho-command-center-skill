@@ -21,5 +21,7 @@ jobs:
           node-version: 20
       - name: Validate the plugin and the marketplace
         run: npx -y @anthropic-ai/claude-code@2.1.323 plugin validate . --strict
+      - name: Antigravity setup tests (install script and hooks)
+        run: python3 -m unittest discover -s antigravity/tests
       - name: Release guard (a skill change needs a new version and its CHANGELOG section)
         run: sh .github/scripts/release-guard.sh "${{ github.event.pull_request.base.sha }}"

@@ -1,19 +1,19 @@
 ---
 name: zoho-command-center
-description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app; in other AI tools the lead opens each chat by hand (one-chat mode).'
+description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app, and in Antigravity with its setup (task chats as conversations); in other AI tools the lead opens each chat by hand (one-chat mode).'
 license: MIT
 ---
 
 # Zoho Command Center
 
-Version: 2.6.0
+Version: 2.7.0
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
 
 **Files.** This file holds the shared rules and the Worker rules. Command Center's steps 1 to 7 are in
 `references/command-center.md`. Steps say what to do in plain words; `references/tool-map.md` gives each action's
-Claude desktop tool and what to do in other AI tools (one-chat mode); `references/leads-portal.md` is read for builds,
+Claude desktop tool, its Antigravity way and other tools' (one-chat mode); `references/leads-portal.md` is for builds,
 lead forms and go-lives; `references/helper-skills.md` lists the helper skills. All sit next to this file.
 
 ## Settings
@@ -255,8 +255,8 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 ## Worker rules (task chat)
 - **In the Claude desktop app:** `get_usage` ("self") gives your context % and the usage limits; a message to
   Command Center is `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id. In any
-  other tool, read `references/tool-map.md` once at start (one-chat mode: "message Command Center" means a line under
-  "## Stops" in notes.md).
+  other tool, read `references/tool-map.md` once at start (Antigravity or one-chat mode: "message Command Center"
+  means a line under "## Stops" in notes.md).
 - The lead says "use max" here: tell Command Center in one line ("USE MAX: <TASK-ID> <for what>"); it raises you.
 - Phase 1, plan, read-only (at the effort Command Center set: high, or max for a plan that needs it or when the lead
   said "use max"; if you run below that, say so in one line at the top of your report): investigate by reading only (No
