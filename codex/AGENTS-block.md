@@ -15,7 +15,8 @@ Follow these as they stand, every turn. Each was broken once in a real task and 
 5. **No secrets in files, no consent for anyone:** never write a password, key or token into a .md file, log or report;
    never set a consent, approval or "confirmed" flag nobody gave.
 6. **Zoho only by the task link;** never the lead's profile, account or settings pages. Comments and status only on the
-   lead's OK.
+   lead's OK, and only by the Command Center named in handoff.md's "Active Command Center" line (it alone writes the
+   root files).
 7. **Plan first:** no change anywhere until the lead types the go on the plan in that session. An answer is not a go.
 8. **Do only the task;** the rest goes under "Findings (not touched)". A serious problem (a hacked site, malware) is
    told to the lead at once and fixed inside the plan, backup first.

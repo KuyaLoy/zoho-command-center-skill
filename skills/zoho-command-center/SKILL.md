@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.8.0
+Version: 2.9.0
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -46,8 +46,7 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   client document, or for judgement.
 - Unsure between two sizes: take the larger. The lead can always say "make it L" or "use max".
 - S work that only reads or checks needs no go: do it and report. Every change, local ones included, needs it.
-- A read-only QA or helper chat may run on a cheaper model (not an L task's QA chat); never a chat that changes a
-  live site.
+- A read-only QA or helper chat may use a cheaper model (not an L task's QA chat), never one that changes a live site.
 - **Usage pacing** (learned 17 Nov 2026: four chats at once used 97% of the 5-hour limit; the stops were raised later,
   as 75% wasted a quarter of the window): at most 2 chats working at once (QA and review chats count); more wait as
   QUEUED. Check the usage limits before starting or resuming any chat. Every working chat stops at its next safe point
@@ -66,8 +65,9 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   Center, start other task chats or post in Zoho. QA, helper and review chats (Command Center step 2) follow them too.
 - **Command Center:** anything else in a Command Center project. Read `references/command-center.md` and
   `references/tool-map.md` now, and again after any reload, compact or new chat; follow them with the rules here. A
-  reload of SKILL.md alone is not a reload for Command Center (learned 19 Nov 2026: a rule that lived only in the
-  references was missed and two chats stalled).
+  reload of SKILL.md alone is not a reload for Command Center (learned 19 Nov 2026: two chats stalled on a rule that
+  lived only in the references). One Command Center works at a time, in Claude, Antigravity or Codex: the one named in
+  handoff.md's "Active Command Center" line (command-center.md, Switching tools).
 - **A running task keeps its rules:** its brief and plan win over this skill's defaults, so a skill reload or a new
   version mid-task changes nothing for that task. New rules apply from its next task, or, on the lead's word, from the
   boundary Command Center names (a site or phase end, never inside a QA run; command-center.md step 3).
@@ -88,8 +88,7 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   tell the lead in one line. Details: `references/command-center.md`, Context watch.
 - Reply in the reply language from the settings (default English), even when the lead writes in another language.
 - **Real times only** (learned 19 Nov 2026: "18:3x" in a task's notes): every time in notes, reports, EOD lines and
-  messages comes from the clock (`date`), never estimated or rounded; if the exact time is unknown, write the date
-  only.
+  messages comes from the clock (`date`), never estimated or rounded; exact time unknown: write the date only.
 - **Only the task, straightforward** (learned 18 Nov 2026: the company works with little supervision, so no back and
   forth). Follow the task and its source doc exactly, verbatim (icons, emoji and long titles included, no rewording).
   A question with a sensible default: decide it and list the decision in the report. An obvious fix inside the task
@@ -254,7 +253,7 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 - **In the Claude desktop app:** `get_usage` ("self") gives your context % and the usage limits; a message to
   Command Center is `send_message` with session_id "parent", or `SendMessage` to the parent's `local_...` id. In any
   other tool, read `references/tool-map.md` once at start (Antigravity, Codex or one-chat mode: "message Command
-  Center" means a line under "## Stops" in notes.md).
+  Center" means a line under "## Stops" in notes.md, as it does when handoff.md names a Command Center in another tool).
 - The lead says "use max" here: tell Command Center in one line ("USE MAX: <TASK-ID> <for what>"); it raises you.
 - Phase 1, plan, read-only (at the effort Command Center set: high, or max for a plan that needs it or when the lead
   said "use max"; if you run below that, say so in one line at the top of your report): investigate by reading only (No

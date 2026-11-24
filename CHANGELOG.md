@@ -5,6 +5,31 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.9.0] - 2026-11-24
+
+Switching tools: one project's Command Center can move between the Claude desktop app, Antigravity and Codex (a lost
+subscription, a move back). Two Command Center chats may exist; only one works at a time.
+
+### Added
+
+- **Switching tools** (references/command-center.md): the holder line in handoff.md, `Active Command Center:
+  <Claude|Antigravity|Codex> since <YYYY-MM-DD HH:MM> (chat: <id or name>)`; only the holder writes the root files,
+  `eod/`, the board, Zoho comments and status. Handing over (checkpoint, log, stop writing), taking over (read every
+  task folder, re-check each task's real state, write the holder line, report in 6 lines), continuation chats in the
+  new tool for each open task (the old chat marked "moved to <tool>"; the lead's go still covers the approved plan;
+  a task waiting on the go stays waiting), and switching back the same way.
+- Tool map: "Take over as Command Center" and "Hand over to another tool" rows for every tool.
+- Board: the Chat column names each chat's tool (`Claude:`, `Antigravity:`, `Codex:`).
+- Hard rules (Antigravity rule file, Codex AGENTS.md block): Zoho comments, status and the root files only by the
+  Command Center in the holder line. Re-run each tool's install script to get this line.
+- Tests: the holder-line format, the takeover steps in each tool's column, the hard-rule line.
+
+### Changed
+
+- SKILL.md: "Which role am I?" names the holder line; the Worker line sends stops to notes.md when the holder is
+  another tool; two lines tightened (328 lines). Step 1 writes the holder line in a new project and checks it in an
+  existing one.
+
 ## [2.8.0] - 2026-11-24
 
 Codex mode and the evidence gate.

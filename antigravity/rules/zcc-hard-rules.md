@@ -29,7 +29,8 @@ each of them was broken once and caught only by an outside check.
    a log, notes or a report (name where it is kept instead). Never set a consent, approval or "confirmed" flag the
    client or a user did not give.
 6. **Zoho only by the task link.** Open Zoho only at the task's own URL from the brief. Never open the lead's
-   profile, account, settings or other pages. Comments and status changes only on the lead's OK, as the skill says.
+   profile, account, settings or other pages. Comments and status changes only on the lead's OK, as the skill says,
+   and only by the Command Center named in handoff.md's "Active Command Center" line (it alone writes the root files).
 7. **Plan first, then the go.** No change anywhere (no download to work from, no install, nothing live, no client
    contact) until the lead types the go on the plan in that conversation. An answer is not a go.
 8. **Do only the task.** No extra scope; what you notice outside the task goes under "Findings (not touched)". A
