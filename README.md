@@ -112,9 +112,10 @@ skills. The `antigravity/` folder makes the rules mechanical:
 - `agents/task-worker.md` (the task chat, with its skills attached) and `agents/wp-qa.md` (QA). QA is read-only by
   its rules plus a sandboxed shell, not by its tool list alone: it has no file-editing tools, but its shell could
   still write. Both keep your current model.
-- Three hooks (from `shared/hooks/`): the essentials of the project's `ai-handoff-summary.md` (Status, Now, Next
-  action, Waiting on; about 1,500 characters) are injected at the start of each conversation, a write that puts a password, key or token into a .md file is denied, and the evidence gate (below)
-  sends a report back once when a check it names has no command output in the task's `checks.md`.
+- Three hooks (from `shared/hooks/`): the essentials of the project's `ai-handoff-summary.md` (Status, Now, Next action,
+  Waiting on; about 1,500 characters) are injected at the start of each conversation, a write that puts a password, key
+  or token into a .md file is denied, and the evidence gate (below) sends a report back once when a check it names has
+  no command output in the task's `checks.md`.
 
 Install from the clone (link the skills first, as "Where each skill goes" below shows). It needs Python 3, writes
 only its own files into `~/.gemini/config/`, keeps every other rule, agent and hook, stops before any change if a
