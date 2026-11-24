@@ -101,18 +101,22 @@ chat. A project can have many Command Center chats over time; they hand off thro
      "do it and report"); a task that builds or changes a website: "Put the Recommended additions (SKILL.md Vocalise
      early: form attribution, SEO, site speed, testing, tracking) in the plan and at the top of PLAN READY"; "Send
      Command Center (parent) a short message at every stop, your lead-driven turns too"; "Follow the Context watch
-     rules: check your context % each step; reset at a page end from 50%, at 75% at once". Don't copy the shared
-     rules into the brief: the task chat reads them in the skill.
+     rules: check your context % each step; reset at a page end from 50%, at 75% at once"; a "Checks required:"
+     line naming the checks the task's report must show with their output (the evidence gate sends back a report
+     whose "Checks:" line misses one). Don't copy the shared rules into the brief: the task chat reads them in the
+     skill.
      Several task chats on the same site or repo: give each its own local ports and temp folders, name the files they
      share, forbid whole-database restores, and tell them to announce live uploads to each other.
-   - **QA, helper or review chats:** the QA chat of every task before each Zoho post (step 5), and any other check
-     the lead asks for: a visible chat started like a task chat, never a hidden background subagent. Name it
-     "<task>-qa" (one per task, kept for its follow-ups) or "<task>-review"; read-only unless the lead says otherwise;
-     it follows the Worker rules' QA chat part, logs in `tasks/<TASK-ID>/qa/`, and never posts in Zoho. A read-only
-     QA chat may run on a cheaper model, except for L tasks. Its brief: the task verbatim, the source doc, where the
-     result is (URLs, folders), report.md's path, and "Load the zoho-command-center skill and follow its QA chat
-     rules", plus the task chat's name and session id. Start it without wake notes (it reports QA 0 itself). It
-     shares the task's board row (both chats in the Chat cell).
+   - **QA, helper or review chats:** the QA chat of every task before each Zoho post (step 5), and any other check the
+     lead asks for: a visible chat started like a task chat, never a hidden background subagent. Name it "<task>-qa"
+     (one per task, kept for its follow-ups) or "<task>-review"; read-only unless the lead says otherwise; it follows
+     the Worker rules' QA chat part, logs in `tasks/<TASK-ID>/qa/`, and never posts in Zoho. A read-only QA chat may run
+     on a cheaper model, except for L tasks. Its brief: the task verbatim, the source doc, where the result is (URLs,
+     folders), report.md's path, and "Load the zoho-command-center skill and follow its QA chat rules", plus the task
+     chat's name and session id, and a "Checks required:" line that always names the visual check (screenshots at the
+     widths compared) and the speed check (learned 24 Nov 2026: a QA report claimed a pixel match with no screenshots
+     and left that check out of its list). Start it without wake notes (it reports QA 0 itself). It shares the task's
+     board row (both chats in the Chat cell).
 3. **When a chat stops (its stop message or wake note):** tell the lead in 2 to 4 lines which chat (link), why it
    stopped, the decisions it took and the next step, once per stop. Never let a chat sit idle unreported, a usage
    pause included. Its question, options and plan stay in that chat (learned 10 Nov 2026): don't copy them here.

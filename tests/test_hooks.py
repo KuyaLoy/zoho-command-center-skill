@@ -120,6 +120,26 @@ class EvidenceGateTest(unittest.TestCase):
         self.assertEqual(r["decision"], "block")
         self.assertIn("Checks:", r["reason"])
 
+    def test_blocks_a_report_that_leaves_out_a_required_check(self):
+        save(os.path.join(self.root, "tasks", "T1", "checks.md"), CHECKS)
+        save(os.path.join(self.root, "tasks", "T1", "brief.md"),
+             "# Brief\nDo the thing.\nChecks required: home 200, visual at 3 widths\n")
+        r = self.cx(REPORT_OK)
+        self.assertEqual(r["decision"], "block")
+        self.assertIn("visual at 3 widths", r["reason"])
+        self.assertIn("tasks/T1/brief.md", r["reason"])
+        self.assertEqual(self.ag(REPORT_OK)["decision"], "continue")
+
+    def test_a_qa_report_follows_its_qa_brief(self):
+        save(os.path.join(self.root, "tasks", "T1", "qa", "brief.md"), "Checks required: visual, speed\n")
+        msg = "QA 0: T1 pass 2\nChecks: visual\n## visual\n```\n$ python shots.py\n3 widths, 0 diff\n```"
+        r = self.cx(msg)
+        self.assertEqual(r["decision"], "block")
+        self.assertIn("speed", r["reason"])
+        self.assertIn("tasks/T1/qa/brief.md", r["reason"])
+        msg = msg.replace("Checks: visual", "Checks: visual, speed") + "\n## speed\n```\n$ lighthouse x\nperf 95\n```"
+        self.assertEqual(self.cx(msg), {})
+
     def test_evidence_in_the_message_itself_counts(self):
         msg = "QA 0: T1 pass 2\nChecks: links\n## links\n```\n$ python linkcheck.py\n0 broken\n```"
         self.assertEqual(self.cx(msg), {})

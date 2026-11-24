@@ -5,6 +5,34 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.9.2] - 2026-11-24
+
+Codex desktop app and polish from the lead's first runs in Codex and Antigravity.
+
+### Added
+
+- **Codex desktop column** in the tool map (the terminal one is now "Codex terminal"): the app creates a thread only
+  on the lead's explicit request, so Command Center asks once with `request_user_input` choices when the briefs are
+  ready, then creates each task thread (`create_thread`, first prompt = the brief line), titles it
+  (`set_thread_title`), follows it (`wait_threads`, `read_thread`), sends follow-ups (`send_message_to_thread`) and
+  archives it at close-out (`set_thread_archived`). It sets its own title at step 1 and at a takeover unasked.
+- **Evidence gate:** a report is also sent back when its "Checks:" line leaves out a check that the task's brief (or,
+  for a QA report, the QA brief) names in its "Checks required:" line. Step 2's briefs carry that line; a QA brief
+  always names the visual check (screenshots at the widths compared) and the speed check.
+
+### Changed
+
+- **Plan review in the task chat:** PLAN READY shows the plan itself (the short plan inline, plan.md's path) and asks
+  for the go there, with choices where the tool has them; an "approved" typed in Command Center approves only the
+  briefs, never a task's plan.
+- **Effort in Codex and Antigravity:** the lead's chosen effort is the task chats' default (usage); high only for an
+  L task or live or irreversible work, said in one line. The Claude app keeps its table.
+- **Created-chat title:** a chat created without a running first prompt starts as "⏸ WAITING on <lead> | ", never
+  "▶ RUNNING" (Antigravity with an empty prompt, a Codex thread before its first turn).
+- Hard rules (Antigravity rule file, GEMINI.md block, Codex AGENTS.md block): rule 2 names the required checks. Re-run
+  both install scripts to get this and the new evidence gate.
+- SKILL.md: four lines tightened to stay at 329 lines.
+
 ## [2.9.1] - 2026-11-24
 
 T3 Code support: the rules reach every provider T3 Code runs.

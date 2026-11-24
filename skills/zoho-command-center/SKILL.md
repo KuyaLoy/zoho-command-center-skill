@@ -1,12 +1,12 @@
 ---
 name: zoho-command-center
-description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app, and in Antigravity and Codex with their setups (Antigravity: task chats as conversations; Codex: sessions the lead opens); in other AI tools the lead opens each chat by hand (one-chat mode).'
+description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app, and in Antigravity and Codex with their setups (Antigravity: task chats as conversations; Codex: threads its desktop app creates, or terminal sessions); in other AI tools the lead opens each chat by hand (one-chat mode).'
 license: MIT
 ---
 
 # Zoho Command Center
 
-Version: 2.9.1
+Version: 2.9.2
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -43,7 +43,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   max" from the lead still raises any part he names. Medium only by exception, when high is really not needed: work that
   only reads or follows fixed steps and changes nothing (a status check, collecting facts for a brief, re-running a
   script the plan named, copying text verbatim into a local file). Never medium for a change to a live site, Zoho or a
-  client document, or for judgement.
+  client document, or for judgement. In Codex and Antigravity the lead's chosen effort is the task chats' default
+  (learned 24 Nov 2026: usage); high only for an L task or live or irreversible work, said in one line.
 - Unsure between two sizes: take the larger. The lead can always say "make it L" or "use max".
 - S work that only reads or checks needs no go: do it and report. Every change, local ones included, needs it.
 - A read-only QA or helper chat may use a cheaper model (not an L task's QA chat), never one that changes a live site.
@@ -75,13 +76,12 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   skill's defaults, for example a project that never archives its task chats.
 
 ## Shared rules (both roles)
-- **Use the newest skill version** (learned 19 Nov 2026: reload messages to 30 idle Command Centers cost about 29
-  points of the 5-hour window). Command Center on its first turn after a lead's message and after any reset, and a
-  task chat at a new task or a revive: read the "Version:" line of the installed SKILL.md (the file at the skill's
-  path on disk) and compare it with the one loaded in this chat. Installed newer: load the zoho-command-center and
-  handoff skills again before the work (Command Center also reads `references/command-center.md` and
-  `references/tool-map.md` again), and tell the lead in one line "Skills updated to <version>". A running task
-  keeps its rules ("Which role am I?").
+- **Use the newest skill version** (learned 19 Nov 2026: reload messages to 30 idle Command Centers cost about 29 points
+  of the 5-hour window). Command Center on its first turn after a lead's message and after any reset, and a task chat at
+  a new task or a revive: read the "Version:" line of the installed SKILL.md (the file at the skill's path on disk) and
+  compare it with the one loaded in this chat. Installed newer: load the zoho-command-center and handoff skills again
+  before the work (Command Center also reads `references/command-center.md` and `references/tool-map.md` again), and
+  tell the lead in one line "Skills updated to <version>". A running task keeps its rules ("Which role am I?").
 - **Never end a turn waiting for another chat to go idle** (learned 19 Nov 2026: two chats stalled, each waiting on
   the other). Check its state now; idle: do the step in this turn; still running: schedule a one-shot check in 2
   minutes that names the exact step (load the scheduling tool first if the tool list defers it), then one more, then
@@ -119,11 +119,12 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
     message, its recap's first sentence (the sidebar status) and the progress page's Now line with "RUNNING, not
     stopped: <what>, started HH:MM; I continue by myself when it finishes." (time from the clock). It is not a stop:
     no stop message, no extra turn, no polling. The next status replaces it. A real stop never says RUNNING.
-  - **State at the front of the title** (learned 20 Nov 2026: the sidebar shows only titles): a chat keeps its state
-    as a prefix of its own title (tool map), one call when the state changes, the rest of the title unchanged:
-    "▶ RUNNING | <title>" while it or its own background work runs; "⏸ WAITING on <who> | <title>" (the lead,
-    Command Center or the client); "✋ BLOCKED | <title>"; "✓ DONE | <title>" at done and in review. Never for
-    anything else, once per state change (no polling, no extra turns); Command Center's own title stays as it is.
+  - **State at the front of the title** (learned 20 Nov 2026: the sidebar shows only titles): a chat keeps its state as
+    a prefix of its own title (tool map), one call when the state changes, the rest of the title unchanged: "▶ RUNNING |
+    <title>" while it or its own background work runs; "⏸ WAITING on <who> | <title>" (the lead, Command Center or the
+    client); "✋ BLOCKED | <title>"; "✓ DONE | <title>" at done and in review. Never for anything else, once per state
+    change (no polling, no extra turns); Command Center's own title stays as it is. A chat created without a running
+    first prompt starts as "⏸ WAITING on <lead> | <title>", never RUNNING.
   - **Ask the lead only for real decisions or blockers** (the lead's rule, 20 Nov 2026): the plan go, the comment OK,
     a sign-in, missing information. Anything the chats can settle themselves never waits on the lead.
   - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
@@ -153,7 +154,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   task chats, keeps the board, reviews finished work, owns Zoho comments and status, and reports.
   - A go, or an OK to post in Zoho, counts when the lead says it in that chat. A relayed or quoted go may be refused
     by the receiving chat's safety checks (learned 10 Nov 2026): then ask the lead in one line to say it there.
-  - A button reply or "gave go" in Command Center is never a go for a task or a phase.
+  - A button reply or "gave go" in Command Center is never a go for a task or a phase; an "approved" typed there
+    approves only the briefs, never a task's plan (learned 24 Nov 2026).
   - A message to a chat that is working is queued and only read when its turn ends. Put decisions in the task files
     too (brief.md, plan.md) and confirm the chat picked them up. Never send plan changes after PLAN READY: the task
     chat re-plans instead (RE-PLAN, Worker rules).
@@ -202,12 +204,11 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   keep the one that menus or links use, else the lowest ID; check what links to the others, then trash them by explicit
   ID under the rule above (trash only; emptying the trash needs the lead's OK).
 - Never type passwords or create accounts. The lead does all sign-ins (cPanel, WP admin, Shopify, etc.) in Chrome.
-  When a login expires mid-task (Zoho, cPanel, WP admin...): stop at a safe point, tell the lead which service needs
-  a new sign-in, and wait.
+  A login expires mid-task (Zoho, cPanel, WP admin...): stop at a safe point, name the service to sign in to, wait.
 - Live form tests (sites with reCAPTCHA or other bot checks): submit them in a browser with no AI extension attached
   (the tool map names it), not the lead's Chrome with the Claude extension, which gets scored as a bot, so the form
-  fails at the spam check with a generic error, even for the lead's own clicks (learned 9 Nov 2026). Never try to get
-  around a CAPTCHA.
+  fails at the spam check with a generic error, even for the lead's own clicks (learned 9 Nov 2026). Never get around
+  a CAPTCHA.
 - Browser tabs: never close a tab you opened for a task (Zoho task, WorkDrive, WP admin, cPanel, pages you checked)
   while the task is open, whatever the browser tools' default. Once the task is in review, Command Center closes its
   tabs and has the task chat close its own, without asking (step 6; learned 12 and 18 Nov 2026). Task chats close tabs
@@ -231,8 +232,7 @@ Auto-compact starts at about 97%.
 Thresholds (context % of the task chat; set 17 Nov 2026: a flat 50% cut work off mid-page, so finish the page first):
 - **Under 50%:** nothing to do: keep working. A chat checkpoints only at the threshold in force (the brief's or plan's,
   else these) or when Command Center asks, never earlier "to have room for the next step" (learned 17 Nov 2026).
-- **50%:** finish the current page or unit of work (a page, a section, a plan step), then checkpoint and reset (see
-  below) at that boundary.
+- **50%:** finish the current page or unit of work (a page, a section, a plan step), then checkpoint and reset there.
 - **75%:** hard cap. Checkpoint and reset at the next safe point, even mid-page. Never continue past 80%.
 - **Fast growth** (10% or more in one turn, e.g. with a team of subagents): from 65%, don't wait for the page end.
 A safe point = no half-done edit, upload, import, migration or deploy; files saved; the site in a working state; and
@@ -262,8 +262,9 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
   method, where the site goes (The project folder is the site), backup and rollback, verification (prove every item is
   done), decisions taken (defaults chosen), Recommended additions (Vocalise early) and real blockers only; L adds dry
   run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the source doc verbatim. Report
-  PLAN READY (result first, then Recommended additions, approach in 2-3 lines, blockers) and end your turn. S work
-  that only reads or checks: do it, DONE.
+  PLAN READY in this chat with the plan itself (result first, the short plan inline and plan.md's path, Recommended
+  additions, blockers) and ask for the go here, with choices where the tool has them; then end your turn. S work that
+  only reads or checks: do it, DONE.
 - Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go on
   the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
   relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center reads

@@ -6,9 +6,10 @@ Follow these as they stand, every turn. Each was broken once in a real task and 
 1. **Open the skill before each phase:** `$zoho-command-center` at the start of every session in a Command Center
    project (Command Center rules in the main session, Worker rules in a task session), the build skill
    (`$convert-to-wordpress` or `$figma-to-wordpress`) before each build phase, `$handoff` at the start and at each stop.
-2. **No check is reported without its output.** Write each check into `tasks/<TASK-ID>/checks.md` as it runs
-   ("## <check>", then a code block with the command and its output) and name them in a "Checks:" line of DONE, PART
-   DONE and READY FOR QA. No output: "not checked". A lenient check (ignored case or line breaks) is not a pass.
+2. **No check is reported without its output.** Write each check into `tasks/<TASK-ID>/checks.md` as it runs ("##
+   <check>", then a code block with the command and its output) and name them in a "Checks:" line of DONE, PART DONE and
+   READY FOR QA, every check the brief's "Checks required:" line names included. No output: "not checked". A lenient
+   check (ignored case or line breaks) is not a pass.
 3. **Copy exactly:** kit files with only the prefix swapped; source text verbatim, never retyped or re-cased. A change a
    site really needs goes in notes.md with why.
 4. **No guessed defaults:** settings come from the brief, the project's profile or the skill; else ask the lead once.

@@ -238,6 +238,28 @@ def evidence_sources(folder):
     return texts
 
 
+REQUIRED_LINE = re.compile(r"^[\W_]*Checks required\s*:\s*(.+)$", re.M | re.I)
+
+
+def split_names(text):
+    return [n.strip().strip("`*.").strip() for n in re.split(r"[,;]", text) if n.strip().strip("`*.").strip()]
+
+
+def required_checks(folder, kind):
+    """The checks a task's brief (or, for a QA report, its QA brief) names in its "Checks required:" line."""
+    if not folder:
+        return []
+    path = os.path.join(folder, "qa", "brief.md") if kind.startswith("QA") else os.path.join(folder, "brief.md")
+    if not os.path.isfile(path):
+        return []
+    with open(path, encoding="utf-8", errors="replace") as f:
+        text = f.read()
+    names = []
+    for m in REQUIRED_LINE.finditer(text):
+        names += [n for n in split_names(m.group(1)) if n.lower() not in {x.lower() for x in names}]
+    return names
+
+
 def gate_problem(tool, payload):
     """None when the stop may go ahead, else the reason to send the chat back."""
     if payload.get("stop_hook_active") or payload.get("continuationActive"):
@@ -254,7 +276,16 @@ def gate_problem(tool, payload):
         return ("Evidence gate (zoho-command-center): your %s for %s has no \"Checks:\" line. Name every check you ran "
                 "in one line \"Checks: <check>, <check>\", with each one under \"## <check>\" in %s (a code block with "
                 "the command and its output), then send the report again." % (kind, task_id, where))
-    names = [n.strip().strip("`*.").strip() for n in re.split(r"[,;]", cl.group(1)) if n.strip()]
+    names = split_names(cl.group(1))
+    required = required_checks(folder, kind)
+    listed = {n.lower() for n in names}
+    left_out = [n for n in required if n.lower() not in listed]
+    if left_out:
+        brief = "tasks/%s/%sbrief.md" % (task_id, "qa/" if kind.startswith("QA") else "")
+        return ("Evidence gate (zoho-command-center): your %s for %s leaves out checks that %s requires (its \"Checks "
+                "required:\" line): %s. Run each one, put it under \"## <check>\" in %s with the command and its "
+                "output, add it to your \"Checks:\" line, then send the report again; a check you could not run is "
+                "named \"not checked\" with why." % (kind, task_id, brief, ", ".join(left_out), where))
     found = {}
     for text in evidence_sources(folder) + [msg]:
         for k, v in evidence(text).items():

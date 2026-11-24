@@ -149,7 +149,14 @@ again when it changes. `--uninstall` removes only what it installed. Start the m
 `$zoho-command-center`; open each task chat as its own session with
 `$zoho-command-center Read tasks/<TASK-ID>/brief.md and follow its Worker rules`. QA runs as its own read-only
 session (`codex exec -s read-only ... -o tasks/<TASK-ID>/qa/qa-<n>.md`), never as a subagent, as an agent cannot set
-its own sandbox. The Codex column of `references/tool-map.md` lists every action there.
+its own sandbox. The Codex columns of `references/tool-map.md` list every action there.
+
+In the **Codex desktop app**, Command Center does more itself: the app creates a thread only when you ask, so when the
+briefs are ready it asks you once with choices ("Create the task chats now?"), then creates each task thread with its
+first prompt, titles it ("⏸ WAITING on <you> | ..." until it runs), follows it and sends it follow-ups. It also titles
+its own thread "Command Center - <project>". Each task's plan is shown and approved in its own thread, with choices;
+an "approved" in Command Center approves only the briefs. Task chats use the effort you chose for the app; high only
+for an L task or live or irreversible work, and the chat says so.
 
 ## Use it in T3 Code
 
