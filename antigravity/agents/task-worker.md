@@ -3,7 +3,8 @@ name: task-worker
 description: "One task of a zoho-command-center project (a Zoho task or any other): plans it, waits for the lead's go, does it, and reports each stop. Use for a task conversation or a task subagent that Command Center starts with a tasks/<TASK-ID>/brief.md."
 subagent: true
 mainAgent: true
-tools: [read_file, edit_file, write_file, run_command, manage_task, search_web]
+model: inherit
+tools: [read_file, edit_file, write_file, run_command, manage_task, update_steps]
 skills: [zoho-command-center, handoff, convert-to-wordpress, figma-to-wordpress]
 zcc-managed: zoho-command-center antigravity setup
 ---

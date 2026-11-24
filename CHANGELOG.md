@@ -15,12 +15,14 @@ checks it had not run and opened the wrong Zoho page.
 - **Antigravity column in the tool map** (references/tool-map.md) and an "Antigravity mode" section: Command Center
   creates each task chat as a top-level conversation (ConversationService `CreateConversation`, task ID tag, first
   prompt that opens the skills and the brief), reads its state with `GetConversation`, archives it with
-  `UpdateConversation`; every chat keeps the same title prefixes as in the Claude app ("▶ RUNNING | ",
-  "⏸ WAITING on <who> | ", "✋ BLOCKED | ", "✓ DONE | "); QA is the read-only `wp-qa` agent, started by Command
+  `UpdateConversation`; no model is passed, so every conversation keeps the lead's current model; every chat keeps
+  the same title prefixes as in the Claude app ("▶ RUNNING | ", "⏸ WAITING on <who> | ", "✋ BLOCKED | ",
+  "✓ DONE | "); QA is the read-only `wp-qa` agent, started by Command
   Center only after `qa/brief.md` exists; a checkpoint at every phase end (the App has no context meter); Zoho only
   by the task link.
 - **Antigravity setup** (`antigravity/`): an always-on rule file with the hard rules written out, the `task-worker`
-  and `wp-qa` custom agents, a SessionStart hook (injects ai-handoff-summary.md) and a PreToolUse hook (denies a
+  and `wp-qa` custom agents (the lead's current model; tool names from real transcripts; QA read-only by its rules plus
+  a sandboxed shell), a SessionStart hook (injects ai-handoff-summary.md) and a PreToolUse hook (denies a
   write that puts a password, key or token into a .md file). `antigravity/install.py` installs them into
   `~/.gemini/config/` (dry run, idempotent, never touches a file it did not install, backs up hooks.json,
   `--uninstall`). Tests in `antigravity/tests`, run by the check workflow.

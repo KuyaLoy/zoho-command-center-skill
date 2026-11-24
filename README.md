@@ -106,8 +106,9 @@ skills. The `antigravity/` folder makes the rules mechanical:
 - `rules/zcc-hard-rules.md`: the hard rules written out, always on (open the skill before each phase, no check
   reported without its output, copy kit files and source text exactly, no guessed defaults, no secrets in files and
   no consent set for anyone, Zoho only by the task link, plan first, state in the title, phase-end checkpoints).
-- `agents/task-worker.md` (the task chat, with its skills attached) and `agents/wp-qa.md` (QA with no file-editing
-  tools).
+- `agents/task-worker.md` (the task chat, with its skills attached) and `agents/wp-qa.md` (QA). QA is read-only by
+  its rules plus a sandboxed shell, not by its tool list alone: it has no file-editing tools, but its shell could
+  still write. Both keep your current model.
 - Two hooks: the project's `ai-handoff-summary.md` is injected at the start of each conversation, and a write that
   puts a password, key or token into a .md file is denied.
 

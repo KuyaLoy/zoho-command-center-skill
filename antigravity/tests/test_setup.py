@@ -115,6 +115,18 @@ class FilesTest(unittest.TestCase):
         for t in ("edit_file", "write_file", "write_to_file", "replace_file_content"):
             self.assertNotIn(t, tools)
         self.assertEqual(fm["mainAgent"], "false")
+        self.assertEqual(fm["commandExecutionPolicy"], "sandbox")
+        self.assertIn("webview_browser", tools)
+
+    def test_agents_use_known_tools_and_the_leads_model(self):
+        known = {"read_file", "edit_file", "write_file", "run_command", "manage_task", "update_steps", "update_focus",
+                 "send_message", "manage_subagents", "invoke_subagent", "webview_browser"}
+        for name in ("task-worker.md", "wp-qa.md"):
+            fm = frontmatter(os.path.join(ROOT, "agents", name))
+            tools = set(fm["tools"].strip("[]").replace(" ", "").split(","))
+            self.assertLessEqual(tools, known, name)
+            self.assertIn("update_steps", tools, name)
+            self.assertEqual(fm["model"], "inherit", name)
 
     def test_task_worker_opens_the_skills(self):
         fm = frontmatter(os.path.join(ROOT, "agents", "task-worker.md"))
