@@ -3,6 +3,7 @@
     python antigravity/install.py --dry-run     show what would change, change nothing
     python antigravity/install.py               install or update (safe to run again)
     python antigravity/install.py --uninstall   remove only what this script installed
+    add --with-chrome (opt-in) to also add the chrome-devtools MCP server, so Antigravity drives the lead's own Chrome
 
 What it installs (each file carries the marker "zcc-managed"):
     rules/zcc-hard-rules.md                      the always-on hard rules
@@ -34,6 +35,48 @@ FILES = {
 FILES.update({os.path.join(lib.HOOKS, f): "hooks/zcc/" + f for f in lib.HOOK_FILES})
 WRITE_TOOLS = "write_file|edit_file|write_to_file|replace_file_content|multi_replace_file_content"
 HOOK_KEYS = ("zcc-session-start", "zcc-secrets-guard", "zcc-evidence-gate")
+CHROME_KEY = "chrome-devtools"
+CHROME_SERVER = {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest", "--autoConnect"]}
+
+
+def with_chrome(config, dry, remove=False):
+    """Add (or remove) the chrome-devtools MCP server in mcp_config.json. It names only that one entry: never
+    prints, changes or removes any other server (their settings can hold keys)."""
+    path = os.path.join(config, "mcp_config.json")
+    try:
+        data = lib.load_json(path)
+    except ValueError as e:
+        print("kept      %s (%s); add the chrome-devtools server by hand" % (os.path.normpath(path), e))
+        return 1
+    servers = data.get("mcpServers")
+    if servers is not None and not isinstance(servers, dict):
+        print("kept      %s (mcpServers is not an object)" % os.path.normpath(path))
+        return 1
+    servers = dict(servers or {})
+    current = servers.get(CHROME_KEY)
+    if remove:
+        if current == CHROME_SERVER:
+            del servers[CHROME_KEY]
+            print("update    %s (remove the %s server)" % (os.path.normpath(path), CHROME_KEY))
+            lib.save_json(path, dict(data, mcpServers=servers), dry)
+        elif current is not None:
+            print("kept      %s server in %s (not the one this script adds)" % (CHROME_KEY, os.path.normpath(path)))
+        return 0
+    if current == CHROME_SERVER:
+        print("unchanged %s (%s server)" % (os.path.normpath(path), CHROME_KEY))
+        return 0
+    if current is not None:
+        print("kept      %s server in %s: it is set differently, so it stays as it is" % (CHROME_KEY,
+                                                                                         os.path.normpath(path)))
+        return 0
+    servers[CHROME_KEY] = CHROME_SERVER
+    print("%-9s %s (%s server: the lead's Chrome; other servers untouched)" % ("update" if data else "add",
+                                                                              os.path.normpath(path), CHROME_KEY))
+    lib.save_json(path, dict(data, mcpServers=servers), dry)
+    if not dry:
+        print("Chrome: open chrome://inspect/#remote-debugging, turn on \"Allow remote debugging for this browser "
+              "instance\" (Chrome 144 or later), then start a new conversation.")
+    return 0
 RULES = os.path.join(HERE, "rules", "zcc-hard-rules.md")
 
 
@@ -111,11 +154,17 @@ def main(argv=None):
     ap.add_argument("--uninstall", action="store_true", help="remove only what this script installed")
     ap.add_argument("--home", default=os.path.expanduser("~"), help="home folder (default: yours); for tests")
     ap.add_argument("--python", help="command the hooks run Python with (default: found on this machine)")
+    ap.add_argument("--with-chrome", action="store_true",
+                    help="also add the chrome-devtools MCP server (Antigravity drives your own Chrome)")
     a = ap.parse_args(argv)
     config = os.path.join(a.home, ".gemini", "config")
     if a.uninstall:
-        return uninstall(config, a.dry_run)
-    return install(config, a.dry_run, a.python or lib.python_command())
+        code = uninstall(config, a.dry_run)
+        return code or (with_chrome(config, a.dry_run, remove=True) if a.with_chrome else 0)
+    code = install(config, a.dry_run, a.python or lib.python_command())
+    if code == 0 and a.with_chrome:
+        code = with_chrome(config, a.dry_run)
+    return code
 
 
 if __name__ == "__main__":

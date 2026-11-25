@@ -36,8 +36,8 @@ Code in a terminal, Cursor, OpenCode, Cline, Devin Desktop and others), where Co
 | Wait for a chat to go idle | `get_session` now; still running: a `CronCreate` one-shot (load it first when deferred) 2 minutes ahead (recurring false) whose prompt names the exact step; never end a turn only "waiting" | CS `GetConversation` `runState` now; never end a turn only waiting: the lead says "check <TASK-ID>" when it stops | the lead says "check <TASK-ID>" when that session has stopped | `wait_threads` | the lead says "check <TASK-ID>" when that chat has stopped |
 | Resume at a set time | `CronCreate` one-shot (load it first with the tool search when the tool list defers it; recurring false; minute, hour, day and month pinned to the reset) with the resume message; this chat must stay open, and idle at that time: a timer fires only between turns, so never leave a turn blocked on a call that waits for the lead | tell the lead the time (or the lead sets `/schedule`); resume on the lead's next message | tell the lead the time; resume on the lead's next message | tell the lead the time; resume on the lead's next message | tell the lead the time; resume on the lead's next message |
 | Record a stop | the handoff skill's stop script, `scripts/record-stop.sh` (needs a shell) | the stop script through `run_command` | the stop script in the shell | the stop script in the shell | the same where the tool runs commands; else by hand |
-| Read Zoho, post comments, change status | Claude in Chrome: page text and element search first, steps batched, a screenshot only to confirm something visual | the built-in `browser` subagent, opened only at the task's own link (rule 6); comment text, tags, transition and Request Review only on the lead's OK | Codex's browser control at the task's own link only, with the lead's sign-in; otherwise show the lead the comment, tags, transition and Request Review values, and the lead clicks them | as in the terminal | the tool's browser control with the lead's sign-in; without one, show the lead the comment, tags, transition and Request Review values, and the lead clicks them |
-| Close a task's browser tabs | the browser tools' close-tab action (Chrome, the app's pane, the automation browser) | the `browser` subagent closes them; else name them | the lead closes them; name them | the lead closes them; name them | the lead closes them; name them |
+| Read Zoho, post comments, change status | Claude in Chrome: page text and element search first, steps batched, a screenshot only to confirm something visual | the lead's own Chrome through the `chrome-devtools` MCP (`list_pages`, `select_page`, `navigate_page`, `click`, `fill`, `take_screenshot`), under the Browser rules below, at the task's own link only (rule 6); the built-in browser pane only when that MCP is unavailable; comment text, tags, transition and Request Review only on the lead's OK | Codex's browser control at the task's own link only, with the lead's sign-in; otherwise show the lead the comment, tags, transition and Request Review values, and the lead clicks them | as in the terminal | the tool's browser control with the lead's sign-in; without one, show the lead the comment, tags, transition and Request Review values, and the lead clicks them |
+| Close a task's browser tabs | the browser tools' close-tab action (Chrome, the app's pane, the automation browser) | `close_page` (chrome-devtools) on the tabs the task opened, never others; else name them | the lead closes them; name them | the lead closes them; name them | the lead closes them; name them |
 | Link a chat for the lead | `[title](#local_...)` | its title and task ID | its task ID and folder | its thread title and task ID | its task ID and folder |
 | Live form tests (bot checks) | the app's built-in browser pane | a browser with no AI control, or the lead submits | a browser with no AI control, or the lead submits | a browser with no AI control, or the lead submits | a browser with no AI extension, or the lead submits |
 | Take over as Command Center (command-center.md, Switching tools) | read the handoff files and every open task folder; re-check each task (files, site, Zoho by its link); write the holder line "Active Command Center: Claude since <time> (chat: local_...)"; then a continuation chat per open task with `start_session` | the same steps; holder line "Active Command Center: Antigravity since <time> (chat: <conversation id>)"; continuation chats with CS `CreateConversation` | the same steps; holder line "Active Command Center: Codex since <time> (chat: <session name>)"; continuation chats are sessions the lead opens from the briefs | the same steps; holder line "Active Command Center: Codex since <time> (chat: <thread title>)"; set your own title; continuation threads with `create_thread` after one `request_user_input` choice | the same steps; the lead opens each continuation chat |
@@ -88,7 +88,9 @@ conversation did everything. This mode makes those rules mechanical.
   step 5's loop through the same subagents (`send_message`).
 - **Context:** the App shows no context meter, so every phase end is a checkpoint (checkpoint.md, notes.md, the
   handoff files); "<task>-2" resumes from it.
-- **Zoho** is read and written only through the task's own link, by the built-in `browser` subagent.
+- **Browser:** the lead's own Chrome through the `chrome-devtools` MCP (setup: README, "Antigravity and your
+  Chrome"), under the Browser rules below; Antigravity's built-in browser pane (its own cookies, no sign-ins) only
+  when that MCP is unavailable. Zoho only through the task's own link.
 - **Models:** conversations and agents keep the lead's current model (`model: inherit`); another only when the
   lead names it. Agent tool names are the ones seen in real transcripts (a wrong name can hang a subagent):
   `read_file`, `edit_file`, `write_file`, `run_command`, `manage_task`, `update_steps`, `webview_browser`.
@@ -171,3 +173,15 @@ mis-titled; in Codex, a Command Center and two task chats used a small plan's li
   repeat while waiting on the same subagent. Details live in the task files, not in the chat.
 - **A separate task chat** only when the lead asks for one (Antigravity `CreateConversation`, Codex `create_thread`),
   titled "⏸ WAITING on <lead> | ..." until it runs; the columns' "Start a task" row says how.
+
+## Browser rules (any tool that drives the lead's own browser)
+Learned 25 Nov 2026: Antigravity could only drive its own browser pane, so it now drives the lead's Chrome through the
+Chrome DevTools MCP, which sees every tab of that browser.
+- List the open pages first (titles and addresses only) and act only on the task's own tabs: its site, its local or
+  staging copy, and Zoho by the task's own link. Never read, change or close any other tab.
+- Never read or type a password, key or code; sign-ins stay the lead's. A page asks for one: stop and name the
+  service (SKILL.md, the sign-in rule).
+- Open the task's pages in new tabs and close only those at close-out.
+- Live form tests stay in a browser with no AI control attached (the row above): a controlled browser is scored as
+  a bot.
+

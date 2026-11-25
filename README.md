@@ -131,6 +131,22 @@ with `/zoho-command-center`: each task runs as a `task-worker` subagent of that 
 below); a separate task conversation only when you ask for one. The Antigravity column of `references/tool-map.md`
 lists every action there.
 
+### Antigravity and your Chrome
+
+The Antigravity app drives only its own browser pane (its own cookies, so none of your sign-ins). To let it work in
+your Chrome, as Claude and Codex do, add the Chrome DevTools MCP server once (opt-in; it adds only that one entry to
+`~/.gemini/config/mcp_config.json` and leaves your other servers alone):
+
+```powershell
+python <clone>\antigravity\install.py --with-chrome
+```
+
+Then in Chrome (version 144 or later) open `chrome://inspect/#remote-debugging`, turn on "Allow remote debugging for
+this browser instance", and start a new Antigravity conversation. The agent can see every tab of that Chrome, so use a
+work-only Chrome profile for it. It follows the Browser rules in `references/tool-map.md`: it lists the pages first,
+works only in the task's own tabs, and leaves every sign-in and password to you. `--uninstall --with-chrome` removes
+the entry again.
+
 ## Use it in Codex
 
 Codex also opens a skill by itself only when it judges it relevant. The `codex/` folder sets the same rules up there:

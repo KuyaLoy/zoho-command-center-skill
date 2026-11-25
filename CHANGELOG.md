@@ -5,6 +5,31 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.10.2] - 2026-11-25
+
+Antigravity works in the lead's own Chrome (the lead, 25 Nov 2026: Claude and Codex controlled Chrome, Antigravity
+could only use its own browser pane).
+
+### Added
+
+- **Browser rules** (tool map; hard rule 6 in short): list the open pages first and act only on the task's own tabs
+  (its site, its local or staging copy, Zoho by the task's link); never read or type a password, key or code, sign-ins
+  stay the lead's; close only the tabs the task opened; live form tests stay in a browser no AI drives.
+- `antigravity/install.py --with-chrome` (opt-in): adds the `chrome-devtools` MCP server
+  (`npx -y chrome-devtools-mcp@latest --autoConnect`) to `~/.gemini/config/mcp_config.json`, idempotent, with a backup;
+  it never prints, changes or removes another server, and keeps a `chrome-devtools` entry set differently.
+  `--uninstall --with-chrome` removes only that exact entry. README: "Antigravity and your Chrome" (the Chrome remote
+  debugging toggle, a new conversation, a work-only Chrome profile).
+
+### Changed
+
+- Tool map, Antigravity: the browser is the lead's Chrome through the chrome-devtools MCP (`list_pages`,
+  `select_page`, `navigate_page`, `click`, `fill`, `take_screenshot`, `close_page`); the built-in browser pane only when
+  that MCP is unavailable. The Claude and Codex columns are unchanged.
+- SKILL.md: the live form test line names any AI-driven browser (an extension or an MCP).
+
+Re-run the Antigravity install (rule 6 changed); add `--with-chrome` if the chrome-devtools entry is not there yet.
+
 ## [2.10.1] - 2026-11-25
 
 Hotfix: in Antigravity the secrets guard blocked every file write.

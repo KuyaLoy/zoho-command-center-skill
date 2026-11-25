@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.10.1
+Version: 2.10.2
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -86,7 +86,8 @@ Always on in the Antigravity and Codex setups too (one source in the repo: `shar
 4. No guessed defaults: brief, profile or skill, else ask the lead once.
 5. No secrets in .md files, logs or reports; no consent or approval flag nobody gave.
 6. Zoho only at the task's own link (never profile or account pages); comments and status only on the lead's OK, by the
-   "Active Command Center" in handoff.md (it alone writes the root files).
+   "Active Command Center" in handoff.md (it alone writes the root files). In the lead's browser: list the pages first,
+   act only on the task's own tabs, sign-ins stay the lead's.
 7. No change anywhere before the lead types the go on the plan: in the task chat (Claude), or in the Command Center chat
    for a subagent (Antigravity, Codex), quoted to the subagent. An answer is not a go.
 8. Only the task; the rest under "Findings (not touched)". A hacked site or malware: tell the lead, fix it in the plan,
@@ -204,10 +205,9 @@ Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, bef
   command ignored its filter and deleted every page; restored from the backup).
 - Never type passwords or create accounts. The lead does all sign-ins (cPanel, WP admin, Shopify, etc.) in Chrome.
   A login expires mid-task (Zoho, cPanel, WP admin...): stop at a safe point, name the service to sign in to, wait.
-- Live form tests (sites with reCAPTCHA or other bot checks): submit them in a browser with no AI extension attached
-  (the tool map names it), not the lead's Chrome with the Claude extension, which gets scored as a bot, so the form
-  fails at the spam check with a generic error, even for the lead's own clicks (learned 9 Nov 2026). Never get around
-  a CAPTCHA.
+- Live form tests (sites with reCAPTCHA or other bot checks): submit them in a browser with no AI control (the tool map
+  names it), never one an AI drives (an extension or an MCP): it gets scored as a bot and the form fails at the spam
+  check, even for the lead's own clicks (learned 9 Nov 2026). Never get around a CAPTCHA.
 - Browser tabs: never close a tab you opened for a task (Zoho task, WorkDrive, WP admin, cPanel, pages you checked)
   while the task is open, whatever the browser tools' default. Once the task is in review, Command Center closes its
   tabs and has the task chat close its own, without asking (step 6; learned 12 and 18 Nov 2026). Task chats close tabs
