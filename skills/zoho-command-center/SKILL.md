@@ -1,12 +1,12 @@
 ---
 name: zoho-command-center
-description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center". The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app, and in Antigravity and Codex with their setups (Antigravity: task chats as conversations; Codex: threads its desktop app creates, or terminal sessions); in other AI tools the lead opens each chat by hand (one-chat mode).'
+description: 'PM/TL workflow for Zoho Projects tasks and any other task. Load at session start when the project folder is new and empty, or when handoff.md says "Mode: Command Center", and whenever the user says "set this as command center", "command center", "take over" or "gawin mong command center" (any case). The main chat (Command Center) coordinates and routes each task to its own chat (one task, one chat); each task chat plans and implements the task. Runs in full in the Claude desktop app, and in Antigravity and Codex with their setups (Antigravity: task chats as conversations; Codex: threads its desktop app creates, or terminal sessions); in other AI tools the lead opens each chat by hand (one-chat mode).'
 license: MIT
 ---
 
 # Zoho Command Center
 
-Version: 2.11.0
+Version: 2.11.1
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -60,6 +60,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 
 ## Hard rules (every tool, every turn)
 Always on in the Antigravity and Codex setups too (one source in the repo: `shared/hard-rules.md`).
+Trigger: "set this as command center", "command center", "take over" or "gawin mong command center": open
+`zoho-command-center`, step 1.
 1. Before each phase, open the skill section you need (`zoho-command-center`: Worker rules or the Command Center step
    you run; the build skill's phase; `handoff` at start and stops) and name it in one line.
 2. No check reported without its output: each one under "## <check>" in `tasks/<TASK-ID>/checks.md` (command and

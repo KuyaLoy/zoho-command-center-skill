@@ -6,6 +6,8 @@ zcc-managed: zoho-command-center antigravity setup
 ---
 
 # zoho-command-center hard rules (every turn)
+Trigger: "set this as command center", "command center", "take over" or "gawin mong command center": open
+`zoho-command-center`, step 1.
 1. Before each phase, open the skill section you need (`zoho-command-center`: Worker rules or the Command Center step
    you run; the build skill's phase; `handoff` at start and stops) and name it in one line.
 2. No check reported without its output: each one under "## <check>" in `tasks/<TASK-ID>/checks.md` (command and

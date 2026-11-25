@@ -5,6 +5,25 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.11.1] - 2026-11-25
+
+One simple phrase sets up or takes over a Command Center (the lead, 25 Nov 2026: no long prompt just to take over,
+and a short summary of the last job or two).
+
+### Added
+
+- **Trigger phrases** in the skill's description and in the always-on rules of every tool (a new first line of the
+  hard rules, so the skill opens even where the model would not pick it): "set this as command center", "command
+  center", "take over" or "gawin mong command center", any case; in Codex `$zoho-command-center` still works.
+- **Step 1 from the phrase alone:** an empty or new folder is set up; an existing Command Center (any skill version,
+  any tool) is taken over at once (Switching tools, reading light), with what an old layout lacks added (holder line,
+  open requests, board columns) and all its history kept; continuation chats or subagents only for open work.
+- **The takeover brief:** at most 10 lines, always Project, Last jobs (the last 1 or 2 from the newest eod/ files and
+  handoff.md's Changes Made: task ID, what was done, state, date), Open now, Next. Switching tools' takeover reports it.
+- Tests: the phrases in the description and in every rule copy; the brief's order.
+
+Re-run both installs (the rule block changed).
+
 ## [2.11.0] - 2026-11-25
 
 Usage fixes (the lead, 25 Nov 2026: "check any redundant that will cost as usage"). Every rule stays; chats load less.

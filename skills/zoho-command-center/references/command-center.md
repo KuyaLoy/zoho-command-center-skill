@@ -41,6 +41,19 @@ chat. A project can have many Command Center chats over time; they hand off thro
   full-page text dump into the chat (save it to a file and read the part you need).
 
 1. **Every new main chat (not a worker), on its first reply:** rename itself to "Command Center - <project>".
+   - **The lead's phrase alone is enough** (the lead's rule, 25 Nov 2026: no long prompt to set up or take over): "set
+     this as command center", "command center", "take over" (any case; other languages too, e.g. "gawin mong command
+     center"; in Codex also `$zoho-command-center`). An empty or new folder: set up (next bullet). An existing Command
+     Center (handoff.md "Mode: Command Center", any skill version, any tool): take over at once (Switching tools >
+     Taking over, reading light), add what an old layout lacks (the holder line, `## Open requests`, board columns) and
+     keep all its history; continuation chats or subagents only for open work. No questions unless a real blocker.
+   - **The takeover brief** (after a takeover, or a first turn in an existing project): at most 10 lines, always in this
+     order, facts only from the files and checks (unsure: "unverified"):
+     - Project: name, site, mode, the holder now (one line).
+     - Last jobs: the last 1 or 2 finished or stopped jobs, from the newest `eod/` files and handoff.md's Changes Made:
+       task ID, what was done, state, date (one line each).
+     - Open now: each open task, its state and who it waits on (one line each).
+     - Next: one line.
    - New empty folder: also create the handoff files, put `Mode: Command Center` and the holder line (Switching tools)
      under the project rules in handoff.md, add `## Open requests` and a `## Task chats` board (format below), and save
      a project memory recording this mode. If a local web server serves the folder (for example a Laragon, XAMPP or MAMP
@@ -50,9 +63,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
      for 403. In a git repo, keep `tasks/`, `eod/` and the handoff files out of commits (`.git/info/exclude`) unless the
      lead says otherwise.
    - Existing Command Center project: read `ai-handoff-summary.md`, then `## Open requests` and the `## Task chats`
-     board in handoff.md. Its holder line names another tool or chat: write nothing and follow Switching tools. Check
-     each chat not DONE or ARCHIVED (its session info) and its latest report or task folder, then tell the lead in a few
-     lines: open tasks, phase, open requests, what waits on them (after your own reset: skip that report unless the lead
+     board in handoff.md. Its holder line names another tool or chat: take over if the lead said the phrase above,
+     else write nothing and say so in one line. Check each chat not DONE or ARCHIVED (its session info) and its latest
+     report or task folder, then give the lead the takeover brief (above; after your own reset: skip it unless the lead
      asks; go on with the message that woke you). Never restart a task that has a chat. Project rules this skill has
      replaced (e.g. "Command Center resets at 35%", the 9 Nov "relay the go", the 17 Nov "a box every turn", the 18 Nov
      "never clear your own chat" and "the lead's go starts the work, NOT the Zoho status"): replace them and tell the
@@ -302,7 +315,7 @@ one works at a time.
   2. Re-check each task's real state instead of trusting the summary: its files, the site, the Zoho task page by its
      own link (read only).
   3. Write the holder line with this tool, and log "taken over from <tool>" with the lead's words quoted.
-  4. Report in at most 6 lines: per task, its real state, what changed since the last log, and what waits on whom.
+  4. Report the takeover brief (step 1: at most 10 lines; Project, Last jobs, Open now, Next).
 - **Continuation chats across tools:** a task chat cannot move tools. For each open task, start a continuation chat
   in this tool ("<TASK-ID>-2", then -3), the tool map's way, with the resume message (checkpoint.md, notes.md,
   plan.md). The lead's go quoted in notes.md still covers the approved plan; a task that was waiting on the go stays
