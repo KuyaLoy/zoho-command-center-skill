@@ -5,7 +5,8 @@
     python codex/install.py --uninstall   remove only what this script installed
 
 What it installs (each piece carries the marker "zcc-managed"):
-    AGENTS.md                      a marked block with the hard rules (the rest of the file is kept)
+    AGENTS.md                      a marked block with the hard rules and the lead's Command Center settings
+                                   (copied from ~/.claude/CLAUDE.md at install, local only; the rest is kept)
     agents/zcc-task-worker.toml    the task worker subagent (name "zcc-task-worker")
     agents/zcc-reviewer.toml       the QA subagent, read-only by its rule (name "zcc-reviewer")
     hooks/zcc/*.py and three groups in hooks.json
@@ -73,7 +74,7 @@ def agents_md(current, block):
     return lib.with_block(current, block)
 
 
-def install(home, dry, py):
+def install(home, dry, py, claude_md=None):
     plan, conflicts = lib.plan_files([(src, os.path.join(home, dst)) for src, dst in FILES.items()])
     hooks_path = os.path.join(home, "hooks.json")
     try:
@@ -87,7 +88,9 @@ def install(home, dry, py):
 
     agents_path = os.path.join(home, "AGENTS.md")
     current = lib.read(agents_path) if os.path.exists(agents_path) else ""
-    new = agents_md(current, lib.read(os.path.join(HERE, "AGENTS-block.md")))
+    settings = lib.settings_block(claude_md)
+    lib.say_settings(settings, claude_md)
+    new = agents_md(current, lib.rules_with_settings(lib.read(os.path.join(HERE, "AGENTS-block.md")), settings))
     state = "unchanged" if new == current else ("update" if current else "add")
     print("%-9s %s (the zcc-managed block; %d bytes of %d)" % (state, os.path.normpath(agents_path),
                                                               len(new.encode("utf-8")), AGENTS_LIMIT))
@@ -144,10 +147,13 @@ def main(argv=None):
     ap.add_argument("--codex-home", default=os.environ.get("CODEX_HOME") or os.path.join(os.path.expanduser("~"),
                     ".codex"), help="Codex home (default: $CODEX_HOME or ~/.codex); for tests")
     ap.add_argument("--python", help="command the hooks run Python with (default: found on this machine)")
+    ap.add_argument("--claude-md", help="the CLAUDE.md to copy the settings block from (default: .claude/CLAUDE.md "
+                                        "next to the Codex home, so ~/.claude/CLAUDE.md)")
     a = ap.parse_args(argv)
     if a.uninstall:
         return uninstall(a.codex_home, a.dry_run)
-    return install(a.codex_home, a.dry_run, a.python or lib.python_command())
+    claude_md = a.claude_md or os.path.join(os.path.dirname(os.path.abspath(a.codex_home)), ".claude", "CLAUDE.md")
+    return install(a.codex_home, a.dry_run, a.python or lib.python_command(), claude_md)
 
 
 if __name__ == "__main__":

@@ -120,6 +120,44 @@ def update_block(path, block, dry, label):
     return len(new.encode("utf-8"))
 
 
+SETTINGS_HEAD = re.compile(r"^## Zoho Command Center settings\b.*$", re.M)
+SETTINGS_LINE = re.compile(r"^Settings: .*$", re.M)
+
+
+def settings_block(claude_md):
+    """The lead's "## Zoho Command Center settings" section of CLAUDE.md (heading excluded), or None. Read at install
+    time only and written only into the lead's own local files, never into this repository."""
+    if not claude_md or not os.path.isfile(claude_md):
+        return None
+    text = read(claude_md)
+    m = SETTINGS_HEAD.search(text)
+    if not m:
+        return None
+    rest = text[m.end():]
+    nxt = re.search(r"^## ", rest, re.M)
+    body = (rest[:nxt.start()] if nxt else rest).strip("\n")
+    return body or None
+
+
+def rules_with_settings(rules, settings):
+    """The rules text with its "Settings:" line replaced by the copied settings (2.11.0: no CLAUDE.md read per chat).
+    No settings: the line stays, pointing at CLAUDE.md."""
+    if not settings:
+        return rules
+    head = ("Settings (copied from `~/.claude/CLAUDE.md` at install; open that file only for a rule not covered "
+            "here):\n")
+    return SETTINGS_LINE.sub(lambda m: head + settings, rules, count=1)
+
+
+def say_settings(settings, claude_md):
+    if settings:
+        print("settings  copied the \"Zoho Command Center settings\" block (%d lines) from %s; re-run after you change it"
+              % (len(settings.splitlines()), os.path.normpath(claude_md)))
+    else:
+        print("settings  no \"Zoho Command Center settings\" block in %s: the rules keep pointing to that file"
+              % os.path.normpath(claude_md or "~/.claude/CLAUDE.md"))
+
+
 def load_json(path):
     if not os.path.exists(path):
         return {}

@@ -106,9 +106,12 @@ Codex with a ChatGPT account", run it with `-m` and a model your account support
 Antigravity opens a skill only when the model judges it relevant, so on its own a task chat there can skip the
 skills. The `antigravity/` folder makes the rules mechanical:
 
-- `rules/zcc-hard-rules.md`: the hard rules written out, always on (open the skill before each phase, no check
-  reported without its output, copy kit files and source text exactly, no guessed defaults, no secrets in files and
-  no consent set for anyone, Zoho only by the task link, plan first, state in the title, phase-end checkpoints).
+- The hard rules written out (open the skill before each phase, no check reported without its output, copy kit
+  files and source text exactly, no guessed defaults, no secrets in files and no consent set for anyone, Zoho only by
+  the task link, plan first, state in the title, phase-end checkpoints) and your "Zoho Command Center settings" block
+  (copied from `~/.claude/CLAUDE.md` at install, so chats need not read that file), as one marked block in
+  `~/.gemini/GEMINI.md`, which Antigravity and T3 load always. That is the only copy: since 2.11.0 the install removes
+  the old `config/rules/zcc-hard-rules.md` it put there. Re-run the install after you change your settings.
 - `agents/task-worker.md` (the task chat, with its skills attached) and `agents/wp-qa.md` (QA). QA is read-only by
   its rules plus a sandboxed shell, not by its tool list alone: it has no file-editing tools, but its shell could
   still write. Both keep your current model.
@@ -151,7 +154,8 @@ the entry again.
 
 Codex also opens a skill by itself only when it judges it relevant. The `codex/` folder sets the same rules up there:
 
-- `AGENTS-block.md`: the hard rules, added as a marked block to `~/.codex/AGENTS.md` (the rest of that file stays).
+- `AGENTS-block.md`: the hard rules, added with your "Zoho Command Center settings" block (copied from
+  `~/.claude/CLAUDE.md` at install) as a marked block to `~/.codex/AGENTS.md` (the rest of that file stays).
 - `agents/zcc-task-worker.toml` and `agents/zcc-reviewer.toml`: the `zcc-task-worker` subagent that does each task
   and the `zcc-reviewer` QA subagent (read-only by its rule: a subagent keeps the parent's sandbox).
 - The same three hooks, in `~/.codex/hooks.json`.
@@ -190,9 +194,9 @@ The 11 hard rules are the same in every tool, from one source (`shared/hard-rule
 T3 Code runs Claude, Codex and Antigravity themselves, so each follows its own setup above, with these limits:
 
 - **Antigravity in T3** uses a private profile: it loads `~/.gemini/GEMINI.md` but not `config/rules`, the hooks or
-  the custom agents. The Antigravity install therefore also writes the hard rules as a marked block into
-  `~/.gemini/GEMINI.md` (your own text there stays; `--uninstall` removes only the block). Inside T3 the rules carry
-  it; the hooks and agents work only in Antigravity itself.
+  the custom agents. The Antigravity install therefore writes the hard rules (and your settings) as a marked block
+  into `~/.gemini/GEMINI.md` (your own text there stays; `--uninstall` removes only the block). Inside T3 the rules
+  carry it; the hooks and agents work only in Antigravity itself.
 - **Codex in T3** runs only hooks you already trusted in Codex: after each install or update, open `codex` and trust
   the "zcc:" hooks in `/hooks` before using T3.
 - **Claude in T3** loads your `~/.claude/CLAUDE.md`, skills and plugins as usual.

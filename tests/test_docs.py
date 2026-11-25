@@ -58,13 +58,15 @@ class Polish292Test(unittest.TestCase):
         self.assertIn("Command Center - <project>", table_row(text, "Rename your own chat")[4])
 
     def test_created_chat_title_is_waiting_until_it_runs(self):
-        skill = " ".join(load(os.path.join(REPO, "skills", "zoho-command-center", "SKILL.md")).split())
+        skill = " ".join((load(os.path.join(REPO, "skills", "zoho-command-center", "SKILL.md")) +
+                          load(os.path.join(REF, "how-we-talk.md"))).split())  # 2.11.0: moved there unchanged
         self.assertIn("created without a running first prompt starts as \"⏸ WAITING on <lead>", skill)
         start = table_row(load(os.path.join(REF, "tool-map.md")), "Start a task, QA or review chat")[2]
         self.assertIn("⏸ WAITING on <lead>", start)
 
     def test_plan_is_approved_in_its_task_chat(self):
-        skill = " ".join(load(os.path.join(REPO, "skills", "zoho-command-center", "SKILL.md")).split())
+        skill = " ".join((load(os.path.join(REPO, "skills", "zoho-command-center", "SKILL.md")) +
+                          load(os.path.join(REF, "how-we-talk.md"))).split())  # 2.11.0: moved there unchanged
         self.assertIn("approves only the briefs, never a task's plan", skill)
         self.assertIn("with the plan itself", skill)
 

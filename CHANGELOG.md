@@ -5,6 +5,36 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.11.0] - 2026-11-25
+
+Usage fixes (the lead, 25 Nov 2026: "check any redundant that will cost as usage"). Every rule stays; chats load less.
+
+### Changed
+
+- **SKILL.md is about 5,000 tokens** (33 KB to about 20.7 KB): detail moved unchanged into five new reference files,
+  each with an "open when" pointer left in SKILL.md: `references/task-size.md` (effort, usage pacing, builds),
+  `how-we-talk.md` (versions and waiting, stops, RUNNING and titles, the next-step box, gos, Vocalise early, no
+  change before the go, only the task, re-plan, your tool, done and close-out), `safety.md` (deleting records, a
+  serious finding, live form tests, browser tabs, handoff files), `context-watch.md` (the task chat's part) and
+  `qa-chat.md` (the QA chat and the task chat's part). Section names and the hard rules stay in SKILL.md; references
+  point to the new places.
+- **No CLAUDE.md read per chat in Antigravity and Codex:** both installs copy the lead's "Zoho Command Center
+  settings" block from `~/.claude/CLAUDE.md` into their managed block at install time (local files only, never this
+  repository; never printed). The rules' "Settings:" line becomes "Settings (copied ... at install; open that file only
+  for a rule not covered here)". No CLAUDE.md or no block: the old pointer line stays and the install says so. Re-run
+  the install after changing the settings.
+- **One rules copy in Antigravity:** the hard rules and the settings live only in the `~/.gemini/GEMINI.md` block
+  (Antigravity and T3 load it always); the install removes the `config/rules/zcc-hard-rules.md` it installed before
+  (only that marked file).
+
+### Added
+
+- Tests: no rule of 2.10.2 lost (every bullet and paragraph of a 2.10.2 snapshot is still in SKILL.md or a reference
+  file, word for word), every moved part has a pointer, SKILL.md under 21 KB; the settings copy (both installs,
+  re-run, missing CLAUDE.md, never printed, never in the repo); the old rules file removed, a foreign one kept.
+
+Re-run both installs (Command Center does).
+
 ## [2.10.2] - 2026-11-25
 
 Antigravity works in the lead's own Chrome (the lead, 25 Nov 2026: Claude and Codex controlled Chrome, Antigravity

@@ -28,7 +28,7 @@ chat. A project can have many Command Center chats over time; they hand off thro
   handoff.md (`## Open requests`: his words verbatim, dated, with a status), read them first after any compact, reload
   or new chat, and list all of them with their status in every report on a round, not only the newest.
 - **Effort:** every chat runs at high by default, Command Center too (the lead sets it). A task chat whose plan needs
-  deep judgement plans at max (SKILL.md "Task size and effort": every L, an unclear or risky M) and goes back to high at
+  deep judgement plans at max (task-size.md > Effort: every L, an unclear or risky M) and goes back to high at
   its go (step 3). When the lead says "use max" for a task, raise that chat to max (a level above Command Center's needs
   the lead's approval in the app) for the part he named, and set it back to high after it. Said in Command Center: raise
   it before the chat's next turn (a new chat: before its brief is sent, where the tool allows). Said in the task chat:
@@ -86,7 +86,7 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - **New chat:** start a task chat (tool map: the settings it needs) at high, or at max for a plan that needs it
      (every L, an unclear or risky M) or when the lead said "use max"; confirm it from its session info, and if it came
      up lower, raise it (it applies from its next turn), name = task ID in lowercase (e.g. "abc1-t8"), title =
-     "▶ RUNNING | <TASK-ID> <task title>" (the state prefix, SKILL.md "State at the front of the title"; the chat
+     "▶ RUNNING | <TASK-ID> <task title>" (the state prefix, how-we-talk.md "Stops, RUNNING and titles"; the chat
      keeps it current from then on), and a background of at least 80 characters (project, site, goal, constraints).
    - **Leads portal:** a build, a new or changed lead form, or a go-live, with "Leads portal" in the settings: read
      `leads-portal.md` (next to this file) and put the way for this site's stack in the brief.
@@ -100,17 +100,16 @@ chat. A project can have many Command Center chats over time; they hand off thro
      lines (what, where, backup, check, rollback) with numbered options and the task files' paths; say RUNNING once per
      state change, never again while polling the same subagent. The brief below is the same; the board names the
      subagent and its state. A separate task chat only when the lead asks for one.
-   - **Brief** (its first message): the task verbatim plus links, its source, size, the site or repo; head-start
-     facts marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
-     "Plan by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in
-     Zoho or to the client) until the lead says go on the plan in this chat; an answer is not a go" (S read-only work:
-     "do it and report"); a task that builds or changes a website: "Put the Recommended additions (SKILL.md Vocalise
+   - **Brief** (its first message): the task verbatim plus links, its source, size, the site or repo; head-start facts
+     marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules"; "Plan
+     by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in Zoho or
+     to the client) until the lead says go on the plan in this chat; an answer is not a go" (S read-only work: "do it
+     and report"); a task that builds or changes a website: "Put the Recommended additions (how-we-talk.md Vocalise
      early: form attribution, SEO, site speed, testing, tracking) in the plan and at the top of PLAN READY"; "Send
      Command Center (parent) a short message at every stop, your lead-driven turns too"; "Follow the Context watch
-     rules: check your context % each step; reset at a page end from 50%, at 75% at once"; a "Checks required:"
-     line naming the checks the task's report must show with their output (the evidence gate sends back a report
-     whose "Checks:" line misses one). Don't copy the shared rules into the brief: the task chat reads them in the
-     skill.
+     rules: check your context % each step; reset at a page end from 50%, at 75% at once"; a "Checks required:" line
+     naming the checks the task's report must show with their output (the evidence gate sends back a report whose
+     "Checks:" line misses one). Don't copy the shared rules into the brief: the task chat reads them in the skill.
      Several task chats on the same site or repo: give each its own local ports and temp folders, name the files they
      share, forbid whole-database restores, and tell them to announce live uploads to each other.
    - **QA, helper or review chats:** the QA chat of every task before each Zoho post (step 5), and any other check the
@@ -142,9 +141,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
      it to the task chat with the boundary where it applies, its next site or phase end, never inside a QA run (it
      waits until QA 0), e.g. "Apply <skill> <version> after the first site's phase end, not before." Tell the lead which
      boundary in one line.
-   - **RUNNING is working, not stalled** (SKILL.md "RUNNING, not stopped"): a task chat idle with a RUNNING line is
-     waiting on its own work. Before calling it stopped, check that work (its process, `get_session`, its page).
-   - **Read the title prefix as the chat's state** (SKILL.md "State at the front of the title"): ▶ RUNNING,
+   - **RUNNING is working, not stalled** (how-we-talk.md "Stops, RUNNING and titles"): a task chat idle with a RUNNING
+     line is waiting on its own work. Before calling it stopped, check that work (its process, `get_session`, its page).
+   - **Read the title prefix as the chat's state** (how-we-talk.md "Stops, RUNNING and titles"): ▶ RUNNING,
      ⏸ WAITING on <who>, ✋ BLOCKED, ✓ DONE. A stale prefix on a chat you started (it says RUNNING but the chat
      stopped, or the reverse): fix it with that chat's title, once.
    - **Context check:** check that chat's context % here, at its stops, and at PLAN READY (step 4), nowhere else
@@ -217,7 +216,7 @@ chat. A project can have many Command Center chats over time; they hand off thro
      screenshots after the loading state has finished and one scroll has triggered the reveals. Speed: the same
      measure on the source or preview as the baseline; an LCP above 2.5 s, or clearly worse than the baseline, is a
      finding.
-   - **Raised at the plan** (SKILL.md Vocalise early): a task that built or changed a website had its Recommended
+   - **Raised at the plan** (how-we-talk.md Vocalise early): a task that built or changed a website had its Recommended
      additions in plan.md before the go; the approved ones are done and the rest are in the report. Anything that
      changed the work and came up first at done: name it in the review.
    - A go-live with the leads portal: the review checks its proof (`leads-portal.md`: the GET check and one TEST lead

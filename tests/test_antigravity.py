@@ -47,12 +47,12 @@ class InstallTest(unittest.TestCase):
         self.assertNotIn("update ", out)
 
     def test_foreign_file_stops_install_before_any_change(self):
-        save(self.path("rules/zcc-hard-rules.md"), "someone else's rule")
+        save(self.path("agents/wp-qa.md"), "someone else's agent")
         code, out = self.install()
         self.assertEqual(code, 2)
         self.assertIn("STOPPED", out)
-        self.assertEqual(load(self.path("rules/zcc-hard-rules.md")), "someone else's rule")
-        self.assertFalse(os.path.exists(self.path("agents")))
+        self.assertEqual(load(self.path("agents/wp-qa.md")), "someone else's agent")
+        self.assertFalse(os.path.exists(self.path("agents/task-worker.md")))
         self.assertFalse(os.path.exists(self.path("hooks.json")))
 
     def test_uninstall_removes_only_its_own(self):

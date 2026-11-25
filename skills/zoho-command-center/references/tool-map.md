@@ -31,7 +31,7 @@ Code in a terminal, Cursor, OpenCode, Cline, Devin Desktop and others), where Co
 | The state prefix in a title | `set_session_title` ("self"; Command Center: a chat it started) with "▶ RUNNING \| ", "⏸ WAITING on <who> \| ", "✋ BLOCKED \| " or "✓ DONE \| " before the title, once per state change | CS `UpdateConversation` `annotations.title` with the same prefixes, once per state change: the task conversation sets its own ($ANTIGRAVITY_CONVERSATION_ID); Command Center fixes a stale one on a conversation it created | skip: the first line of each message says the state (RUNNING, WAITING on <who>, BLOCKED, DONE) and the stop line goes into notes.md | `set_thread_title` with the same prefixes, once per state change (a thread sets its own; Command Center fixes a stale one on a thread it created) | skip (the RUNNING line and the stop types carry the state) |
 | Open a chat beside Command Center (only when the lead asks) | `open_session_in` | the lead opens it | the lead opens it | the lead opens it | the lead opens it |
 | The next-step box | `wrap_up` with `ask` and `actions` (only for a new decision) | a last line "Decide: <question> (<option 1> / <option 2>)" | a last line "Decide: <question> (<option 1> / <option 2>)" | `request_user_input` with the choices | a last line "Decide: <question> (<option 1> / <option 2>)" |
-| The recap (sidebar status) | `wrap_up`'s `recap`: its first sentence is the sidebar status, so a turn ending while its own work runs opens it with the RUNNING line (SKILL.md "RUNNING, not stopped") | the first line of the last message, and the title prefix | the first line of the last message | the first line of the last message, and the title prefix | the first line of the last message |
+| The recap (sidebar status) | `wrap_up`'s `recap`: its first sentence is the sidebar status, so a turn ending while its own work runs opens it with the RUNNING line (how-we-talk.md "Stops, RUNNING and titles") | the first line of the last message, and the title prefix | the first line of the last message | the first line of the last message, and the title prefix | the first line of the last message |
 | What is on the lead's screen | `get_window_layout` (read-only: the main pane, split panes and pop-out windows); `open_session_in` acts only while this chat is on screen | ask the lead | ask the lead | ask the lead | ask the lead |
 | Wait for a chat to go idle | `get_session` now; still running: a `CronCreate` one-shot (load it first when deferred) 2 minutes ahead (recurring false) whose prompt names the exact step; never end a turn only "waiting" | CS `GetConversation` `runState` now; never end a turn only waiting: the lead says "check <TASK-ID>" when it stops | the lead says "check <TASK-ID>" when that session has stopped | `wait_threads` | the lead says "check <TASK-ID>" when that chat has stopped |
 | Resume at a set time | `CronCreate` one-shot (load it first with the tool search when the tool list defers it; recurring false; minute, hour, day and month pinned to the reset) with the resume message; this chat must stay open, and idle at that time: a timer fires only between turns, so never leave a turn blocked on a call that waits for the lead | tell the lead the time (or the lead sets `/schedule`); resume on the lead's next message | tell the lead the time; resume on the lead's next message | tell the lead the time; resume on the lead's next message | tell the lead the time; resume on the lead's next message |
@@ -42,7 +42,7 @@ Code in a terminal, Cursor, OpenCode, Cline, Devin Desktop and others), where Co
 | Live form tests (bot checks) | the app's built-in browser pane | a browser with no AI control, or the lead submits | a browser with no AI control, or the lead submits | a browser with no AI control, or the lead submits | a browser with no AI extension, or the lead submits |
 | Take over as Command Center (command-center.md, Switching tools) | read the handoff files and every open task folder; re-check each task (files, site, Zoho by its link); write the holder line "Active Command Center: Claude since <time> (chat: local_...)"; then a continuation chat per open task with `start_session` | the same steps; holder line "Active Command Center: Antigravity since <time> (chat: <conversation id>)"; continuation chats with CS `CreateConversation` | the same steps; holder line "Active Command Center: Codex since <time> (chat: <session name>)"; continuation chats are sessions the lead opens from the briefs | the same steps; holder line "Active Command Center: Codex since <time> (chat: <thread title>)"; set your own title; continuation threads with `create_thread` after one `request_user_input` choice | the same steps; the lead opens each continuation chat |
 | Hand over to another tool | checkpoint every open task and `## Open requests`, log "handed over to <tool>", stop writing | the same | the same | the same | the same |
-| Checkpoint before auto-compact | the Context watch (SKILL.md) | phase-end checkpoints (the App compacts by itself, with no meter) | the Context watch, from Codex's context left | as in the terminal | the same, from the tool's own meter |
+| Checkpoint before auto-compact | the Context watch (`references/context-watch.md`) | phase-end checkpoints (the App compacts by itself, with no meter) | the Context watch, from Codex's context left | as in the terminal | the same, from the tool's own meter |
 
 ## One-chat mode (tools without session tools)
 - Install: link the skill folder into the tool's skills folder (README); where a tool has no skills, a line in its
@@ -68,8 +68,9 @@ Learned 24 Nov 2026 from a build run in Antigravity: skills there load only when
 task chat skipped them, guessed defaults, reported checks it had not run and opened the wrong Zoho page; one
 conversation did everything. This mode makes those rules mechanical.
 - **Setup, once per machine** (on the lead's OK): `python antigravity/install.py --dry-run`, then without
-  `--dry-run`, from this repo's clone (README, "Use it in Antigravity"). It installs the always-on hard rules
-  (`zcc-hard-rules`; "rule <n>" in the table is its number), the `task-worker` and `wp-qa` agents and three hooks:
+  `--dry-run`, from this repo's clone (README, "Use it in Antigravity"). It writes the hard rules ("rule <n>" in the
+  table is its number) and the lead's settings block (copied from CLAUDE.md at install) as one marked block in
+  `~/.gemini/GEMINI.md`, the only copy (2.11.0), and installs the `task-worker` and `wp-qa` agents and three hooks:
   the handoff brief injected at the start of each conversation, a write that puts a secret into a .md file denied, and
   the evidence gate at Stop (below).
 - **Command Center** is the project's main conversation; the lead opens it with `/zoho-command-center`.
@@ -111,7 +112,8 @@ explicitly asks: Command Center asks once with choices when the briefs are ready
 task threads itself (learned 24 Nov 2026: the lead had to type every request). It sets its own title at step 1 and at
 a takeover without being asked. The setup, hooks and rules below are the same for both.
 - **Setup, once per machine** (on the lead's OK): `python codex/install.py --dry-run`, then without `--dry-run`, from
-  this repo's clone (README, "Use it in Codex"). It adds a marked block with the hard rules to `~/.codex/AGENTS.md`
+  this repo's clone (README, "Use it in Codex"). It adds a marked block with the hard rules and the lead's settings
+  block (copied from CLAUDE.md at install) to `~/.codex/AGENTS.md`
   (all AGENTS.md files together are read up to 32 KiB), the `zcc-task-worker` and `zcc-reviewer` agents
   (`~/.codex/agents/`), and three hooks in `~/.codex/hooks.json`: the handoff brief at session start, a write that
   puts a secret into a .md file denied, and the evidence gate at Stop. Codex runs a hook only after the lead trusts it
