@@ -18,11 +18,15 @@ Hotfix: in Antigravity the secrets guard blocked every file write.
   gate answers "stop" when a report passes (never an empty answer), the session-start hook an empty `injectSteps`, and
   the self-test hook "ask". Codex keeps "no output" for a clean write, which it reads as no decision.
 - The Antigravity install re-enables a zcc hook that was set to `"enabled": false` and says so.
+- **The evidence gate sends a report back only once per turn in Antigravity.** Its CLI leaves `continuationActive`
+  false on the second Stop of a turn, so the gate also counts `executionNum`; and a check listed as "not checked" is
+  the honest answer hard rule 2 asks for, so it needs no output (a required check still has to be listed).
 
 ### Added
 
-- `shared/agy_smoke.py --run`: an opt-in test with the real Antigravity CLI (a clean write goes through, a password
-  write is denied) in a throwaway folder. Tests for allow, ask, deny, errors and the re-enable.
+- `shared/agy_smoke.py --run`: an opt-in test with the real Antigravity CLI in a throwaway folder: a clean write goes
+  through, a password write is denied, a normal turn ends cleanly with the gate (under 60 seconds), and a DONE report
+  with no checks.md is sent back once and then ends. All four passed on 25 Nov 2026 with agy 1.5.16. Tests for allow, ask, deny, errors and the re-enable.
 - Report style in subagent mode (the lead, 25 Nov 2026): the RUNNING line once per state change, never repeated while
   polling the same subagent; PLAN READY in at most 8 lines (what, where, backup, check, rollback) plus the options as a
   numbered list, details in the task files. Hard rule 9: "once per state change".

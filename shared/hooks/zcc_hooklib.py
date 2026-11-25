@@ -291,6 +291,7 @@ def evidence_sources(folder):
     return texts
 
 
+NOT_CHECKED = re.compile(r"\bnot checked\b|^(none|n/?a)$", re.I)
 REQUIRED_LINE = re.compile(r"^[\W_]*Checks required\s*:\s*(.+)$", re.M | re.I)
 
 
@@ -315,8 +316,10 @@ def required_checks(folder, kind):
 
 def gate_problem(tool, payload):
     """None when the stop may go ahead, else the reason to send the chat back."""
-    if payload.get("stop_hook_active") or payload.get("continuationActive"):
-        return None  # one push back per turn, so the gate can never loop
+    # One push back per turn, so the gate can never loop. Antigravity's CLI leaves continuationActive false on the
+    # second Stop of a turn (seen 25 Nov 2026), so its executionNum counts too.
+    if payload.get("stop_hook_active") or payload.get("continuationActive") or (payload.get("executionNum") or 0) > 0:
+        return None
     msg = last_message(tool, payload)
     m = REPORT.search(msg or "")
     if not m:
@@ -329,9 +332,11 @@ def gate_problem(tool, payload):
         return ("Evidence gate (zoho-command-center): your %s for %s has no \"Checks:\" line. Name every check you ran "
                 "in one line \"Checks: <check>, <check>\", with each one under \"## <check>\" in %s (a code block with "
                 "the command and its output), then send the report again." % (kind, task_id, where))
-    names = split_names(cl.group(1))
+    listed_all = split_names(cl.group(1))
+    # A check reported as "not checked" is the honest answer hard rule 2 asks for: it is listed, it needs no output.
+    names = [n for n in listed_all if not NOT_CHECKED.search(n)]
     required = required_checks(folder, kind)
-    listed = {n.lower() for n in names}
+    listed = {NOT_CHECKED.sub("", n).strip(" ():-").lower() for n in listed_all}
     left_out = [n for n in required if n.lower() not in listed]
     if left_out:
         brief = "tasks/%s/%sbrief.md" % (task_id, "qa/" if kind.startswith("QA") else "")
