@@ -70,10 +70,13 @@ def install(config, dry, py):
     if conflicts:
         return lib.stopped(conflicts)
     new_hooks = dict(hooks)
-    new_hooks.update(hook_entries(py))
+    new_hooks.update(hook_entries(py))  # fresh entries: an "enabled": false someone set on them goes
     state = "unchanged" if new_hooks == hooks else ("update" if hooks else "add")
     lib.apply_files(plan, dry)
     print("%-9s %s (entries %s; hooks run with: %s)" % (state, os.path.normpath(hooks_path), ", ".join(HOOK_KEYS), py))
+    for key in HOOK_KEYS:
+        if isinstance(hooks.get(key), dict) and hooks[key].get("enabled") is False:
+            print("re-enable %s (it was \"enabled\": false; 2.10.1 fixes the empty answer that blocked writes)" % key)
     if state != "unchanged":
         lib.save_json(hooks_path, new_hooks, dry)
     size = lib.update_block(os.path.join(os.path.dirname(config), "GEMINI.md"), gemini_block(), dry,

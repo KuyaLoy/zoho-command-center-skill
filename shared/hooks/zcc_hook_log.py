@@ -19,13 +19,23 @@ def main():
     if log:
         with open(log, "a", encoding="utf-8") as f:
             f.write("%s\t%s\t%s\n" % (datetime.datetime.now().isoformat(timespec="seconds"), tool, event))
-    # Antigravity wants JSON from every hook; Codex wants JSON only from Stop, nothing from the others.
-    if tool == "antigravity" or event == "Stop":
-        print("{}")
+    print(answer(tool, event))
+
+
+def answer(tool, event):
+    """A neutral answer: Antigravity needs a decision on every PreToolUse (an empty answer counts as deny, learned
+    25 Nov 2026), so the test hook asks; Codex wants JSON only from Stop, nothing from the others."""
+    if tool == "antigravity":
+        if event == "PreToolUse":
+            return json.dumps({"decision": "ask", "reason": "zcc hook self-test (log only)"})
+        if event == "Stop":
+            return json.dumps({"decision": "stop"})
+        return json.dumps({"injectSteps": []})
+    return "{}" if event == "Stop" else ""
 
 
 if __name__ == "__main__":
     try:
         main()
     except Exception:
-        print("{}")
+        print(json.dumps({"decision": "ask", "reason": "zcc hook self-test error"}))

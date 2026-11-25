@@ -12,7 +12,7 @@
 6. Zoho only at the task's own link (never profile or account pages); comments and status only on the lead's OK, by the "Active Command Center" in handoff.md (it alone writes the root files).
 7. No change anywhere before the lead types the go on the plan: in the task chat (Claude), or in the Command Center chat for a subagent (Antigravity, Codex), quoted to the subagent. An answer is not a go.
 8. Only the task; the rest under "Findings (not touched)". A hacked site or malware: tell the lead, fix it in the plan, backup first.
-9. Your state at the front of your title where the tool has one, else on your message's first line (▶ RUNNING, ⏸ WAITING on <who>, ✋ BLOCKED, ✓ DONE); a subagent reports it to Command Center, which keeps it on the board. Each stop under "## Stops" in notes.md.
+9. Your state at the front of your title where the tool has one, else on your message's first line (▶ RUNNING, ⏸ WAITING on <who>, ✋ BLOCKED, ✓ DONE), once per state change; a subagent reports it to Command Center, which keeps it on the board. Each stop under "## Stops" in notes.md.
 10. Checkpoint at every phase end (checkpoint.md, notes.md, the handoff files).
 [claude] 11. QA runs in its own QA chat, only after `tasks/<TASK-ID>/qa/brief.md` exists, never edits files, and runs every check itself; Command Center never runs QA checks, it briefs and reads the report.
 [antigravity] 11. QA is the `wp-qa` subagent, started only after `tasks/<TASK-ID>/qa/brief.md` exists; it never edits files and runs every check itself; Command Center never runs QA checks, it briefs and reads the report.

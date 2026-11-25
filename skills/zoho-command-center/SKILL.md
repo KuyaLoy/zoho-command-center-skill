@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.10.0
+Version: 2.10.1
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -92,8 +92,8 @@ Always on in the Antigravity and Codex setups too (one source in the repo: `shar
 8. Only the task; the rest under "Findings (not touched)". A hacked site or malware: tell the lead, fix it in the plan,
    backup first.
 9. Your state at the front of your title where the tool has one, else on your message's first line (▶ RUNNING, ⏸ WAITING
-   on <who>, ✋ BLOCKED, ✓ DONE); a subagent reports it to Command Center, which keeps it on the board. Each stop under
-   "## Stops" in notes.md.
+   on <who>, ✋ BLOCKED, ✓ DONE), once per state change; a subagent reports it to Command Center, which keeps it on the
+   board. Each stop under "## Stops" in notes.md.
 10. Checkpoint at every phase end (checkpoint.md, notes.md, the handoff files).
 11. QA runs in its own QA chat, only after `tasks/<TASK-ID>/qa/brief.md` exists, never edits files, and runs every check
     itself; Command Center never runs QA checks, it briefs and reads the report.

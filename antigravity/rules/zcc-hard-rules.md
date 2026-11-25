@@ -21,8 +21,8 @@ zcc-managed: zoho-command-center antigravity setup
 8. Only the task; the rest under "Findings (not touched)". A hacked site or malware: tell the lead, fix it in the plan,
    backup first.
 9. Your state at the front of your title where the tool has one, else on your message's first line (▶ RUNNING, ⏸ WAITING
-   on <who>, ✋ BLOCKED, ✓ DONE); a subagent reports it to Command Center, which keeps it on the board. Each stop under
-   "## Stops" in notes.md.
+   on <who>, ✋ BLOCKED, ✓ DONE), once per state change; a subagent reports it to Command Center, which keeps it on the
+   board. Each stop under "## Stops" in notes.md.
 10. Checkpoint at every phase end (checkpoint.md, notes.md, the handoff files).
 11. QA is the `wp-qa` subagent, started only after `tasks/<TASK-ID>/qa/brief.md` exists; it never edits files and runs
     every check itself; Command Center never runs QA checks, it briefs and reads the report.

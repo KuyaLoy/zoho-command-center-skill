@@ -96,8 +96,10 @@ chat. A project can have many Command Center chats over time; they hand off thro
      placeholders for missing content, the build skill's live checklist, and the leads portal line below.
    - **Antigravity and Codex: subagent mode** (the lead's rule, 24 Nov 2026): the task runs as a subagent of this
      Command Center, not a new chat (tool map, Subagent mode): its plan comes back here, you show it with choices, the
-     lead's go is typed here and you quote it to the subagent; QA is its own subagent. The brief below is the same; the
-     board names the subagent and its state. A separate task chat only when the lead asks for one.
+     lead's go is typed here and you quote it to the subagent; QA is its own subagent. Show PLAN READY in at most 8
+     lines (what, where, backup, check, rollback) with numbered options and the task files' paths; say RUNNING once per
+     state change, never again while polling the same subagent. The brief below is the same; the board names the
+     subagent and its state. A separate task chat only when the lead asks for one.
    - **Brief** (its first message): the task verbatim plus links, its source, size, the site or repo; head-start
      facts marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules";
      "Plan by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in

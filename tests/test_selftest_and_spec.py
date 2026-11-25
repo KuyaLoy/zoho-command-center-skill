@@ -39,7 +39,7 @@ class SelfTestTest(unittest.TestCase):
     def test_install_fire_report_remove(self):
         for tool in ("antigravity", "codex"):
             self.assertEqual(self.run_st("install", "--tool", tool, "--python", PY)[0], 0)
-        self.assertEqual(self.fire("antigravity", "SessionStart"), "{}")
+        self.assertEqual(self.fire("antigravity", "SessionStart"), "{\"injectSteps\": []}")
         self.assertEqual(self.fire("codex", "PreToolUse"), "")
         self.assertEqual(self.fire("codex", "Stop"), "{}")
         _, out = self.run_st("report")

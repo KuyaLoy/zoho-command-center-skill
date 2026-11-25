@@ -84,7 +84,7 @@ def session_start_message(payload):
 
 def session_start_answer(tool, msg):
     if msg is None:
-        return {} if tool == "antigravity" else None
+        return {"injectSteps": []} if tool == "antigravity" else None
     if tool == "codex":
         return {"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext": msg}}
     return {"injectSteps": [{"systemMessage": {"systemMessage": msg}}]}
@@ -184,7 +184,42 @@ def secrets_answer(tool, payload):
                 return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "deny",
                                                "permissionDecisionReason": reason}}
             return {"decision": "deny", "reason": reason}
-    return {} if tool == "antigravity" else None
+    if tool != "antigravity":
+        return None  # Codex: no output is "no decision", and its own permission settings apply
+    # Antigravity needs a decision on every call: an empty answer counts as deny (learned 25 Nov 2026: every
+    # write was blocked). Clean: allow inside the conversation's workspace, ask outside it or when unsure.
+    targets = write_targets(payload)
+    if not targets:
+        return {"decision": "ask", "reason": "zcc secrets guard: no target path in this write, so the lead decides."}
+    outside = [t for t in targets if not inside_workspace(t, payload)]
+    if outside:
+        return {"decision": "ask", "reason": "zcc secrets guard: this write goes outside the workspace (%s)."
+                % outside[0]}
+    return {"decision": "allow"}
+
+
+def write_targets(payload):
+    """The file paths an Antigravity write or edit names (keys with "path" or "file" in them)."""
+    args = (payload.get("toolCall") or {}).get("args") or {}
+    out = []
+    if isinstance(args, dict):
+        for key, value in args.items():
+            if re.search(r"path|file", str(key), re.I):
+                out += [v.strip() for v in strings(value) if v.strip()]
+    return out
+
+
+def inside_workspace(path, payload):
+    roots = [d for d in (payload.get("workspacePaths") or []) if isinstance(d, str) and d]
+    if not roots:
+        return False
+    base = payload.get("cwd") if isinstance(payload.get("cwd"), str) else roots[0]
+    full = os.path.normcase(os.path.realpath(os.path.join(base, path)))
+    for root in roots:
+        r = os.path.normcase(os.path.realpath(root))
+        if full == r or full.startswith(r.rstrip("\\/") + os.sep):
+            return True
+    return False
 
 
 # ---------------------------------------------------------------- the evidence gate
@@ -320,7 +355,8 @@ def gate_problem(tool, payload):
 def gate_answer(tool, payload):
     reason = gate_problem(tool, payload)
     if reason is None:
-        return {}
+        # Antigravity: any decision but "continue" lets the chat stop; say so explicitly (2.10.1).
+        return {"decision": "stop"} if tool == "antigravity" else {}
     if tool == "codex":
         return {"decision": "block", "reason": reason}
     return {"decision": "continue", "reason": reason}
@@ -329,9 +365,28 @@ def gate_answer(tool, payload):
 # ---------------------------------------------------------------- runner
 
 
-def run(answer_fn, tool=None):
+ON_ERROR = {  # what Antigravity gets when a hook itself fails: never a silent deny, never a block
+    "secrets": {"decision": "ask", "reason": "zcc secrets guard error: the lead decides this write."},
+    "gate": {"decision": "stop"},
+    "session": {"injectSteps": []},
+}
+
+
+def log_line(argv, tool, answer):
+    """With --log <file> (smoke tests), append what the hook answered."""
+    if "--log" in argv and argv.index("--log") + 1 < len(argv):
+        with open(argv[argv.index("--log") + 1], "a", encoding="utf-8") as f:
+            f.write("%s\t%s\n" % (tool, json.dumps(answer)))
+
+
+def run(answer_fn, tool=None, kind="secrets"):
     tool = tool or tool_arg()
     try:
-        emit(answer_fn(tool, read_payload()))
-    except Exception:  # never break or block the session on the hook's own error
-        emit({} if tool == "antigravity" else None)
+        answer = answer_fn(tool, read_payload())
+    except Exception:  # never break or silently block the session on the hook's own error
+        answer = ON_ERROR[kind] if tool == "antigravity" else ({} if kind == "gate" else None)
+    emit(answer)
+    try:
+        log_line(sys.argv[1:], tool, answer)
+    except OSError:
+        pass

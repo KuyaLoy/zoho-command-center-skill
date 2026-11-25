@@ -9,4 +9,4 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import zcc_hooklib as lib  # noqa: E402
 
 if __name__ == "__main__":
-    lib.run(lambda tool, payload: lib.session_start_answer(tool, lib.session_start_message(payload)))
+    lib.run(lambda tool, payload: lib.session_start_answer(tool, lib.session_start_message(payload)), kind="session")

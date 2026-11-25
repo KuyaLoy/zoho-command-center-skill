@@ -13,4 +13,4 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import zcc_hooklib as lib  # noqa: E402
 
 if __name__ == "__main__":
-    lib.run(lib.gate_answer)
+    lib.run(lib.gate_answer, kind="gate")

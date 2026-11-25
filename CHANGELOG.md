@@ -5,6 +5,30 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.10.1] - 2026-11-25
+
+Hotfix: in Antigravity the secrets guard blocked every file write.
+
+### Fixed
+
+- **Antigravity hooks always answer with a decision.** On a clean write the secrets guard answered `{}`, which
+  Antigravity treats as deny, so every write_file and edit_file was blocked (found 25 Nov 2026; the self-test had only
+  proved that a password write is blocked). Now: "allow" for a write inside the conversation's workspace, "ask" outside
+  it or when no target is named, "deny" for a secret in a .md file, and "ask" when the hook itself fails. The evidence
+  gate answers "stop" when a report passes (never an empty answer), the session-start hook an empty `injectSteps`, and
+  the self-test hook "ask". Codex keeps "no output" for a clean write, which it reads as no decision.
+- The Antigravity install re-enables a zcc hook that was set to `"enabled": false` and says so.
+
+### Added
+
+- `shared/agy_smoke.py --run`: an opt-in test with the real Antigravity CLI (a clean write goes through, a password
+  write is denied) in a throwaway folder. Tests for allow, ask, deny, errors and the re-enable.
+- Report style in subagent mode (the lead, 25 Nov 2026): the RUNNING line once per state change, never repeated while
+  polling the same subagent; PLAN READY in at most 8 lines (what, where, backup, check, rollback) plus the options as a
+  numbered list, details in the task files. Hard rule 9: "once per state change".
+
+Re-run the Antigravity install to get the fix (and the Codex one for rule 9).
+
 ## [2.10.0] - 2026-11-24
 
 One Command Center with subagents in Antigravity and Codex, the same hard rules in every tool, and a lighter start

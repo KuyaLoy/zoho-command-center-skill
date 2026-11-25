@@ -158,12 +158,16 @@ mis-titled; in Codex, a Command Center and two task chats used a small plan's li
   Worker rules section and the brief, on the lead's model and effort; suggest a cheaper model for a small task in the
   brief.
 - **Plan, then the go, in Command Center's chat:** the subagent plans by reading only and returns PLAN READY with the
-  short plan inline. Command Center shows it with choices where the tool has them (Codex `request_user_input`;
-  Antigravity numbered options) and waits. The lead types the go in Command Center's chat; Command Center quotes it
+  short plan inline. Command Center shows it in at most 8 lines (what, where, backup, check, rollback) plus the options
+  as a numbered list (Codex `request_user_input` where the session has it), with the paths of plan.md, notes.md and
+  checks.md for the details, and waits. The lead types the go in Command Center's chat; Command Center quotes it
   verbatim to the same subagent and logs it in notes.md (hard rule 7). Follow-ups, re-plans and QA rounds go the same
   way.
 - **QA** is its own subagent (`wp-qa`, `zcc-reviewer`) that runs every check itself (hard rule 11); Command Center
   briefs it and reads its report. In Codex its read-only state rests on the rule.
 - **The board** lists each task's subagent (tool, agent, id) and its state; Command Center keeps its own title prefix.
+- **Report once per state change** (learned 25 Nov 2026: a Command Center repeated its RUNNING line on every poll of
+  the same subagent): one RUNNING line when a subagent starts working, then nothing until its state changes; never a
+  repeat while waiting on the same subagent. Details live in the task files, not in the chat.
 - **A separate task chat** only when the lead asks for one (Antigravity `CreateConversation`, Codex `create_thread`),
   titled "⏸ WAITING on <lead> | ..." until it runs; the columns' "Start a task" row says how.
