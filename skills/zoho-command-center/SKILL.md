@@ -50,8 +50,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
   Center, start other task chats or post in Zoho. QA, helper and review chats (Command Center step 2) follow them too.
 - **Command Center:** anything else in a Command Center project. Open the command-center.md step you run and your tool's
   part of the tool map (Files), at start and after any reload, compact or new chat (a reload of SKILL.md alone is not
-  one for Command Center); follow them too. One Command Center works at a time, in Claude, Antigravity or Codex: the one
-  named in handoff.md's "Active Command Center" line (command-center.md, Switching tools).
+  one for Command Center); follow them too. One Command Center at a time, in any tool: the one the lead works with
+  (handoff.md records it; command-center.md, Switching tools).
 - **A running task keeps its rules:** its brief and plan win over this skill's defaults, so a skill reload or a new
   version mid-task changes nothing for that task. New rules apply from its next task, or, on the lead's word, from the
   boundary Command Center names (a site or phase end, never inside a QA run; command-center.md step 3).
@@ -71,8 +71,9 @@ Trigger: "set this as command center", "command center", "take over" or "gawin m
 4. No guessed defaults: brief, profile or skill, else ask the lead once.
 5. No secrets in .md files, logs or reports; no consent or approval flag nobody gave.
 6. Zoho only at the task's own link (never profile or account pages); comments and status only on the lead's OK, by the
-   "Active Command Center" in handoff.md (it alone writes the root files). In the lead's browser: list the pages first,
-   act only on the task's own tabs, sign-ins stay the lead's.
+   Command Center the lead works with (it writes the root files and records itself in handoff.md's "Active Command
+   Center" line). In the lead's browser: list the pages first, act only on the task's own tabs, sign-ins stay the
+   lead's.
 7. No change anywhere before the lead types the go on the plan: in the task chat (Claude), or in the Command Center chat
    for a subagent (Antigravity, Codex), quoted to the subagent. An answer is not a go.
 8. Only the task; the rest under "Findings (not touched)". A hacked site or malware: tell the lead, fix it in the plan,

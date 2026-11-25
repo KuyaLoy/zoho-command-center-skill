@@ -20,7 +20,21 @@ and a short summary of the last job or two).
   open requests, board columns) and all its history kept; continuation chats or subagents only for open work.
 - **The takeover brief:** at most 10 lines, always Project, Last jobs (the last 1 or 2 from the newest eod/ files and
   handoff.md's Changes Made: task ID, what was done, state, date), Open now, Next. Switching tools' takeover reports it.
-- Tests: the phrases in the description and in every rule copy; the brief's order.
+- `scripts/takeover_brief.py` (in the skill folder, so every tool's installed copy has it): drafts the takeover brief
+  from handoff.md, the newest eod/ files and ai-handoff-summary.md, in at most 10 lines; it writes nothing.
+- Tests: the phrases in the description and in every rule copy; the brief's order; a fixture project with an old
+  Command Center (eod/ files, Changes Made, a board) gives the 10-line brief with the last 2 jobs.
+
+### Changed
+
+- **Taking over is effortless** (the lead, 25 Nov 2026: one person uses these chats, never two at once): no handover
+  step, no questions, no waiting on the old chat. The holder line in handoff.md is a record, never a lock or a check:
+  the phrase (or simply working with a chat in another tool) makes that chat the Command Center; it overwrites the line
+  silently, marks the old chats "moved to <tool>" on the board and logs one line. "Switching tools" is simplified to
+  match and names T3 Code; hard rule 6 says the Command Center the lead works with writes the root files.
+- Tool map, T3 Code: the trigger phrases work there too, from the same three always-loaded places (the Claude skill
+  description, the Antigravity `GEMINI.md` block, the Codex `AGENTS.md` block). "Hand over to another tool": nothing
+  to do.
 
 Re-run both installs (the rule block changed).
 

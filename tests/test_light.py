@@ -61,12 +61,13 @@ class ShortRulesTest(unittest.TestCase):
     def test_all_eleven_rules_in_a_small_budget(self):
         for rel in self.FILES:
             text = load(os.path.join(REPO, rel))
+            flat = " ".join(text.split())
             numbers = [int(n) for n in re.findall(r"^(\d+)\. ", text, re.M)]
             self.assertEqual(numbers, list(range(1, 12)), rel)
             self.assertLess(len(text.encode("utf-8")), 2600, rel)  # 2.10.0 subagents; 2.10.2 browser; 2.11.1 trigger
             for word in ("checks.md", "Checks required:", "Active Command Center", "## Stops", "qa/brief.md",
                          "open the skill section you need"):
-                self.assertIn(word, text, (rel, word))
+                self.assertIn(word, flat, (rel, word))
 
 
 class QaRunsItsOwnChecksTest(unittest.TestCase):

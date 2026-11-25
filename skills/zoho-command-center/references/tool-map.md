@@ -40,8 +40,8 @@ Code in a terminal, Cursor, OpenCode, Cline, Devin Desktop and others), where Co
 | Close a task's browser tabs | the browser tools' close-tab action (Chrome, the app's pane, the automation browser) | `close_page` (chrome-devtools) on the tabs the task opened, never others; else name them | the lead closes them; name them | the lead closes them; name them | the lead closes them; name them |
 | Link a chat for the lead | `[title](#local_...)` | its title and task ID | its task ID and folder | its thread title and task ID | its task ID and folder |
 | Live form tests (bot checks) | the app's built-in browser pane | a browser with no AI control, or the lead submits | a browser with no AI control, or the lead submits | a browser with no AI control, or the lead submits | a browser with no AI extension, or the lead submits |
-| Take over as Command Center (command-center.md, Switching tools) | read the handoff files and every open task folder; re-check each task (files, site, Zoho by its link); write the holder line "Active Command Center: Claude since <time> (chat: local_...)"; then a continuation chat per open task with `start_session` | the same steps; holder line "Active Command Center: Antigravity since <time> (chat: <conversation id>)"; continuation chats with CS `CreateConversation` | the same steps; holder line "Active Command Center: Codex since <time> (chat: <session name>)"; continuation chats are sessions the lead opens from the briefs | the same steps; holder line "Active Command Center: Codex since <time> (chat: <thread title>)"; set your own title; continuation threads with `create_thread` after one `request_user_input` choice | the same steps; the lead opens each continuation chat |
-| Hand over to another tool | checkpoint every open task and `## Open requests`, log "handed over to <tool>", stop writing | the same | the same | the same | the same |
+| Take over as Command Center (command-center.md, Switching tools) | the lead's phrase alone, no questions: read light; re-check each task (files, site, Zoho by its link); write the holder line "Active Command Center: Claude since <time> (chat: local_...)"; then a continuation chat per open task with `start_session` | the same steps; holder line "Active Command Center: Antigravity since <time> (chat: <conversation id>)"; continuation chats with CS `CreateConversation` | the same steps; holder line "Active Command Center: Codex since <time> (chat: <session name>)"; continuation chats are sessions the lead opens from the briefs | the same steps; holder line "Active Command Center: Codex since <time> (chat: <thread title>)"; set your own title; continuation threads with `create_thread` after one `request_user_input` choice | the same steps; the lead opens each continuation chat |
+| Hand over to another tool | nothing to do: the next Command Center takes over from the files (Switching tools) | the same | the same | the same | the same |
 | Checkpoint before auto-compact | the Context watch (`references/context-watch.md`) | phase-end checkpoints (the App compacts by itself, with no meter) | the Context watch, from Codex's context left | as in the terminal | the same, from the tool's own meter |
 
 ## One-chat mode (tools without session tools)
@@ -152,6 +152,10 @@ private profile folder. So each provider follows its own column above, with thes
   prefix goes in the thread's name (T3's rename). Run every thread in the project checkout, never "New worktree": a T3
   worktree has no local handoff files, `tasks/` or parent-folder CLAUDE.md.
 - Stay on T3's stable release (not the nightly builds).
+- **The trigger phrases work in T3 too** ("set this as command center", "command center", "take over"): T3 loads the
+  same three always-loaded places as the tools themselves, the Claude skill description, the Antigravity
+  `~/.gemini/GEMINI.md` block and the Codex `~/.codex/AGENTS.md` block, so the phrase sets up or takes over there the
+  same way (command-center.md step 1).
 
 ## Subagent mode (Antigravity and Codex, the default)
 The lead's rule, 24 Nov 2026: where a tool makes separate task chats badly or at a high usage cost, task work runs as

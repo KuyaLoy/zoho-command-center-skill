@@ -54,6 +54,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
        task ID, what was done, state, date (one line each).
      - Open now: each open task, its state and who it waits on (one line each).
      - Next: one line.
+     A script drafts it from the project's files, any tool: `python <this skill's folder>/scripts/takeover_brief.py
+     <project folder>` (Python 3; it writes nothing). Re-check the open tasks (Switching tools, step 2) before you
+     report it.
    - New empty folder: also create the handoff files, put `Mode: Command Center` and the holder line (Switching tools)
      under the project rules in handoff.md, add `## Open requests` and a `## Task chats` board (format below), and save
      a project memory recording this mode. If a local web server serves the folder (for example a Laragon, XAMPP or MAMP
@@ -63,8 +66,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
      for 403. In a git repo, keep `tasks/`, `eod/` and the handoff files out of commits (`.git/info/exclude`) unless the
      lead says otherwise.
    - Existing Command Center project: read `ai-handoff-summary.md`, then `## Open requests` and the `## Task chats`
-     board in handoff.md. Its holder line names another tool or chat: take over if the lead said the phrase above,
-     else write nothing and say so in one line. Check each chat not DONE or ARCHIVED (its session info) and its latest
+     board in handoff.md. Its holder line names another tool or chat: take over (Switching tools); the line is a
+     record, not a lock. Check each chat not DONE or ARCHIVED (its session info) and its latest
      report or task folder, then give the lead the takeover brief (above; after your own reset: skip it unless the lead
      asks; go on with the message that woke you). Never restart a task that has a chat. Project rules this skill has
      replaced (e.g. "Command Center resets at 35%", the 9 Nov "relay the go", the 17 Nov "a box every turn", the 18 Nov
@@ -298,32 +301,31 @@ chat. A project can have many Command Center chats over time; they hand off thro
    the lead gave (quote them), and anything you promised the lead but haven't done yet. Root handoff files belong to
    Command Center. If a worker overwrote them, merge its facts in and restore the Mode line, open requests and board.
 
-## Switching tools (Claude, Antigravity, Codex)
-Learned 24 Nov 2026: the lead may lose one tool's subscription or move back, so one project's Command Center can move
-between the Claude desktop app, Antigravity and Codex. A project may have a Command Center chat in two tools, but only
-one works at a time.
-- **The holder line**, under the project rules in handoff.md: `Active Command Center: <Claude|Antigravity|Codex>
-  since <YYYY-MM-DD HH:MM> (chat: <id or name>)`. Only the holder writes the root handoff files, `eod/`, the board, Zoho
-  comments and Zoho status. A Command Center whose tool or chat is not the one named there reads and reports only,
-  until it takes over. A project with no holder line yet: the Command Center that runs step 1 writes it.
-- **Handing over** (the old tool still works and the lead says the work moves): write a checkpoint of every open task
-  and of `## Open requests`, log "handed over to <tool>" with the lead's words quoted, and stop writing.
-- **Taking over** (the lead says "take over as Command Center" in the new tool, or the holder's tool is gone):
+## Switching tools (Claude, Antigravity, Codex, T3 Code)
+Learned 24 Nov 2026, simplified 25 Nov 2026 (the lead: no complicated transfer; one person uses these chats, never two
+at once): one project's Command Center moves between the Claude app, Antigravity, Codex and T3 Code with no ceremony.
+- **The holder line is a record, never a lock or a check.** Under the project rules in handoff.md:
+  `Active Command Center: <Claude|Antigravity|Codex|T3 Code> since <YYYY-MM-DD HH:MM> (chat: <id or name>)`. The
+  Command Center the lead is working with writes the root handoff files, `eod/`, the board, Zoho comments and status.
+  A project with no holder line yet: step 1 writes it.
+- **Taking over** (the lead's phrase, step 1; or the lead simply works with this chat in another tool): no questions,
+  no handover from the old chat, no waiting on it.
   1. Read light (learned 24 Nov 2026: reading everything at a takeover cost a quarter of a small plan's usage):
      ai-handoff-summary.md, the holder line, the board, and each open task's notes.md "## Stops" and checkpoint.md.
      Open handoff.md's history or other task files only for what a check needs.
-  2. Re-check each task's real state instead of trusting the summary: its files, the site, the Zoho task page by its
-     own link (read only).
-  3. Write the holder line with this tool, and log "taken over from <tool>" with the lead's words quoted.
+  2. Re-check each open task's real state instead of trusting the summary: its files, the site, the Zoho task page
+     by its own link (read only).
+  3. Overwrite the holder line with this tool and chat, without asking; mark the old chats "moved to <tool>" on the
+     board; log one line "taken over from <tool>" in handoff.md.
   4. Report the takeover brief (step 1: at most 10 lines; Project, Last jobs, Open now, Next).
 - **Continuation chats across tools:** a task chat cannot move tools. For each open task, start a continuation chat
-  in this tool ("<TASK-ID>-2", then -3), the tool map's way, with the resume message (checkpoint.md, notes.md,
-  plan.md). The lead's go quoted in notes.md still covers the approved plan; a task that was waiting on the go stays
-  waiting (no new go assumed). The board marks the old chat "moved to <tool>"; each tool acts only on its own chats.
+  (or a subagent, where that is the mode) in this tool ("<TASK-ID>-2", then -3), the tool map's way, with the resume
+  message (checkpoint.md, notes.md, plan.md). The lead's go quoted in notes.md still covers the approved plan; a task
+  that was waiting on the go stays waiting (no new go assumed). Each tool acts only on its own chats.
 - **Every chat on the board names its tool**: `Claude: <name> / local_...`, `Antigravity: <title> / <conversation id>`,
-  `Codex: <session name>` (board format, step 7).
-- **Switching back** is the same takeover in reverse: the returning tool takes over, and continues each task in a new
-  chat of its own (or revives its old chat when nothing was done since it moved).
+  `Codex: <session name>`, `T3 Code: <thread>` (board format, step 7).
+- **Switching back** is the same takeover: the returning tool takes over, and continues each task in a new chat of
+  its own (or revives its old chat when nothing was done since it moved).
 - A task chat that sees a holder other than the Command Center that started it keeps working on its task and sends
   its stops as a line under "## Stops" in notes.md, which every tool's Command Center reads.
 

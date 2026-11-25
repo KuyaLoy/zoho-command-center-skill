@@ -6,7 +6,7 @@ import unittest
 from zcc_testlib import REPO, load
 
 REF = os.path.join(REPO, "skills", "zoho-command-center", "references")
-HOLDER = re.compile(r"Active Command Center: <Claude\|Antigravity\|Codex>\s+since <YYYY-MM-DD HH:MM> "
+HOLDER = re.compile(r"Active Command Center: <Claude\|Antigravity\|Codex\|T3 Code>\s+since <YYYY-MM-DD HH:MM> "
                     r"\(chat: <id or name>\)")
 
 
@@ -21,7 +21,9 @@ class SwitchingToolsTest(unittest.TestCase):
     def test_holder_line_format_is_defined(self):
         text = load(os.path.join(REF, "command-center.md"))
         self.assertRegex(text, HOLDER)
-        for step in ("Handing over", "Taking over", "Continuation chats across tools", "Switching back"):
+        # 2.11.1: no handover step any more; the holder line is a record, never a lock
+        self.assertIn("is a record, never a lock or a check", text)
+        for step in ("Taking over", "Continuation chats across tools", "Switching back"):
             self.assertIn(step, text)
 
     def test_board_names_each_chats_tool(self):
@@ -42,7 +44,7 @@ class SwitchingToolsTest(unittest.TestCase):
 
     def test_hard_rules_name_the_holder(self):
         for rel in ("antigravity/rules/zcc-hard-rules.md", "codex/AGENTS-block.md"):
-            self.assertIn("Active Command Center", load(os.path.join(REPO, rel)), rel)
+            self.assertIn("Active Command Center", " ".join(load(os.path.join(REPO, rel)).split()), rel)
 
 
 class Polish292Test(unittest.TestCase):
