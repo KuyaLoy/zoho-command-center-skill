@@ -12,7 +12,7 @@ title); the brief follows them. Write it in this shape:
 ```markdown
 > <the lead's words, verbatim, once>
 
-Task: <TASK-ID> <title>. Size <S|M|L>, effort <high|max for the plan>. Site or repo: <where>.
+Task: <TASK-ID> <title>. Size <S|M|L>, effort <medium|high|max for the plan>. Site or repo: <where>.
 - Goal and why: <what and why, with the real numbers>.
 - Quality bar: <what good looks like: the source doc, an example, the measure>.
 - Tools and facts: <links, docs, skills; sign-ins the lead does; facts found so far (re-check before relying on them)>.
@@ -47,5 +47,8 @@ Fail | LCP under 2.5 s | ## speed (3.1 s on mobile)
 - `Pass|Fail | line | evidence`: the line is a brief's check or a plan item; the evidence names its "## <check>"
   section below the list (the command and its output in a code block, hard rule 2) or a screenshot path for a visual
   check. No subjective lines.
+- **Long output stays out** (Worker rules: Lean tool output, 27 Nov 2026): over about 50 lines, the code block holds
+  the command, its result line and the failures, plus "full output: tasks/<TASK-ID>/logs/<name>.log"; the evidence
+  gate reads that block as the check's output.
 - A Fail is fixed and run again, or reported as Fail. Not run: "not checked". The report's "Checks:" line names them.
 - These lines replace "verify your work" steps: the list is the check, and QA (a fresh reader) reads it.

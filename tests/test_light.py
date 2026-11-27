@@ -64,7 +64,8 @@ class ShortRulesTest(unittest.TestCase):
             flat = " ".join(text.split())
             numbers = [int(n) for n in re.findall(r"^(\d+)\. ", text, re.M)]
             self.assertEqual(numbers, list(range(1, 12)), rel)
-            self.assertLess(len(text.encode("utf-8")), 2600, rel)  # 2.10.0 subagents; 2.10.2 browser; 2.11.1 trigger
+            self.assertLess(len(text.encode("utf-8")), 2700, rel)  # 2.10.0 subagents; 2.10.2 browser; 2.11.1 trigger;
+            # 2.13.0 the effort line (Antigravity and Codex only)
             for word in ("checks.md", "Checks required:", "Active Command Center", "## Stops", "qa/brief.md",
                          "open the skill section you need"):
                 self.assertIn(word, flat, (rel, word))

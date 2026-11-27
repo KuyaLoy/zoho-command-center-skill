@@ -13,7 +13,10 @@ SNAPSHOT = os.path.join(REPO, "tests", "data", "skill-2.10.2.md")
 # 2.11.1: the Command Center role line says the holder line is a record ("the one the lead works with").
 # 2.11.2: the leads portal line says it applies only when the settings name one.
 # 2.12.0 (token diet): self-check wording removed; checks are the pass/fail list in checks.md.
-CHANGED = ("**Files** (beside this one)", "**Command Center:** anything else in a Command Center project.",
+# 2.13.0 (effort by need): "high by default" replaced; two bullets shortened to keep SKILL.md no larger.
+CHANGED = ("**High by default, max for a plan that needs it**", "**Don't complicate the task: do only what was",
+           "Phase 2, work (high, also for every follow-up after the go)",
+           "**Files** (beside this one)", "**Command Center:** anything else in a Command Center project.",
            "**Leads portal** (optional)", "Quality stays fixed:", "What we can fix on our side for the task",
            "At your page end from 50%", "Phase 1, plan, read-only", "**QA findings** (before any Zoho post;",
            "**Cheaper checks, with proof**", "Final report `tasks/<TASK-ID>/report.md`")

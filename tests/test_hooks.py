@@ -180,6 +180,22 @@ class EvidenceGateTest(unittest.TestCase):
         msg = "QA 0: T1 pass 2\nChecks: links\n## links\n```\n$ python linkcheck.py\n0 broken\n```"
         self.assertEqual(self.cx(msg), {})
 
+    def test_lean_evidence_with_a_log_file_passes(self):
+        # 2.13.0 (Lean tool output): long output goes to a file; the block keeps the command, the result line, the
+        # failures and the log's path, and the gate still reads it as the check's output.
+        lean = ("# Checks\n## home 200\n```\n$ curl -sI https://site.test/ | head -1\nHTTP/1.1 200 OK\n```\n"
+                "## links\n```\n$ python linkcheck.py > tasks/T1/logs/links.log 2>&1; tail -n 1 tasks/T1/logs/links.log\n"
+                "412 links, 0 broken\nfull output: tasks/T1/logs/links.log\n```\n")
+        save(os.path.join(self.root, "tasks", "T1", "checks.md"), lean)
+        msg = "DONE: T1 site built.\nChecks: home 200, links\nNext: QA — waiting on Command Center"
+        self.assertEqual(self.cx(msg), {})
+        self.assertEqual(self.ag(msg), {"decision": "stop"})
+        save(os.path.join(self.root, "tasks", "T1", "checks.md"),
+             lean.split("## links")[0] + "## links\nsee tasks/T1/logs/links.log\n")
+        r = self.cx(msg)  # a bare path with no command and result line is not evidence
+        self.assertEqual(r["decision"], "block")
+        self.assertIn("links", r["reason"])
+
     def test_ignores_other_messages_and_never_loops(self):
         self.assertEqual(self.cx("PLAN READY: T1 plan in tasks/T1/plan.md"), {})
         self.assertEqual(self.cx("DONE: T1\nChecks: home 200", stop_hook_active=True), {})

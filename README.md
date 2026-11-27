@@ -8,8 +8,10 @@ tools:
   idea) its own task chat: the same link or task ID always goes back to the same chat, an archived chat is revived
   from its report and notes. It keeps a task board and your open requests in `handoff.md`, a daily EOD log in `eod/`,
   reviews finished work, and owns the Zoho comments and status changes. It answers from files and checks, not memory.
-- **Effort and plans that fit the task:** every task runs at high effort; large tasks, and unclear or risky normal ones,
-  plan at max and go back to high at your go (and "use max" raises any part you name); small tasks get a 5-line plan,
+- **Effort and plans that fit the task:** Command Center always runs at high (it decides; it tells you if it is
+  not). Task chats and subagents run at medium, at high for live, Zoho, client-document or hard-to-undo work, an L
+  task after your go, QA and review; large tasks, and unclear or risky normal ones, plan at max (and "use max" raises
+  any part you name); small tasks get a 5-line plan,
   normal ones about 20 lines, large or risky ones (go-lives, migrations, database work) about 40 lines, with no hour
   estimates.
 - **Task chats** do only the task: short plans, sensible defaults and obvious fixes decided themselves and listed in
@@ -177,8 +179,8 @@ In the **Codex desktop app**, Command Center does more itself: the app creates a
 briefs are ready it asks you once with choices ("Create the task chats now?"), then creates each task thread with its
 first prompt, titles it ("⏸ WAITING on <you> | ..." until it runs), follows it and sends it follow-ups. It also titles
 its own thread "Command Center - <project>". Each task's plan is shown and approved in its own thread, with choices;
-an "approved" in Command Center approves only the briefs. Task chats use the effort you chose for the app; high only
-for an L task or live or irreversible work, and the chat says so.
+an "approved" in Command Center approves only the briefs. Pick high for the Command Center thread; task threads run at
+the brief's effort (medium, or high for an L task or live or irreversible work, and the chat says so).
 
 ## Subagent mode: one Command Center (Antigravity and Codex)
 
@@ -210,8 +212,10 @@ The "T3 Code" section of `references/tool-map.md` has the per-tool table.
 
 A new chat loads only what it needs: the session-start hook injects the summary's essentials, not the whole file;
 each role opens only its own sections (SKILL.md "Files"); a takeover reads the summary, the board and each open
-task's stops and checkpoint; the always-on rules are about 1.8 KB. On a small plan, suggest a cheaper model or low
-effort for small tasks (you pick), keep one task chat at a time, and run heavy visual QA in a tool with a larger plan.
+task's stops and checkpoint; the always-on rules are about 2.7 KB. Set high for the Command Center chat (in
+Antigravity, Codex and T3 Code you pick it); the Codex subagent files run the task worker at medium and the reviewer
+at high. Long tool output goes to a file in the task folder and the chat shows only the result line and the failures.
+On a small plan keep one task chat at a time, and run heavy visual QA in a tool with a larger plan.
 
 ## The evidence gate and the hook self-test
 

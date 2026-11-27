@@ -4,15 +4,20 @@ Moved unchanged from SKILL.md in 2.11.0 to keep the skill light; SKILL.md says w
 
 ## Effort
 
-- **High by default, max for a plan that needs it** (the lead's rule, 19 Nov 2026; replaces 2.1's "max only when the
-  lead says use max"). Command Center starts the task chat at max for Phase 1 when the plan needs deep judgement: every
-  L task, and an M task that is unclear or risky (a new approach, several systems, data or SEO at scale, a conversion or
-  build plan). At the go it goes back to high before the first work step; a re-plan after the go stays at high. "use
-  max" from the lead still raises any part he names. Medium only by exception, when high is really not needed: work that
-  only reads or follows fixed steps and changes nothing (a status check, collecting facts for a brief, re-running a
-  script the plan named, copying text verbatim into a local file). Never medium for a change to a live site, Zoho or a
-  client document, or for judgement. In Codex and Antigravity the lead's chosen effort is the task chats' default
-  (learned 24 Nov 2026: usage); high only for an L task or live or irreversible work, said in one line.
+- **Effort by need** (the lead's rule, 27 Nov 2026; replaces "high by default" of 19 Nov: task chats paid for high
+  when they did not need it). The size table in SKILL.md shows it; the brief states it ("effort <level>").
+  - **Command Center: high, always** (mandatory: it decides). At step 1 and at a takeover it confirms its own effort
+    from its session info; not high: it tells the lead in one line to set it (a chat cannot raise its own). In
+    Antigravity, Codex and T3 Code the lead picks high for the Command Center chat.
+  - **Task chats and subagents: medium by default.** High for: any change to a live site, Zoho or a client document,
+    anything hard to undo, an L task after its go, QA and review chats (judgement).
+  - **Max for a plan that needs deep judgement** (unchanged): every L plan, and an M plan that is unclear or risky (a
+    new approach, several systems, data or SEO at scale, a conversion or build plan). At the go the chat goes to its
+    work effort (high for an L task or live work, else medium) before the first work step; a re-plan after the go stays
+    at that effort. "use max" from the lead still raises any part the lead names.
+  - Antigravity has no effort per chat or subagent: they run on the lead's setting (high, for Command Center), and
+    the brief's level says how deep to go. Codex's agent files set it (`zcc-task-worker` medium, `zcc-reviewer`
+    high); a task needing high or max says so in its brief and runs as its own session at that level.
 
 ## Usage pacing and builds
 

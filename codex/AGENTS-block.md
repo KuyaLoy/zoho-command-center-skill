@@ -27,4 +27,6 @@ Trigger: "set this as command center", "command center", "take over" or "gawin m
     (it keeps the parent's sandbox), it runs every check itself; Command Center never runs QA checks, it briefs and
     reads the report.
 Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, before any Zoho step.
+Effort: the lead picks high for the Command Center chat; task subagents medium where the tool sets it, high when the
+brief says so.
 <!-- zcc-managed:end -->

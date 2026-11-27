@@ -5,6 +5,42 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.13.0] - 2026-11-27
+
+Effort by need and lean tool output (the lead, 27 Nov 2026: task chats paid for high effort they did not need, and
+long tool output filled chats; ideas taken from a token-compression proxy, which is not installed).
+
+### Changed
+
+- Effort (SKILL.md "Task size and effort", `references/task-size.md` > Effort, `references/command-center.md` >
+  Effort and steps 2 to 4, `references/brief.md`): replaces "high by default". Command Center runs at high, always
+  (mandatory: it decides); it confirms its own effort from its session info at step 1 and at a takeover and, if it is
+  not high, tells the lead in one line to set it. Task chats and subagents run at medium by default; high for any
+  change to a live site, Zoho or a client document, anything hard to undo, an L task after its go, and QA and review.
+  Max for a plan that needs deep judgement (every L, an unclear or risky M) is unchanged; at the go a chat goes to its
+  work effort, not back to high. The size table shows it and the brief template names the level
+  (`effort <medium|high|max for the plan>`).
+- Tool map: a new task chat starts at the brief's effort; "Set a chat's effort" per tool (Codex: the agent files set
+  it; Antigravity, Codex and T3 Code: the lead picks high for Command Center); the usage row and Subagent mode point
+  to the brief's effort instead of suggesting low effort.
+- Codex setup: `zcc-task-worker.toml` sets `model_reasoning_effort = "medium"`, `zcc-reviewer.toml` sets `"high"`
+  (Codex custom agent files take that key; it wins over the parent's).
+- Always-on blocks (Antigravity rule, Codex AGENTS.md block; not SKILL.md): one line, "Effort: the lead picks high for
+  the Command Center chat; task subagents medium where the tool sets it, high when the brief says so."
+- SKILL.md trimmed to stay no larger than 2.12.1 (213 lines, 20,958 bytes): the Files paragraph, "Quality stays
+  fixed", "Don't complicate the task" and the client-side fixes bullet say the same in fewer words.
+
+### Added
+
+- Worker rule "Lean tool output": output over about 50 lines goes to a file in `tasks/<TASK-ID>/logs/`; the chat
+  shows the result line and the failures only and opens the file only when needed; compact flags first
+  (`--porcelain`, `-q`, `--format=json --fields=...`); in anything injected, stable text first, changing text last.
+  Tool map row "Long tool output" for every tool. It replaces the "never a full-page text dump" clause of "Cheaper
+  checks, with proof".
+- Checks list (`references/brief.md`): a long check's code block holds the command, its result line, the failures and
+  "full output: tasks/<TASK-ID>/logs/<name>.log"; the evidence gate reads it as the check's output (its message
+  says so; test added), and a bare path is still sent back.
+
 ## [2.12.1] - 2026-11-27
 
 ### Changed

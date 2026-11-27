@@ -93,8 +93,8 @@ class ChatChoiceAndMoveTest(unittest.TestCase):
         for cell in cells[1:]:
             self.assertIn("take over", cell)
 
-    def test_effort_stays_high(self):
-        self.assertIn("| M | everything else: the usual task | high;", load(os.path.join(SKILL_DIR, "SKILL.md")))
+    def test_effort_by_need(self):  # 2.13.0 replaced "high by default" (test_effort_lean.py has the rest)
+        self.assertIn("| M | everything else: the usual task | medium", load(os.path.join(SKILL_DIR, "SKILL.md")))
 
 
 if __name__ == "__main__":

@@ -352,8 +352,9 @@ def gate_problem(tool, payload):
     if not missing:
         return None
     return ("Evidence gate (zoho-command-center): your %s for %s names checks with no command output in %s: %s. Run "
-            "each one now, paste the command and its output in a code block under \"## <check>\" there, then send "
-            "the report again. A check you did not run is reported as \"not checked\"." %
+            "each one now, paste the command and its output in a code block under \"## <check>\" there (long output: "
+            "its result line, the failures and the log file's path), then send the report again. A check you did not "
+            "run is reported as \"not checked\"." %
             (kind, task_id, where, ", ".join(missing)))
 
 

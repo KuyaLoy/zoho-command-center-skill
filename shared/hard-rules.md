@@ -19,3 +19,4 @@ Trigger: "set this as command center", "command center", "take over" or "gawin m
 [antigravity] 11. QA is the `wp-qa` subagent, started only after `tasks/<TASK-ID>/qa/brief.md` exists; it never edits files and runs every check itself; Command Center never runs QA checks, it briefs and reads the report.
 [codex] 11. QA is the `zcc-reviewer` subagent, started only after `tasks/<TASK-ID>/qa/brief.md` exists; read-only by this rule (it keeps the parent's sandbox), it runs every check itself; Command Center never runs QA checks, it briefs and reads the report.
 Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, before any Zoho step.
+[antigravity,codex] Effort: the lead picks high for the Command Center chat; task subagents medium where the tool sets it, high when the brief says so.
