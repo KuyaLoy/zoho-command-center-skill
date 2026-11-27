@@ -62,6 +62,12 @@ Moved unchanged from SKILL.md in 2.11.0 to keep the skill light; SKILL.md says w
   decides: approved ones go into the plan, the rest into the report; none is built without the lead's OK (form
   attribution on a build's lead forms is the build skill's default). Anything else that changes the work (a risk,
   a blocker, a better way): one line as soon as it is known, never first at done.
+  - **Form attribution is the company standard** (27 Nov 2026): the 11 labelled attribution fields on every lead
+    form and in its lead email, the form layout default, and WordPress forms connected to the agency's app through
+    its bridge plugin. Every website's footer also carries the agency badge with its link, set from the site's
+    settings (not hard-coded), unless the task records that the client asked to hide it. Both are defaults in every
+    website plan, not additions to approve: the plan names the build skill's version and points to it, no copy
+    (convert-to-wordpress 0.12.0 or later, `references/forms-email.md`; a build without it: its line says what lacks).
 
 ## No change before the go
 

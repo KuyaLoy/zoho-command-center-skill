@@ -5,6 +5,16 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.12.1] - 2026-11-27
+
+### Changed
+
+- Vocalise early (`references/how-we-talk.md`): "form attribution" now means the company standard (27 Nov 2026): the
+  11 labelled attribution fields on every lead form and its lead email, the form layout default, and WordPress forms
+  connected to the agency's app through its bridge plugin; every website's footer carries the agency badge with its
+  link, from the site's settings, unless the task records the client asked to hide it. Both are defaults in every
+  website plan, pointing to convert-to-wordpress 0.12.0 or later (no copy).
+
 ## [2.12.0] - 2026-11-27
 
 Token diet (the lead, 27 Nov 2026: fewer tokens per chat, and long requests simplified before they go out). Effort
