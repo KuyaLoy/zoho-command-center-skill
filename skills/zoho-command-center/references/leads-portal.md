@@ -1,7 +1,8 @@
 # The leads portal
 
 Read by Command Center when a task builds a site, adds or changes a lead form, or goes live (steps 2 and 5), when the
-settings name a "Leads portal". No such setting: skip this file.
+settings name a "Leads portal". No such setting, or "none": skip this file; leads then go by email and the form's
+own store, with no portal step anywhere.
 
 **What it is** (the lead's rule, 20 Nov 2026: hosting mail sometimes fails, so the company keeps every lead in its own
 portal): a leads portal at the URL in the settings. A website sends each lead to it server to server: a JSON POST to
@@ -10,7 +11,7 @@ Each project page in the portal admin shows ready examples for WordPress, PHP, N
 endpoint with the same header checks the endpoint and key and stores nothing. There is no test key: a test POST stores
 a real lead.
 
-## When it is required
+## When it is required (only when the settings name a portal)
 - Every live website with a lead form: every new build and every go-live. An existing live site only as its own task.
 - The lead can exclude a project (quoted and dated in its handoff.md rules, e.g. a site with no forms).
 

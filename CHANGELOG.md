@@ -5,6 +5,17 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.11.2] - 2026-11-27
+
+The leads portal is optional (the lead, 27 Nov 2026: "not needed anymore"; leads go by email and the form's own store).
+
+### Changed
+
+- Wherever the skill treated the leads portal as required, it now applies only when the lead's settings name one;
+  "none" or no line means no portal step anywhere: SKILL.md's settings line, command-center.md step 2 (the brief's
+  leads portal line) and step 5 (the go-live review), `references/leads-portal.md` (skip it without a portal) and the
+  README's settings template. Nothing else changed.
+
 ## [2.11.1] - 2026-11-25
 
 One simple phrase sets up or takes over a Command Center (the lead, 25 Nov 2026: no long prompt just to take over,

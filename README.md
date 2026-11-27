@@ -314,8 +314,8 @@ the second gives the skill your details.
 - Reply language: English
 - Always CC: @<name> (optional: CC only, last line "CC: @<name>" in Zoho comments only; reports and chat replies to
   you have none)
-- Leads portal: <admin URL> (optional: the company's leads portal; every live site with a lead form then sends its
-  leads there)
+- Leads portal: <admin URL> or none (optional: only when you name a portal does every live site with a lead form
+  send its leads there; "none" or no line: no portal step)
 ```
 
 Don't want every empty folder to become a Command Center? Drop "when the project folder is empty" and start one by
@@ -382,7 +382,7 @@ client document before your go, never posts in Zoho without your OK on the exact
 skills/zoho-command-center/SKILL.md the shared rules and the task chat (Worker) rules
 skills/zoho-command-center/references/command-center.md  Command Center's steps 1 to 7
 skills/zoho-command-center/references/tool-map.md  each action's tool: Claude app, Antigravity, one-chat mode
-skills/zoho-command-center/references/leads-portal.md  the leads portal: when it is required, which way per stack, proof
+skills/zoho-command-center/references/leads-portal.md  the leads portal, only when the settings name one: way, proof
 skills/zoho-command-center/references/helper-skills.md  the helper skills: which one for what
 skills/zoho-command-center/references/builds.md  retired: builds already running with builder and QA chats
 antigravity/install.py             installs the Antigravity setup (rules, agents, hooks) into ~/.gemini/config

@@ -104,12 +104,14 @@ chat. A project can have many Command Center chats over time; they hand off thro
      up lower, raise it (it applies from its next turn), name = task ID in lowercase (e.g. "abc1-t8"), title =
      "▶ RUNNING | <TASK-ID> <task title>" (the state prefix, how-we-talk.md "Stops, RUNNING and titles"; the chat
      keeps it current from then on), and a background of at least 80 characters (project, site, goal, constraints).
-   - **Leads portal:** a build, a new or changed lead form, or a go-live, with "Leads portal" in the settings: read
-     `leads-portal.md` (next to this file) and put the way for this site's stack in the brief.
+   - **Leads portal** (only when the lead's settings name one; "none" or no line: skip this): a build, a new or
+     changed lead form, or a go-live: read `leads-portal.md` (next to this file) and put the way for this site's stack
+     in the brief.
    - **All rules at the plan** (learned 20 Nov 2026: the form plugin, placeholders and three skill updates arrived
      mid-build, and each one reopened finished work): the brief carries every rule the task needs from its start, so
      the plan decides them before the go. For a build or a site change: the forms (plugin and where leads go),
-     placeholders for missing content, the build skill's live checklist, and the leads portal line below.
+     placeholders for missing content, the build skill's live checklist, and the leads portal line above (only when
+     the settings name a portal).
    - **Antigravity and Codex: subagent mode** (the lead's rule, 24 Nov 2026): the task runs as a subagent of this
      Command Center, not a new chat (tool map, Subagent mode): its plan comes back here, you show it with choices, the
      lead's go is typed here and you quote it to the subagent; QA is its own subagent. Show PLAN READY in at most 8
@@ -235,8 +237,8 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - **Raised at the plan** (how-we-talk.md Vocalise early): a task that built or changed a website had its Recommended
      additions in plan.md before the go; the approved ones are done and the rest are in the report. Anything that
      changed the work and came up first at done: name it in the review.
-   - A go-live with the leads portal: the review checks its proof (`leads-portal.md`: the GET check and one TEST lead
-     per form in the portal) before the close-out comment.
+   - A go-live with the leads portal (only when the lead's settings name one): the review checks its proof
+     (`leads-portal.md`: the GET check and one TEST lead per form in the portal) before the close-out comment.
    - QA 0: read the last qa-<pass>.md; the OK message (step 6) opens with "QA 0 after <n> passes, <m> items fixed"
      and what is verified vs not; no separate report. Then go straight to the close-out (step 6).
      Clear up anything about the work or the Zoho comment with the task chat directly, not the lead (who approves the

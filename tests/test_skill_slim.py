@@ -11,7 +11,9 @@ SKILL_DIR = os.path.join(REPO, "skills", "zoho-command-center")
 SNAPSHOT = os.path.join(REPO, "tests", "data", "skill-2.10.2.md")
 # Changed on purpose in 2.11.0 (not moved): the Files paragraph now lists the new reference files.
 # 2.11.1: the Command Center role line says the holder line is a record ("the one the lead works with").
-CHANGED = ("**Files** (beside this one)", "**Command Center:** anything else in a Command Center project.")
+# 2.11.2: the leads portal line says it applies only when the settings name one.
+CHANGED = ("**Files** (beside this one)", "**Command Center:** anything else in a Command Center project.",
+           "**Leads portal** (optional)")
 
 
 def norm(text):
