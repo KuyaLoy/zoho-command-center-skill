@@ -17,8 +17,8 @@ the review (moved unchanged from SKILL.md in 2.10.0 to make room for the hard ru
   file (the child theme or an mu-plugin) when the site has one, and a site that only uses a snippets plugin also gets
   the exact code in `tasks/<TASK-ID>/build/`; generated SEO titles and descriptions use the SEO plugin's variables,
   not fixed text per page; scripts and builders find elements by selector or ID, never by position ("the third
-  widget"). Self-check before DONE (search for `<style`, `<script`, hex values and unprefixed names); fixes that bring
-  code up to these rules are always inside the plan and its go.
+  widget"). Before DONE, one checks.md line for a search of `<style`, `<script`, hex values and unprefixed names;
+  fixes that bring code up to these rules are always inside the plan and its go.
 - **Bulk scripts are safe to re-run** (learned 19 Nov 2026, a 209-page task): items a script creates carry a source key
   (a meta field) and it checks that key, slug or ID before each create; a script never trashes or deletes. Duplicates:
   keep the one that menus or links use, else the lowest ID; check what links to the others, then trash them by explicit

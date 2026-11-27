@@ -22,7 +22,7 @@ no subagent or teammate the chat started is still working (a clear wipes the cha
 **Worker (task chat):**
 - Check your own context % before starting each step of the plan and after any big step.
 - At your page end from 50% (at 75% at once, or when Command Center asks), write `tasks/<TASK-ID>/checkpoint.md`:
-  task ID and scope; the lead's go and instructions (quoted); done so far (with how each was verified); current state
+  task ID and scope; the lead's go and instructions (quoted); done so far (with its checks.md line); current state
   of files/site/DB (paths, URLs, backups); the exact next step; open questions; anything not yet verified.
   First let your subagents reach a safe point (list their unfinished work). Facts only: unsure means "unverified".
 - Also bring `notes.md` up to date, then send Command Center: "CHECKPOINT: <TASK-ID> at <n>%, checkpoint written,

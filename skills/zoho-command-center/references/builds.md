@@ -11,14 +11,14 @@ file adds the build rules (learned 17 Nov 2026 on a multi-chat design build).
 - **Builders:** task chats Command Center starts for a phase, after the lead chat confirms the lead typed the go for
   that phase in the lead chat (a button reply or "gave go" in Command Center is never a phase go).
 - **QA chats:** the visible, read-only QA chats from SKILL.md step 2. They may run on a Sonnet model.
-- **READY FOR QA:** the message a builder sends Command Center when a part is built and self-checked:
+- **READY FOR QA:** the message a builder sends Command Center when a part is built and its page script passes:
   "READY FOR QA: <task> <part>", where it is, and the measured numbers (below).
 
 ## Builders
 - One builder by default. A second only when a phase is too big for one chat; then name the files each one owns.
 - No helper subagents unless Command Center approves. (Helpers, and parallel builders sending each other dependency
   messages, were the largest avoidable cost.)
-- Self-check every page by script before READY FOR QA.
+- Run the page script on every page before READY FOR QA; its result is a line in checks.md.
 - Hand over measured numbers next to the design values (for example sizes, spacing, font sizes and colours as
   measured on the page, beside the Figma values), not screenshots.
 
@@ -28,7 +28,7 @@ file adds the build rules (learned 17 Nov 2026 on a multi-chat design build).
 - QA verifies by script and by sampling. Screenshots only for failures. Lighthouse once per page, at the gate.
 
 ## QA flow
-- Builder self-check on every page (scripted).
+- Builder: the page script on every page (above).
 - Strict QA once per NEW section type (site-wide issues such as letter-spacing, the CSS approach, form markup, a
   static map, hard-coded images or a missing LCP preload then get caught once, before they spread).
 - One strict pass at each phase checkpoint, and one full-site strict pass before go-live.

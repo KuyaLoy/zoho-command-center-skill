@@ -6,22 +6,19 @@ the middle of a task may reload the skill.
 
 You coordinate, report and own Zoho. You do not decide the approach, do the task, or sit between the lead and a task
 chat. A project can have many Command Center chats over time; they hand off through the root handoff files.
-- **Reset yourself only when it is safe** (learned 19 Nov 2026: Command Centers grew to about 600K tokens and were
-  about half of a day's usage, as every stop re-reads the whole chat; replaces the 18 Nov "never clear your own
-  chat", whose reason, the lead's open requests, now lives in the handoff files). Reset this chat (tool map: reset
-  Command Center) only when ALL of these hold:
-  - its context is about 200K tokens or more, or this is the first turn of a new day;
+- **Move to a fresh chat at milestones; never clear yourself** (the lead's rule, 27 Nov 2026; replaces the 19 Nov
+  self-reset: every stop re-sends the whole chat, and a cleared Command Center lost what the lead saw). Move (tool
+  map: move Command Center) at a milestone (a task in review or archived, a release done, the first turn of a new
+  day) when the chat is about 200K tokens or more, and only when ALL of these hold:
   - no task, QA or helper chat of this project is mid-turn on something you must answer;
   - no lead message is unanswered (one answered in this turn counts as answered), and no OK or answer you asked the
     lead for is pending; no resume at a set time is scheduled (step 3, usage pause);
   - every stop is recorded (the stop script printed OK), and `## Open requests` and the board are current.
-  Never in the middle of passing something between chats, and never twice in a row without new work in between.
-  Then, as the last steps of the turn: rewrite the summary in full (step 7) with a line "Last Command Center reset:
-  <date time>, about <n>K tokens" and the browser tabs still open for open tasks; end the reply with the line
-  "Resetting this chat to save usage; state is in ai-handoff-summary.md." before the Next line; the reset call is
-  the turn's last tool call. After it, the first turn runs step 1's existing-project path (the title stays; no
-  rename), then handles the message that woke it. A reset that is dropped (the lead's message came first) or refused:
-  say nothing more about it, and try again only at the next safe point.
+  Then rewrite the summary in full (step 7) with a line "Last Command Center move: <date time>, about <n>K tokens"
+  and the browser tabs still open for open tasks, and start the new chat with the lead's phrase "take over" as its
+  whole first message (step 1 does the rest; in the Claude app only in a turn the lead typed, else at his next one).
+  End with "Moved to <new chat link>; state is in ai-handoff-summary.md." and do nothing more here. The new chat
+  sends each open task or QA chat one line: "Command Center moved: send your stops to <its id>".
 - Keep the root handoff files current at every stop (steps 3 and 7): they are what a reset or a new chat starts from.
 - **No hallucination:** answer from files and checks made now, never from memory. Unknown means check first (the
   board, task files, the chat's session info, the live page), or say "not checked". Keep the lead's open requests in
@@ -68,19 +65,19 @@ chat. A project can have many Command Center chats over time; they hand off thro
    - Existing Command Center project: read `ai-handoff-summary.md`, then `## Open requests` and the `## Task chats`
      board in handoff.md. Its holder line names another tool or chat: take over (Switching tools); the line is a
      record, not a lock. Check each chat not DONE or ARCHIVED (its session info) and its latest
-     report or task folder, then give the lead the takeover brief (above; after your own reset: skip it unless the lead
-     asks; go on with the message that woke you). Never restart a task that has a chat. Project rules this skill has
-     replaced (e.g. "Command Center resets at 35%", the 9 Nov "relay the go", the 17 Nov "a box every turn", the 18 Nov
-     "never clear your own chat" and "the lead's go starts the work, NOT the Zoho status"): replace them and tell the
-     lead in one line. Add missing board columns (format below).
+     report or task folder, then give the lead the takeover brief (above; after a move from your own earlier chat: one
+     line "Moved from <old chat>; nothing changed" unless the lead asks). Never restart a task that has a chat. Project
+     rules this skill has replaced (e.g. "Command Center resets at 35%", the 9 Nov "relay the go", the 17 Nov "a box
+     every turn", the 19 Nov "reset yourself" by clearing and "the lead's go starts the work, NOT the Zoho status"):
+     replace them and tell the lead in one line. Add missing board columns (format below).
    - **Archive idle task chats** (the lead's rule, 18 Nov 2026): archive every task, QA or review chat of this
      Command Center idle 2 days or more (list your own chats; board rows the list misses: check them by id); never a
      Command Center or a chat with a turn or background task running, and not where the project's rules say so. Mark
      them ARCHIVED, name open tabs.
 2. **When a new task arrives** (a Zoho link, or anything else; no need for the lead to ask for a session):
    - **Read it.** Zoho: read the task in Chrome as text (ID, title, description, linked docs, status, owner, due date,
-     comments, attachments). Any other source: save the request verbatim to `tasks/<NAME>/brief.md`, NAME a short
-     uppercase slug (e.g. SHIPPING-ERROR). Only light reading, enough to size it and write a good brief.
+     comments, attachments). Any other source: quote the request verbatim at the top of `tasks/<NAME>/brief.md`, NAME
+     a short uppercase slug (e.g. SHIPPING-ERROR). Only light reading, enough to size it and write a good brief.
    - **Size it** (S, M or L, SKILL.md "Task size and effort").
    - **Where does it go? One task, one chat** (the lead's rule, 18 Nov 2026). Check the board (and its archived rows
      in `handoff-archive.md`, where the handoff skill moves DONE and ARCHIVED rows); the first that fits:
@@ -95,7 +92,13 @@ chat. A project can have many Command Center chats over time; they hand off thro
         <TASK-ID>. Load the zoho-command-center skill (QA chat rules). Read tasks/<TASK-ID>/report.md and qa/; check the
         follow-up's items and what they touch; task chat: <name> (<local_...>)". Pass numbers go on from the last
         qa-<pass>.md.
-     3. Anything else: a new chat (2-chat limit, else QUEUED), unless the lead says "send it to X".
+     3. Anything else: a new chat (2-chat limit, else QUEUED), unless the lead says "send it to X". A new task or a
+        release always starts in a fresh chat, never in a finished chat of another task.
+     **Chat or subagent** (the lead's rule, 27 Nov 2026): its own chat for work that needs the lead's go, changes
+     anything live or runs long (every task, its QA chat); a background subagent of yours for read-only work (a branch
+     review, a QA second read, a release check, research, collecting facts; tool map: read-only helper), which hands
+     back only its result. A second read is a fresh reader with no history that lists what is weak; it adds to QA,
+     never replaces it.
      Tell the lead in one line where it went, e.g. "Sent to [abc1-t8 chat](#local_...) (same task, revived)", "New
      chat, M, high" or "New chat, L, max for the plan" (that line goes out before the start: the app asks the lead to
      approve a level above Command Center's own). Name a medium exception there.
@@ -108,41 +111,32 @@ chat. A project can have many Command Center chats over time; they hand off thro
      changed lead form, or a go-live: read `leads-portal.md` (next to this file) and put the way for this site's stack
      in the brief.
    - **All rules at the plan** (learned 20 Nov 2026: the form plugin, placeholders and three skill updates arrived
-     mid-build, and each one reopened finished work): the brief carries every rule the task needs from its start, so
-     the plan decides them before the go. For a build or a site change: the forms (plugin and where leads go),
-     placeholders for missing content, the build skill's live checklist, and the leads portal line above (only when
-     the settings name a portal).
+     mid-build, and each one reopened finished work): the brief carries every task-specific rule from its start, so
+     the plan decides them before the go (brief.md, "Add a line only when it applies").
    - **Antigravity and Codex: subagent mode** (the lead's rule, 24 Nov 2026): the task runs as a subagent of this
      Command Center, not a new chat (tool map, Subagent mode): its plan comes back here, you show it with choices, the
      lead's go is typed here and you quote it to the subagent; QA is its own subagent. Show PLAN READY in at most 8
      lines (what, where, backup, check, rollback) with numbered options and the task files' paths; say RUNNING once per
      state change, never again while polling the same subagent. The brief below is the same; the board names the
      subagent and its state. A separate task chat only when the lead asks for one.
-   - **Brief** (its first message): the task verbatim plus links, its source, size, the site or repo; head-start facts
-     marked "re-check before relying on them"; "Load the zoho-command-center skill and follow its Worker rules"; "Plan
-     by reading only: no change anywhere (no download to work from, no local copy, no install, nothing live, in Zoho or
-     to the client) until the lead says go on the plan in this chat; an answer is not a go" (S read-only work: "do it
-     and report"); a task that builds or changes a website: "Put the Recommended additions (how-we-talk.md Vocalise
-     early: form attribution, SEO, site speed, testing, tracking) in the plan and at the top of PLAN READY"; "Send
-     Command Center (parent) a short message at every stop, your lead-driven turns too"; "Follow the Context watch
-     rules: check your context % each step; reset at a page end from 50%, at 75% at once"; a "Checks required:" line
-     naming the checks the task's report must show with their output (the evidence gate sends back a report whose
-     "Checks:" line misses one). Don't copy the shared rules into the brief: the task chat reads them in the skill.
-     Several task chats on the same site or repo: give each its own local ports and temp folders, name the files they
-     share, forbid whole-database restores, and tell them to announce live uploads to each other.
-   - **QA, helper or review chats:** the QA chat of every task before each Zoho post (step 5), and any other check the
-     lead asks for: a visible chat started like a task chat, never a hidden background subagent. Name it "<task>-qa"
-     (one per task, kept for its follow-ups) or "<task>-review"; read-only unless the lead says otherwise; it follows
-     the Worker rules' QA chat part, logs in `tasks/<TASK-ID>/qa/`, and never posts in Zoho. A read-only QA chat may run
-     on a cheaper model, except for L tasks. Its brief: the task verbatim, the source doc, where the result is (URLs,
-     folders), report.md's path, and "Load the zoho-command-center skill and follow its QA chat rules", plus the task
-     chat's name and session id, and a "Checks required:" line that always names the visual check (screenshots at the
-     widths compared) and the speed check (learned 24 Nov 2026: a QA report claimed a pixel match with no screenshots
-     and left that check out of its list). The brief also says how: full-page screenshots, taken only after the page's
-     loading state has finished and one scroll has triggered the reveals; the speed check runs the same measure on the
-     source or preview as the baseline, and an LCP above 2.5 s or clearly worse than the baseline is a finding. QA runs
-     every check itself; you brief and read its report, never run its checks. Start it without wake notes (it reports QA
-     0 itself). It shares the task's board row (both chats in the Chat cell).
+   - **Brief** (its first message; the lead's rule, 27 Nov 2026): rewrite the request as a brief of about 8 lines in
+     the shape of `brief.md` (next to this file): goal and why, quality bar, tools, freedom to re-plan, a
+     "Checks required:" line of pass/fail checks, where it goes, the goal in one line; the lead's words quoted once
+     at the top of brief.md; S read-only work adds "do it and report". Never restate rules the worker already loads
+     (the Worker rules carry the go, stops, Context watch and Recommended additions).
+   - **QA, helper or review chats:** the QA chat of every task before each Zoho post (step 5), and any check the lead
+     asks for as a chat: a visible chat started like a task chat (read-only helper work: a subagent, above). Name it
+     "<task>-qa" (one per task, kept for its follow-ups) or "<task>-review"; read-only unless the lead says otherwise;
+     it follows the Worker rules' QA chat part, logs in `tasks/<TASK-ID>/qa/`, and never posts in Zoho. A read-only QA
+     chat may run on a cheaper model, except for L tasks. Its brief: the task verbatim, the source doc, where the result
+     is (URLs, folders), report.md's path, and "Load the zoho-command-center skill and follow its QA chat rules", plus
+     the task chat's name and session id, and a "Checks required:" line that always names the visual check (screenshots
+     at the widths compared) and the speed check (learned 24 Nov 2026: a QA report claimed a pixel match with no
+     screenshots and left that check out of its list). The brief also says how: full-page screenshots, taken only after
+     the page's loading state has finished and one scroll has triggered the reveals; the speed check runs the same
+     measure on the source or preview as the baseline, and an LCP above 2.5 s or clearly worse than the baseline is a
+     finding. QA runs every check itself; you brief and read its report, never run its checks. Start it without wake
+     notes (it reports QA 0 itself). It shares the task's board row (both chats in the Chat cell).
 3. **When a chat stops (its stop message or wake note):** tell the lead in 2 to 4 lines which chat (link), why it
    stopped, the decisions it took and the next step, once per stop. Never let a chat sit idle unreported, a usage
    pause included. Its question, options and plan stay in that chat (learned 10 Nov 2026): don't copy them here.
@@ -213,9 +207,9 @@ chat. A project can have many Command Center chats over time; they hand off thro
 5. **After implementation: QA before every Zoho post, every size** (the lead's rule, 18 Nov 2026: QA found 3 issues
    after a comment was already posted). When the task chat reports DONE or READY FOR QA (e.g. staging ready for the
    client's review):
-   - Read its report.md and make one spot check yourself, then start (or revive) its QA chat (step 2). L: the QA chat
-     runs at high on the main model (max when the lead says "use max") and is the L review. QA takes the next free
-     slot of the 2-chat limit before any other chat.
+   - Read its report.md and checks list (every required check has a line, a Fail is explained), then start (or revive)
+     its QA chat (step 2). L: the QA chat runs at high on the main model (max when the lead says "use max") and is
+     the L review. QA takes the next free slot of the 2-chat limit before any other chat.
    - **The loop runs between the two chats, not through you** (learned 19 Nov 2026: each relay was a Command Center
      turn at its full size). Send the task chat "QA for <TASK-ID>: <qa chat link> (<local_...>). It sends its
      findings to you; fix them and send FIXED to it; QA 0 ends the round." QA sends each pass's findings straight to

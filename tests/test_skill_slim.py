@@ -12,8 +12,11 @@ SNAPSHOT = os.path.join(REPO, "tests", "data", "skill-2.10.2.md")
 # Changed on purpose in 2.11.0 (not moved): the Files paragraph now lists the new reference files.
 # 2.11.1: the Command Center role line says the holder line is a record ("the one the lead works with").
 # 2.11.2: the leads portal line says it applies only when the settings name one.
+# 2.12.0 (token diet): self-check wording removed; checks are the pass/fail list in checks.md.
 CHANGED = ("**Files** (beside this one)", "**Command Center:** anything else in a Command Center project.",
-           "**Leads portal** (optional)")
+           "**Leads portal** (optional)", "Quality stays fixed:", "What we can fix on our side for the task",
+           "At your page end from 50%", "Phase 1, plan, read-only", "**QA findings** (before any Zoho post;",
+           "**Cheaper checks, with proof**", "Final report `tasks/<TASK-ID>/report.md`")
 
 
 def norm(text):

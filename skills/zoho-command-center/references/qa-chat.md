@@ -5,8 +5,8 @@ Moved unchanged from SKILL.md in 2.11.0 to keep the skill light; SKILL.md says w
 ## The task chat's part
 
 - **QA findings** (before any Zoho post; Command Center gives you the QA chat's session id): the QA chat sends its
-  findings to you directly. Fix every item in one pass inside the plan and its go, verify each, update report.md, and
-  send the QA chat (not Command Center) "FIXED: <TASK-ID> pass <n>" with how each was checked; that turn is not a
+  findings to you directly. Fix every item in one pass inside the plan and its go, update checks.md and report.md, and
+  send the QA chat (not Command Center) "FIXED: <TASK-ID> pass <n>" with each item's checks.md line; that turn is not a
   stop to report, and neither are the turns that get the QA link or QA 0. QA re-checks; repeat until it sends QA 0.
   An item you dispute, or one that needs more than the plan: tell the QA chat "paused", report PLAN READY to Command
   Center naming it and why; the lead decides here; then tell the QA chat to go on.

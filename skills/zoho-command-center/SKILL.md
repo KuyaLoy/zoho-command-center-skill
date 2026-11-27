@@ -6,7 +6,7 @@ license: MIT
 
 # Zoho Command Center
 
-Version: 2.11.2
+Version: 2.12.0
 
 The lead runs work by task: Zoho tasks (in the portal named in the settings) and any other task (a client message,
 BugHerd, Slack, the lead's own idea). A Command Center project has two roles: first decide which is yours.
@@ -14,8 +14,8 @@ BugHerd, Slack, the lead's own idea). A Command Center project has two roles: fi
 **Files** (beside this one): open only the section you need, when the pointer here says (learned 24 Nov 2026:
 loading whole files cost usage). `references/command-center.md`: Command Center's steps "1." to "7.", "Switching
 tools", "Context watch" (the step you run; task chats never need it). `references/tool-map.md`: your tool's column and
-mode section only. Detail moved out of this file in 2.11.0, unchanged: `references/task-size.md`, `how-we-talk.md`,
-`safety.md`, `context-watch.md`, `qa-chat.md`; also `leads-portal.md`, `helper-skills.md`, `code-quality.md`.
+mode section only. Also: `references/task-size.md`, `how-we-talk.md`, `safety.md`, `context-watch.md`, `qa-chat.md`,
+`leads-portal.md`, `helper-skills.md`, `code-quality.md`, `brief.md` (the brief and the checks list).
 
 ## Settings
 Read the lead's settings from the "Zoho Command Center settings" block in the user's CLAUDE.md. It is normally already
@@ -42,6 +42,8 @@ Command Center sizes every task when it arrives and puts the size in the brief. 
 - Unsure between two sizes: take the larger. The lead can always say "make it L" or "use max".
 - S work that only reads or checks needs no go: do it and report. Every change, local ones included, needs it.
 - A read-only QA or helper chat may use a cheaper model (not an L task's QA chat), never one that changes a live site.
+- **Chat or subagent** (command-center.md step 2): own chat for work needing the lead's go, live or long work;
+  a background subagent for read-only work; a fresh chat per new task or release.
 - **Usage and builds** (open `references/task-size.md` > Usage pacing before you start or resume a chat, and >
   Builds for a build): at most 2 chats working; stop at 95% of the 5-hour or weekly limit; one task chat per build.
 ## Which role am I?
@@ -64,8 +66,9 @@ Trigger: "set this as command center", "command center", "take over" or "gawin m
 `zoho-command-center`, step 1.
 1. Before each phase, open the skill section you need (`zoho-command-center`: Worker rules or the Command Center step
    you run; the build skill's phase; `handoff` at start and stops) and name it in one line.
-2. No check reported without its output: each one under "## <check>" in `tasks/<TASK-ID>/checks.md` (command and
-   output), all named in the report's "Checks:" line, every "Checks required:" one included. Not run: "not checked".
+2. No check reported without its output: a "Pass|Fail" line and a "## <check>" section (command and output) in
+   `tasks/<TASK-ID>/checks.md`, all named in the report's "Checks:" line, every "Checks required:" one included. Not
+   run: "not checked".
 3. Copy kit files (prefix swap only) and source text verbatim, never retyped or re-cased; a needed change goes in
    notes.md with why.
 4. No guessed defaults: brief, profile or skill, else ask the lead once.
@@ -107,9 +110,9 @@ Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, bef
     at the front of your title (a created chat starts as WAITING); a box only for a new decision.
   - **Ask the lead only for real decisions or blockers** (the lead's rule, 20 Nov 2026): the plan go, the comment OK,
     a sign-in, missing information. Anything the chats can settle themselves never waits on the lead.
-  - Quality stays fixed: senior-level best practice for the stack, a backup before any change, verification that
-    proves each item, a separate QA chat before every Zoho post (until it finds 0) and Command Center's review. Faster
-    means fewer messages and shorter plans, never skipped checks.
+  - Quality stays fixed: senior-level best practice for the stack, a backup before any change, a pass/fail checks
+    list, a separate QA chat before every Zoho post (until it finds 0) and Command Center's review. Faster means fewer
+    messages and shorter plans, never skipped checks.
   - **Lean and clean code, safe bulk scripts** (19 Nov 2026): before writing code or a bulk script, open
     `references/code-quality.md` and follow it; fixes that bring code up to it are inside the plan and its go.
   - **Helper skills** (added 19 Nov 2026): task, QA and build chats use them when installed, for the task only (no
@@ -134,7 +137,7 @@ Settings: the "Zoho Command Center settings" block in `~/.claude/CLAUDE.md`, bef
   - **Except a serious one** (a hacked site, malware, injected spam, a backdoor): tell the lead at once and fix it
     inside the plan, backup first (open `references/safety.md` > A serious finding before you report it).
   - Work the lead calls "our initiative": its own step, out of the task's Zoho comment and status; "INITIATIVE DONE".
-- What we can fix on our side for the task, we fix and prove working. What only the client or another team can do
+- What we can fix on our side for the task, we fix. What only the client or another team can do
   (their DNS such as SPF/DKIM/DMARC, servers or logins we don't have) goes back to the task creator and the client in
   the Zoho comment or the reply draft, with exactly what they need to do. Don't chase it further (learned 9 Nov 2026).
 - **No change before the go** (hard rule 7; open `references/how-we-talk.md` > No change before the go when an
@@ -162,14 +165,14 @@ Check your context % before each step of the plan and after any big step (tool m
 - The lead says "use max" here: tell Command Center in one line ("USE MAX: <TASK-ID> <for what>"); it raises you.
 - Phase 1, plan, read-only (at the effort Command Center set: high, or max for a plan that needs it or when the lead
   said "use max"; if you run below that, say so in one line at the top of your report): investigate by reading only (No
-  change before the go), decide local vs live, and plan at the size's length ("Task size and effort"). Verify the
-  brief's key facts; don't redo research the brief already gives. M and L: `tasks/<TASK-ID>/plan.md` with approach,
-  method, where the site goes (code-quality.md: the project folder is the site), backup and rollback, verification
-  (prove every item is done), decisions taken (defaults chosen), Recommended additions (Vocalise early) and real
-  blockers only; L adds dry run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the
-  source doc verbatim. Report PLAN READY in this chat with the plan itself (result first, the short plan inline and
-  plan.md's path, Recommended additions, blockers) and ask for the go here, with choices where the tool has them; then
-  end your turn. S work that only reads or checks: do it, DONE.
+  change before the go), decide local vs live, and plan at the size's length ("Task size and effort"). Don't redo
+  research the brief already gives. M and L: `tasks/<TASK-ID>/plan.md` with approach, method, where the site goes
+  (code-quality.md: the project folder is the site), backup and rollback, the checks (the brief's pass/fail lines plus
+  one per plan item), decisions taken (defaults chosen), Recommended additions (Vocalise early) and real blockers only;
+  L adds dry run and risks. S: about 5 lines, in your reply and in plan.md. Default to implementing the source doc
+  verbatim. Report PLAN READY in this chat with the plan itself (result first, the short plan inline and plan.md's path,
+  Recommended additions, blockers) and ask for the go here, with choices where the tool has them; then end your turn. S
+  work that only reads or checks: do it, DONE.
 - Phase 2, work (high, also for every follow-up after the go): every change, local or live, only after the lead's go on
   the plan in this chat (or a go Command Center relays with the lead's quoted words; if your safety checks refuse a
   relayed go, ask the lead in one line to say it here). Quote the go verbatim in notes.md at once: Command Center reads
@@ -180,12 +183,11 @@ Check your context % before each step of the plan and after any big step (tool m
 - **QA findings** (open `references/qa-chat.md` > The task chat's part when Command Center gives you the QA chat):
   fix every finding in one pass inside the plan, send FIXED to the QA chat, repeat until QA 0.
 - **Cheaper checks, with proof** (learned 19 Nov 2026: task chats made 80 to 200 calls, mostly browser steps and
-  screenshots; 24 Nov: checks reported that were never run). Prove each item with the cheapest reliable check: curl,
-  wp-cli, a script or a DOM query first; a browser only for what needs one (logged-in screens, visual checks, forms),
-  with its steps batched; screenshots only as visual proof; never a full-page text dump into the chat (save it to a
-  file and read the part you need). Write each check into `tasks/<TASK-ID>/checks.md` as it runs ("## <check>", then
-  a code block with the command and its output), and name them in a "Checks:" line of DONE, PART DONE and READY FOR
-  QA; the evidence gate (tool map) sends back a report whose checks have no output there.
+  screenshots; 24 Nov: checks reported that were never run). The pass/fail list in `tasks/<TASK-ID>/checks.md`
+  (`references/brief.md`) is the check; no extra self-review. Use the cheapest reliable check: curl, wp-cli, a
+  script or a DOM query first; a browser only for what needs one (logged-in screens, visual checks, forms), steps
+  batched; screenshots only as visual proof; never a full-page text dump into the chat. Evidence: hard rule 2,
+  enforced by the evidence gate (tool map).
 - A new task from Command Center: finish or park the current one first (DONE, or only waiting on the lead), then start
   Phase 1 for the new task in its own folder `tasks/<NEW-ID>/`. Put the task ID in every milestone message. After a
   revive or a reset: read report.md and notes.md (and checkpoint.md) first, and re-check the current state.
@@ -206,7 +208,7 @@ Check your context % before each step of the plan and after any big step (tool m
   the earlier go covered the earlier plan only.
 - **A QA chat** (your brief says you are one): open `references/qa-chat.md` > The QA chat and follow it (read-only;
   one consolidated list per pass; QA 0 to Command Center and the task chat).
-- Final report `tasks/<TASK-ID>/report.md`, once the work is done and verified, standing alone (a revived chat works
-  from it): "DONE:" first; what changed, how you verified it (counts, URLs checked), what is not verified, rollback
+- Final report `tasks/<TASK-ID>/report.md`, once every check has a line, standing alone (a revived chat works
+  from it): "DONE:" first; what changed, the checks list (path), what is not checked, rollback
   location, decisions and obvious fixes made, clarifications for the client, what the client or another team must do,
   "Findings (not touched)" and any "Serious finding (fixed)".

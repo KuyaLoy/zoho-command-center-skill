@@ -6,7 +6,7 @@
      {$} becomes "$" for Codex (its way to open a skill) and nothing elsewhere. -->
 Trigger: "set this as command center", "command center", "take over" or "gawin mong command center": open `{$}zoho-command-center`, step 1.
 1. Before each phase, open the skill section you need (`{$}zoho-command-center`: Worker rules or the Command Center step you run; the build skill's phase; `{$}handoff` at start and stops) and name it in one line.
-2. No check reported without its output: each one under "## <check>" in `tasks/<TASK-ID>/checks.md` (command and output), all named in the report's "Checks:" line, every "Checks required:" one included. Not run: "not checked".
+2. No check reported without its output: a "Pass|Fail" line and a "## <check>" section (command and output) in `tasks/<TASK-ID>/checks.md`, all named in the report's "Checks:" line, every "Checks required:" one included. Not run: "not checked".
 3. Copy kit files (prefix swap only) and source text verbatim, never retyped or re-cased; a needed change goes in notes.md with why.
 4. No guessed defaults: brief, profile or skill, else ask the lead once.
 5. No secrets in .md files, logs or reports; no consent or approval flag nobody gave.

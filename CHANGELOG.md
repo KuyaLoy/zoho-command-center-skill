@@ -5,6 +5,39 @@ follows [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+## [2.12.0] - 2026-11-27
+
+Token diet (the lead, 27 Nov 2026: fewer tokens per chat, and long requests simplified before they go out). Effort
+stays high.
+
+### Added
+
+- `references/brief.md`: the brief of about 8 lines (goal and why, quality bar, tools and facts, freedom to re-plan,
+  "Checks required:", where it goes, the goal in one line), the lead's words quoted once at the top of brief.md, and
+  never a restated Worker rule. Also the checks list: one `Pass|Fail | line | evidence` line per check in checks.md,
+  objective lines only, each pointing to its "## <check>" evidence section.
+- Chat or subagent (SKILL.md, command-center.md step 2): its own chat for work that needs the lead's go, live changes
+  or long work; a background subagent for read-only work (branch review, QA second read, release check, research,
+  facts); a fresh chat for each new task or release. Tool map row "Read-only helper".
+- `tests/test_token_diet.py`: the template's checks line is read by the evidence gate, the self-check phrases are
+  gone, the chat choice and the move are in place.
+
+### Changed
+
+- Command Center step 2's brief bullet points to the template instead of listing rules the worker already loads (no
+  change before the go, stops, Context watch, Recommended additions); "All rules at the plan" points to the
+  template's "only when it applies" lines; a request is quoted at the top of brief.md.
+- Command Center moves itself to a fresh chat at milestones (about 200K tokens, nothing pending) with the phrase
+  "take over", and never clears itself; replaces the 19 Nov self-reset. Tool map row "Move Command Center to a fresh
+  chat" replaces "Reset Command Center"; step 1's replaced-rules list and the README follow.
+- Self-check lines removed (the Opus 5 guidance: remove them rather than rewrite them): SKILL.md's quality line,
+  "we fix and prove working", Phase 1's "Verify the brief's key facts" and "verification (prove every item is done)",
+  the Final report's "done and verified"; qa-chat.md "verify each"; context-watch.md; builds.md and code-quality.md
+  "self-check" become checks.md lines; step 5's spot check becomes a read of the checks list.
+- Hard rule 2: a "Pass|Fail" line and a "## <check>" section in checks.md (all four copies regenerated). Worker rules'
+  "Cheaper checks, with proof" points to hard rule 2 and the evidence gate instead of restating the format.
+- QA, helper or review chats: QA stays a visible chat; read-only helper work goes to a subagent.
+
 ## [2.11.2] - 2026-11-27
 
 The leads portal is optional (the lead, 27 Nov 2026: "not needed anymore"; leads go by email and the form's own store).
